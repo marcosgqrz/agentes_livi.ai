@@ -2,14 +2,15 @@ import os
 from dataclasses import dataclass, field
 from dotenv import load_dotenv
 
-load_dotenv()
+import pathlib
+load_dotenv(pathlib.Path(__file__).parent.parent / ".env", override=True)
 
 
 @dataclass
 class Settings:
     # Anthropic
     anthropic_api_key: str = field(default_factory=lambda: os.getenv("ANTHROPIC_API_KEY", ""))
-    model: str = "claude-sonnet-4-20250514"
+    model: str = "claude-sonnet-4-6"
     max_tokens: int = 4096
 
     # Supabase

@@ -1,0 +1,584 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Agent Orchestrator</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+  * { font-family: 'Inter', sans-serif; }
+  code, pre { font-family: 'JetBrains Mono', monospace; }
+  .scrollbar-thin::-webkit-scrollbar { width: 4px; }
+  .scrollbar-thin::-webkit-scrollbar-track { background: #1e293b; }
+  .scrollbar-thin::-webkit-scrollbar-thumb { background: #334155; border-radius: 2px; }
+  .agent-card:hover { transform: translateY(-2px); }
+  .prose h1,.prose h2,.prose h3 { color: #f1f5f9; margin-top: 1.5rem; margin-bottom: 0.5rem; }
+  .prose h1 { font-size: 1.5rem; font-weight: 700; border-bottom: 1px solid #334155; padding-bottom: 0.5rem; }
+  .prose h2 { font-size: 1.25rem; font-weight: 600; }
+  .prose h3 { font-size: 1rem; font-weight: 600; color: #94a3b8; }
+  .prose p { color: #cbd5e1; margin-bottom: 0.75rem; line-height: 1.6; }
+  .prose ul,.prose ol { color: #cbd5e1; margin-left: 1.5rem; margin-bottom: 0.75rem; }
+  .prose li { margin-bottom: 0.25rem; }
+  .prose code { background: #1e293b; color: #7dd3fc; padding: 0.1rem 0.4rem; border-radius: 4px; font-size: 0.85em; }
+  .prose pre { background: #0f172a; border: 1px solid #334155; border-radius: 8px; padding: 1rem; overflow-x: auto; margin-bottom: 1rem; }
+  .prose pre code { background: none; color: #e2e8f0; padding: 0; }
+  .prose strong { color: #f1f5f9; }
+  .prose table { width: 100%; border-collapse: collapse; margin-bottom: 1rem; }
+  .prose th { background: #1e293b; color: #94a3b8; padding: 0.5rem 1rem; text-align: left; font-weight: 600; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.05em; }
+  .prose td { color: #cbd5e1; padding: 0.5rem 1rem; border-bottom: 1px solid #1e293b; }
+  .prose tr:hover td { background: #1e293b44; }
+  .prose hr { border-color: #334155; margin: 1.5rem 0; }
+  .prose blockquote { border-left: 3px solid #6366f1; padding-left: 1rem; color: #94a3b8; font-style: italic; }
+  .tab-btn.active { border-bottom-color: #6366f1; color: #6366f1; }
+  .spin { animation: spin 1s linear infinite; }
+  @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+  .pulse-dot { animation: pulse 2s ease-in-out infinite; }
+  @keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.3; } }
+  .fade-in { animation: fadeIn 0.3s ease; }
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+</style>
+</head>
+<body class="bg-slate-950 text-slate-100 min-h-screen flex flex-col">
+
+<!-- HEADER -->
+<header class="border-b border-slate-800 bg-slate-900/80 backdrop-blur sticky top-0 z-50">
+  <div class="max-w-screen-xl mx-auto px-6 h-14 flex items-center justify-between">
+    <div class="flex items-center gap-3">
+      <div class="w-8 h-8 bg-indigo-600 rounded-lg flex items-center justify-center text-white font-bold text-sm">A</div>
+      <span class="font-semibold text-slate-100">Agent Orchestrator</span>
+      <span class="text-slate-500 text-xs hidden sm:block">— Equipe de produto completa com IA</span>
+    </div>
+    <div class="flex items-center gap-2">
+      <button onclick="showView('agents')" class="text-xs text-slate-400 hover:text-slate-200 px-3 py-1.5 rounded hover:bg-slate-800 transition-colors">Agentes</button>
+      <button onclick="openModal('project-modal')" class="text-xs bg-indigo-600 hover:bg-indigo-500 text-white px-3 py-1.5 rounded transition-colors font-medium">+ Novo Projeto</button>
+    </div>
+  </div>
+</header>
+
+<div class="flex flex-1 max-w-screen-xl mx-auto w-full">
+
+  <!-- SIDEBAR -->
+  <aside class="w-64 border-r border-slate-800 bg-slate-900/50 flex flex-col shrink-0">
+    <div class="p-4 border-b border-slate-800">
+      <p class="text-xs font-semibold text-slate-500 uppercase tracking-wider mb-3">Projetos</p>
+      <div id="projects-list" class="space-y-1">
+        <div class="text-xs text-slate-500 py-2">Carregando...</div>
+      </div>
+    </div>
+    <div class="p-4 mt-auto border-t border-slate-800">
+      <div class="text-xs text-slate-600 space-y-1">
+        <div>10 agentes disponíveis</div>
+        <div>5 planos de execução</div>
+      </div>
+    </div>
+  </aside>
+
+  <!-- MAIN -->
+  <main class="flex-1 overflow-hidden flex flex-col">
+
+    <!-- VIEW: WELCOME / AGENTS -->
+    <div id="view-agents" class="flex-1 overflow-y-auto p-6 scrollbar-thin hidden">
+      <div class="mb-8">
+        <h1 class="text-2xl font-bold mb-2">Sua equipe de produto completa</h1>
+        <p class="text-slate-400">10 agentes especializados, cada um com expertise de referência mundial. Selecione um projeto na sidebar para começar.</p>
+      </div>
+      <div id="agents-grid" class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4"></div>
+    </div>
+
+    <!-- VIEW: PROJECT -->
+    <div id="view-project" class="flex-1 overflow-hidden flex flex-col hidden">
+      <!-- Project Header -->
+      <div class="p-6 border-b border-slate-800 bg-slate-900/30">
+        <div class="flex items-start justify-between mb-4">
+          <div>
+            <h2 id="project-name" class="text-xl font-bold"></h2>
+            <p id="project-desc" class="text-sm text-slate-400 mt-1"></p>
+          </div>
+          <button onclick="showRunForm()" class="bg-indigo-600 hover:bg-indigo-500 text-white text-sm px-4 py-2 rounded-lg font-medium transition-colors">
+            ▶ Nova Tarefa
+          </button>
+        </div>
+      </div>
+
+      <!-- Task Form (hidden by default) -->
+      <div id="run-form" class="p-6 border-b border-slate-800 bg-slate-950 hidden">
+        <h3 class="font-semibold mb-4 text-slate-200">Nova Tarefa</h3>
+        <div class="space-y-4">
+          <div>
+            <label class="block text-xs font-medium text-slate-400 mb-2">O que você quer criar?</label>
+            <textarea id="task-input" rows="3" placeholder="Ex: Criar landing page para SaaS de automação de marketing, com foco em conversão..."
+              class="w-full bg-slate-900 border border-slate-700 rounded-lg px-4 py-3 text-sm text-slate-100 placeholder-slate-500 focus:outline-none focus:border-indigo-500 resize-none"></textarea>
+          </div>
+          <div>
+            <label class="block text-xs font-medium text-slate-400 mb-2">Plano de execução</label>
+            <div class="grid grid-cols-2 md:grid-cols-5 gap-2">
+              <label class="plan-option cursor-pointer">
+                <input type="radio" name="plan" value="full_product" checked class="hidden">
+                <div class="plan-btn border border-slate-700 rounded-lg p-3 hover:border-indigo-500 transition-colors text-center">
+                  <div class="text-lg mb-1">🚀</div>
+                  <div class="text-xs font-medium">Full Product</div>
+                  <div class="text-xs text-slate-500">9 agentes</div>
+                </div>
+              </label>
+              <label class="plan-option cursor-pointer">
+                <input type="radio" name="plan" value="design_only" class="hidden">
+                <div class="plan-btn border border-slate-700 rounded-lg p-3 hover:border-indigo-500 transition-colors text-center">
+                  <div class="text-lg mb-1">🎨</div>
+                  <div class="text-xs font-medium">Design Only</div>
+                  <div class="text-xs text-slate-500">4 agentes</div>
+                </div>
+              </label>
+              <label class="plan-option cursor-pointer">
+                <input type="radio" name="plan" value="dev_only" class="hidden">
+                <div class="plan-btn border border-slate-700 rounded-lg p-3 hover:border-indigo-500 transition-colors text-center">
+                  <div class="text-lg mb-1">💻</div>
+                  <div class="text-xs font-medium">Dev Only</div>
+                  <div class="text-xs text-slate-500">4 agentes</div>
+                </div>
+              </label>
+              <label class="plan-option cursor-pointer">
+                <input type="radio" name="plan" value="mobile_app" class="hidden">
+                <div class="plan-btn border border-slate-700 rounded-lg p-3 hover:border-indigo-500 transition-colors text-center">
+                  <div class="text-lg mb-1">📱</div>
+                  <div class="text-xs font-medium">Mobile App</div>
+                  <div class="text-xs text-slate-500">9 agentes</div>
+                </div>
+              </label>
+              <label class="plan-option cursor-pointer">
+                <input type="radio" name="plan" value="quick_ui" class="hidden">
+                <div class="plan-btn border border-slate-700 rounded-lg p-3 hover:border-indigo-500 transition-colors text-center">
+                  <div class="text-lg mb-1">⚡</div>
+                  <div class="text-xs font-medium">Quick UI</div>
+                  <div class="text-xs text-slate-500">3 agentes</div>
+                </div>
+              </label>
+            </div>
+          </div>
+          <div class="flex gap-3">
+            <button onclick="submitTask()" class="bg-indigo-600 hover:bg-indigo-500 text-white text-sm px-6 py-2 rounded-lg font-medium transition-colors">Executar</button>
+            <button onclick="hideRunForm()" class="text-slate-400 hover:text-slate-200 text-sm px-4 py-2 rounded-lg hover:bg-slate-800 transition-colors">Cancelar</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Running indicator -->
+      <div id="running-indicator" class="p-4 border-b border-slate-800 bg-indigo-950/50 hidden">
+        <div class="flex items-center gap-3">
+          <svg class="spin w-4 h-4 text-indigo-400" fill="none" viewBox="0 0 24 24">
+            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"></path>
+          </svg>
+          <div>
+            <div class="text-sm font-medium text-indigo-300">Agentes trabalhando...</div>
+            <div id="running-agent" class="text-xs text-indigo-400 pulse-dot">Iniciando execução</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tasks List & Result -->
+      <div class="flex-1 overflow-hidden flex">
+        <!-- Task list -->
+        <div class="w-72 border-r border-slate-800 overflow-y-auto scrollbar-thin">
+          <div class="p-3 border-b border-slate-800">
+            <p class="text-xs font-semibold text-slate-500 uppercase tracking-wider">Tarefas</p>
+          </div>
+          <div id="tasks-list" class="p-2 space-y-1"></div>
+        </div>
+
+        <!-- Result viewer -->
+        <div id="result-panel" class="flex-1 overflow-hidden flex flex-col">
+          <div id="result-empty" class="flex-1 flex items-center justify-center text-slate-600">
+            <div class="text-center">
+              <div class="text-5xl mb-4">⚡</div>
+              <div class="text-lg font-medium mb-2">Selecione uma tarefa</div>
+              <div class="text-sm">ou crie uma nova para ver os resultados dos agentes</div>
+            </div>
+          </div>
+          <div id="result-content" class="flex-1 overflow-hidden flex flex-col hidden">
+            <!-- Agent tabs -->
+            <div class="border-b border-slate-800 overflow-x-auto">
+              <div id="agent-tabs" class="flex gap-0 px-2 min-w-max"></div>
+            </div>
+            <!-- Agent output -->
+            <div id="agent-output" class="flex-1 overflow-y-auto p-6 scrollbar-thin prose max-w-none"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </main>
+</div>
+
+<!-- Modal: New Project -->
+<div id="project-modal" class="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+  <div class="bg-slate-900 border border-slate-700 rounded-2xl p-6 w-full max-w-md fade-in">
+    <h3 class="font-bold text-lg mb-4">Novo Projeto</h3>
+    <div class="space-y-4">
+      <div>
+        <label class="block text-xs font-medium text-slate-400 mb-2">Nome do projeto *</label>
+        <input id="new-project-name" type="text" placeholder="Ex: Landing Page SaaS"
+          class="w-full bg-slate-800 border border-slate-700 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:border-indigo-500">
+      </div>
+      <div>
+        <label class="block text-xs font-medium text-slate-400 mb-2">Descrição (opcional)</label>
+        <textarea id="new-project-desc" rows="2" placeholder="Descreva o produto ou objetivo"
+          class="w-full bg-slate-800 border border-slate-700 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:border-indigo-500 resize-none"></textarea>
+      </div>
+    </div>
+    <div class="flex gap-3 mt-6">
+      <button onclick="createProject()" class="flex-1 bg-indigo-600 hover:bg-indigo-500 text-white py-2.5 rounded-lg font-medium transition-colors">Criar Projeto</button>
+      <button onclick="closeModal('project-modal')" class="px-4 text-slate-400 hover:text-slate-200 hover:bg-slate-800 rounded-lg transition-colors">Cancelar</button>
+    </div>
+  </div>
+</div>
+
+<script>
+const AGENTS_META = {
+  brand_designer: {
+    icon: "🎯", label: "Brand Designer", color: "purple",
+    refs: "Paula Scher · Aaron Draplin · Debbie Millman",
+    desc: "Identidade visual, brandbook, paleta, tipografia e tom de voz"
+  },
+  ux_designer: {
+    icon: "🗺️", label: "UX Designer", color: "blue",
+    refs: "Don Norman · IDEO · Nielsen Norman Group",
+    desc: "Pesquisa, personas, fluxos, wireframes e jornada do usuário"
+  },
+  ui_designer: {
+    icon: "✨", label: "UI Designer", color: "cyan",
+    refs: "Dieter Rams · Jonathan Ive · Airbnb Design",
+    desc: "Design system, componentes, telas de alta fidelidade"
+  },
+  ux_writer: {
+    icon: "✍️", label: "UX Writer", color: "teal",
+    refs: "Torrey Podmajersky · Ann Handley · Shopify UX Writing",
+    desc: "Microcopy, mensagens do sistema, onboarding e emails"
+  },
+  tech_lead: {
+    icon: "🏗️", label: "Tech Lead", color: "orange",
+    refs: "Martin Fowler · Robert C. Martin · Kent Beck",
+    desc: "Arquitetura, stack, APIs, modelagem de dados e segurança"
+  },
+  frontend_dev: {
+    icon: "⚛️", label: "Frontend Dev", color: "sky",
+    refs: "Kent C. Dodds · Addy Osmani · Sara Soueidan",
+    desc: "React/Next.js, TypeScript, Tailwind, acessibilidade e performance"
+  },
+  backend_dev: {
+    icon: "⚙️", label: "Backend Dev", color: "green",
+    refs: "Werner Vogels · Uncle Bob · Brendan Gregg",
+    desc: "APIs REST, autenticação, banco de dados, filas e cache"
+  },
+  mobile_dev: {
+    icon: "📱", label: "Mobile Dev", color: "indigo",
+    refs: "Airbnb Mobile · Instagram Eng · Nubank Mobile",
+    desc: "React Native/Expo, iOS, Android, offline-first e deploy em lojas"
+  },
+  qa_engineer: {
+    icon: "🧪", label: "QA Engineer", color: "yellow",
+    refs: "James Bach · Google Testing · Netflix Chaos Eng.",
+    desc: "Plano de testes, E2E com Playwright, performance com k6"
+  },
+  devops_engineer: {
+    icon: "🚀", label: "DevOps Engineer", color: "red",
+    refs: "Gene Kim · Google SRE · Charity Majors",
+    desc: "CI/CD, Docker, Terraform, AWS e monitoramento"
+  }
+};
+
+const COLOR_MAP = {
+  purple: "border-purple-800/50 bg-purple-950/30 hover:border-purple-600",
+  blue: "border-blue-800/50 bg-blue-950/30 hover:border-blue-600",
+  cyan: "border-cyan-800/50 bg-cyan-950/30 hover:border-cyan-600",
+  teal: "border-teal-800/50 bg-teal-950/30 hover:border-teal-600",
+  orange: "border-orange-800/50 bg-orange-950/30 hover:border-orange-600",
+  sky: "border-sky-800/50 bg-sky-950/30 hover:border-sky-600",
+  green: "border-green-800/50 bg-green-950/30 hover:border-green-600",
+  indigo: "border-indigo-800/50 bg-indigo-950/30 hover:border-indigo-600",
+  yellow: "border-yellow-800/50 bg-yellow-950/30 hover:border-yellow-600",
+  red: "border-red-800/50 bg-red-950/30 hover:border-red-600"
+};
+
+let currentProject = null;
+let currentRunId = null;
+let pollInterval = null;
+let currentTaskOutputs = {};
+
+// ---- INIT ----
+document.addEventListener('DOMContentLoaded', () => {
+  loadProjects();
+  renderAgentsGrid();
+  showView('agents');
+  setupPlanSelector();
+});
+
+function setupPlanSelector() {
+  document.querySelectorAll('.plan-option').forEach(label => {
+    label.addEventListener('click', () => {
+      document.querySelectorAll('.plan-btn').forEach(btn => {
+        btn.classList.remove('border-indigo-500', 'bg-indigo-950/40');
+        btn.classList.add('border-slate-700');
+      });
+      label.querySelector('.plan-btn').classList.add('border-indigo-500', 'bg-indigo-950/40');
+      label.querySelector('.plan-btn').classList.remove('border-slate-700');
+    });
+  });
+  // Activate first
+  document.querySelector('.plan-option').click();
+}
+
+// ---- VIEWS ----
+function showView(name) {
+  document.getElementById('view-agents').classList.add('hidden');
+  document.getElementById('view-project').classList.add('hidden');
+  document.getElementById('view-' + name).classList.remove('hidden');
+}
+
+// ---- AGENTS GRID ----
+function renderAgentsGrid() {
+  const grid = document.getElementById('agents-grid');
+  grid.innerHTML = Object.entries(AGENTS_META).map(([key, meta]) => `
+    <div class="agent-card border ${COLOR_MAP[meta.color]} rounded-xl p-5 transition-all duration-200 cursor-default">
+      <div class="flex items-start gap-3 mb-3">
+        <span class="text-3xl">${meta.icon}</span>
+        <div class="flex-1">
+          <div class="font-semibold text-slate-100">${meta.label}</div>
+          <div class="text-xs text-slate-500 mt-0.5">${meta.refs}</div>
+        </div>
+      </div>
+      <p class="text-xs text-slate-400 leading-relaxed">${meta.desc}</p>
+    </div>
+  `).join('');
+}
+
+// ---- PROJECTS ----
+async function loadProjects() {
+  const res = await fetch('/api/projects');
+  const projects = await res.json();
+  const list = document.getElementById('projects-list');
+
+  if (!projects.length) {
+    list.innerHTML = '<div class="text-xs text-slate-600 py-2">Nenhum projeto. Crie o primeiro!</div>';
+    return;
+  }
+
+  list.innerHTML = projects.map(p => `
+    <button onclick="selectProject('${p.id}','${escHtml(p.name)}','${escHtml(p.description)}')"
+      class="project-btn w-full text-left px-3 py-2 rounded-lg text-sm hover:bg-slate-800 transition-colors group" data-id="${p.id}">
+      <div class="font-medium text-slate-200 truncate">${escHtml(p.name)}</div>
+      ${p.description ? `<div class="text-xs text-slate-500 truncate">${escHtml(p.description)}</div>` : ''}
+    </button>
+  `).join('');
+}
+
+function selectProject(id, name, desc) {
+  currentProject = { id, name, desc };
+  document.querySelectorAll('.project-btn').forEach(b => {
+    b.classList.toggle('bg-slate-800', b.dataset.id === id);
+    b.classList.toggle('text-indigo-400', b.dataset.id === id);
+  });
+  document.getElementById('project-name').textContent = name;
+  document.getElementById('project-desc').textContent = desc || '';
+  hideRunForm();
+  showView('project');
+  loadTasks(id);
+}
+
+async function createProject() {
+  const name = document.getElementById('new-project-name').value.trim();
+  const desc = document.getElementById('new-project-desc').value.trim();
+  if (!name) return;
+  const res = await fetch('/api/projects', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ name, description: desc })
+  });
+  if (res.ok) {
+    closeModal('project-modal');
+    document.getElementById('new-project-name').value = '';
+    document.getElementById('new-project-desc').value = '';
+    await loadProjects();
+  }
+}
+
+// ---- TASKS ----
+async function loadTasks(projectId) {
+  const res = await fetch(`/api/tasks/${projectId}`);
+  const tasks = await res.json();
+  const list = document.getElementById('tasks-list');
+
+  if (!tasks.length) {
+    list.innerHTML = '<div class="text-xs text-slate-600 p-2">Nenhuma tarefa ainda.</div>';
+    return;
+  }
+
+  const statusIcon = { completed: '✓', running: '⟳', failed: '✗', pending: '○' };
+  const statusColor = { completed: 'text-green-400', running: 'text-indigo-400', failed: 'text-red-400', pending: 'text-slate-500' };
+
+  list.innerHTML = tasks.map(t => `
+    <button onclick="loadTaskResult('${t.id}')"
+      class="task-btn w-full text-left px-3 py-2.5 rounded-lg hover:bg-slate-800 transition-colors" data-id="${t.id}">
+      <div class="flex items-center gap-2 mb-1">
+        <span class="text-xs ${statusColor[t.status] || 'text-slate-500'}">${statusIcon[t.status] || '○'}</span>
+        <span class="text-xs font-medium text-slate-300 uppercase tracking-wide">${t.task_type}</span>
+      </div>
+      <div class="text-xs text-slate-400 truncate">${escHtml(t.input_task)}</div>
+    </button>
+  `).join('');
+}
+
+async function loadTaskResult(taskId) {
+  document.querySelectorAll('.task-btn').forEach(b => {
+    b.classList.toggle('bg-slate-800', b.dataset.id === taskId);
+  });
+
+  const res = await fetch(`/api/task-result/${taskId}`);
+  const data = await res.json();
+  showResult(data.executions);
+}
+
+function showResult(executions) {
+  if (!executions || !executions.length) return;
+
+  document.getElementById('result-empty').classList.add('hidden');
+  document.getElementById('result-content').classList.remove('hidden');
+
+  currentTaskOutputs = {};
+  executions.forEach(e => { currentTaskOutputs[e.agent_name] = e; });
+
+  const tabs = document.getElementById('agent-tabs');
+  tabs.innerHTML = executions.map((e, i) => {
+    const meta = AGENTS_META[e.agent_name] || { icon: '🤖', label: e.agent_name };
+    const statusClass = e.status === 'completed' ? 'text-green-400' : 'text-red-400';
+    return `
+      <button onclick="showAgentOutput('${e.agent_name}')"
+        class="tab-btn flex items-center gap-1.5 px-4 py-3 text-xs font-medium text-slate-400 border-b-2 border-transparent hover:text-slate-200 transition-colors whitespace-nowrap"
+        data-agent="${e.agent_name}">
+        <span>${meta.icon}</span>
+        <span>${meta.label}</span>
+        <span class="${statusClass} text-xs">${e.status === 'completed' ? '✓' : '✗'}</span>
+      </button>
+    `;
+  }).join('');
+
+  // Show first agent
+  if (executions.length) showAgentOutput(executions[0].agent_name);
+}
+
+function showAgentOutput(agentName) {
+  document.querySelectorAll('.tab-btn').forEach(btn => {
+    btn.classList.toggle('active', btn.dataset.agent === agentName);
+  });
+
+  const exec = currentTaskOutputs[agentName];
+  const meta = AGENTS_META[agentName] || { icon: '🤖', label: agentName, refs: '', desc: '' };
+  const output = document.getElementById('agent-output');
+
+  const statsHtml = `
+    <div class="flex flex-wrap gap-4 mb-6 p-4 bg-slate-900 rounded-xl border border-slate-800">
+      <div class="flex items-center gap-2">
+        <span class="text-2xl">${meta.icon}</span>
+        <div>
+          <div class="font-semibold text-slate-100">${meta.label}</div>
+          <div class="text-xs text-slate-500">${meta.refs}</div>
+        </div>
+      </div>
+      <div class="flex gap-4 ml-auto text-xs text-slate-500">
+        <div>Fase <span class="text-slate-300 font-medium">${exec.phase_number}</span></div>
+        <div>Input <span class="text-slate-300 font-medium">${exec.tokens_input?.toLocaleString() || 0}</span> tokens</div>
+        <div>Output <span class="text-slate-300 font-medium">${exec.tokens_output?.toLocaleString() || 0}</span> tokens</div>
+        <div>Tempo <span class="text-slate-300 font-medium">${((exec.execution_time_ms || 0)/1000).toFixed(1)}s</span></div>
+      </div>
+    </div>
+  `;
+
+  const bodyHtml = exec.output_text
+    ? marked.parse(exec.output_text)
+    : '<p class="text-slate-500 italic">Este agente não retornou output nesta execução.</p>';
+
+  output.innerHTML = statsHtml + '<div class="prose">' + bodyHtml + '</div>';
+  output.scrollTop = 0;
+}
+
+// ---- RUN TASK ----
+function showRunForm() {
+  document.getElementById('run-form').classList.remove('hidden');
+  document.getElementById('task-input').focus();
+}
+
+function hideRunForm() {
+  document.getElementById('run-form').classList.add('hidden');
+}
+
+async function submitTask() {
+  const taskInput = document.getElementById('task-input').value.trim();
+  const plan = document.querySelector('input[name="plan"]:checked')?.value || 'full_product';
+
+  if (!taskInput || !currentProject) return;
+
+  hideRunForm();
+  document.getElementById('task-input').value = '';
+  document.getElementById('running-indicator').classList.remove('hidden');
+
+  const res = await fetch('/api/run', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      project_id: currentProject.id,
+      task_input: taskInput,
+      task_type: plan
+    })
+  });
+
+  const data = await res.json();
+  currentRunId = data.run_id;
+  startPolling();
+}
+
+function startPolling() {
+  if (pollInterval) clearInterval(pollInterval);
+  const agentNames = Object.keys(AGENTS_META);
+  let idx = 0;
+
+  pollInterval = setInterval(async () => {
+    document.getElementById('running-agent').textContent = `${AGENTS_META[agentNames[idx % agentNames.length]].icon} ${AGENTS_META[agentNames[idx % agentNames.length]].label} trabalhando...`;
+    idx++;
+
+    const res = await fetch(`/api/run/${currentRunId}`);
+    const data = await res.json();
+
+    if (data.status === 'completed' || data.status === 'failed') {
+      clearInterval(pollInterval);
+      document.getElementById('running-indicator').classList.add('hidden');
+      await loadTasks(currentProject.id);
+
+      if (data.status === 'completed' && data.agent_outputs) {
+        const executions = Object.entries(data.agent_outputs).map(([name, text], i) => ({
+          agent_name: name,
+          output_text: text,
+          status: 'completed',
+          phase_number: i + 1,
+          tokens_input: 0,
+          tokens_output: 0,
+          execution_time_ms: 0
+        }));
+        showResult(executions);
+      }
+    }
+  }, 3000);
+}
+
+// ---- MODALS ----
+function openModal(id) { document.getElementById(id).classList.remove('hidden'); }
+function closeModal(id) { document.getElementById(id).classList.add('hidden'); }
+document.addEventListener('keydown', e => { if (e.key === 'Escape') { closeModal('project-modal'); } });
+
+// ---- UTILS ----
+function escHtml(str) {
+  return (str || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+</script>
+</body>
+</html>

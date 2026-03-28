@@ -140,21 +140,25 @@ class SupabaseClient:
     # ==================== EXECUTION PLANS ====================
 
     def get_execution_plan(self, task_type: str) -> Optional[ExecutionPlan]:
+        # Busca primeiro por nome exato do plano
         result = self.client.table("execution_plans")\
             .select("*")\
-            .contains("task_types", [task_type])\
+            .eq("name", task_type)\
             .execute()
 
-        if result.data:
-            plan_data = result.data[0]
-            plan_data["phases"] = [ExecutionPhase(**p) for p in plan_data["phases"]]
-            return ExecutionPlan(**plan_data)
+        if not result.data:
+            # Fallback: busca por task_types que contenham o valor
+            result = self.client.table("execution_plans")\
+                .select("*")\
+                .contains("task_types", [task_type])\
+                .execute()
 
-        # Fallback para plano default
-        result = self.client.table("execution_plans")\
-            .select("*")\
-            .eq("is_default", True)\
-            .execute()
+        if not result.data:
+            # Fallback final: plano default
+            result = self.client.table("execution_plans")\
+                .select("*")\
+                .eq("is_default", True)\
+                .execute()
 
         if result.data:
             plan_data = result.data[0]
