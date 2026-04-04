@@ -1,6 +1,7 @@
 import sys
 import threading
 import logging
+import time
 from pathlib import Path
 from uuid import UUID
 from flask import Flask, render_template, request, jsonify
@@ -10,6 +11,38 @@ sys.path.insert(0, str(Path(__file__).parent.parent))
 from config.settings import settings
 from src.database.supabase_client import SupabaseClient
 from src.orchestrator import Orchestrator
+from src.deployer import deploy_build
+
+# ── Definição dos Squads ──────────────────────────────────────────────────────
+SQUADS = {
+    "criacao": {
+        "id": "criacao",
+        "name": "Squad de Criação",
+        "icon": "🎨",
+        "description": "Marca, identidade visual, UX e microcopy. Ideal para criar a personalidade e experiência do produto.",
+        "color": "purple",
+        "agents": ["brand_designer", "ux_designer", "ui_designer", "ux_writer"],
+        "agent_labels": ["Brand Designer", "UX Designer", "UI Designer", "UX Writer"],
+    },
+    "desenvolvimento": {
+        "id": "desenvolvimento",
+        "name": "Squad de Desenvolvimento",
+        "icon": "💻",
+        "description": "Arquitetura, frontend, backend e mobile. Para construir o produto com solidez técnica.",
+        "color": "blue",
+        "agents": ["tech_lead", "frontend_dev", "backend_dev", "mobile_dev"],
+        "agent_labels": ["Tech Lead", "Frontend Dev", "Backend Dev", "Mobile Dev"],
+    },
+    "delivery": {
+        "id": "delivery",
+        "name": "Squad de Delivery",
+        "icon": "🚀",
+        "description": "Qualidade, infraestrutura e lançamento. Para garantir que o produto chegue ao ar com excelência.",
+        "color": "green",
+        "agents": ["tech_lead", "qa_engineer", "devops_engineer"],
+        "agent_labels": ["Tech Lead", "QA Engineer", "DevOps Engineer"],
+    },
+}
 
 app = Flask(__name__)
 log = logging.getLogger("werkzeug")
@@ -18,23 +51,73 @@ log.setLevel(logging.ERROR)
 db = SupabaseClient()
 orchestrator = Orchestrator()
 
-# Tasks running in background
+# { run_id: { status, progress: [...], result, error } }
 _running_tasks = {}
 
 
-def _run_task_background(task_run_id, project_id, task_input, task_type):
-    _running_tasks[task_run_id] = {"status": "running", "result": None, "error": None}
+def _make_progress_callback(run_id):
+    def callback(agent_name, phase, status, output_text, tokens_in, tokens_out, time_ms):
+        task = _running_tasks.get(run_id)
+        if not task:
+            return
+
+        # Atualiza entrada existente ou cria nova
+        existing = next((p for p in task["progress"] if p["agent"] == agent_name), None)
+        if existing:
+            existing["status"] = status
+            existing["output_text"] = output_text
+            existing["tokens_input"] = tokens_in
+            existing["tokens_output"] = tokens_out
+            existing["execution_time_ms"] = time_ms
+            existing["finished_at"] = time.time() if status in ("completed", "failed") else None
+        else:
+            task["progress"].append({
+                "agent": agent_name,
+                "phase": phase,
+                "status": status,
+                "output_text": output_text,
+                "tokens_input": tokens_in,
+                "tokens_output": tokens_out,
+                "execution_time_ms": time_ms,
+                "started_at": time.time(),
+                "finished_at": time.time() if status in ("completed", "failed") else None,
+            })
+    return callback
+
+
+def _run_task_background(run_id, project_id, task_input, task_type, agent_list=None):
+    _running_tasks[run_id] = {
+        "status": "running",
+        "progress": [],
+        "result": None,
+        "error": None,
+        "started_at": time.time(),
+        "task_type": task_type
+    }
     try:
         result = orchestrator.execute_task(
             project_id=UUID(project_id),
             task_input=task_input,
-            task_type=task_type
+            task_type=task_type,
+            progress_callback=_make_progress_callback(run_id),
+            agent_list=agent_list
         )
-        _running_tasks[task_run_id]["result"] = result
-        _running_tasks[task_run_id]["status"] = result.get("status", "completed")
+        _running_tasks[run_id]["result"] = result
+        _running_tasks[run_id]["status"] = result.get("status", "completed")
+
+        # Gera build estático e retorna URL do entregável
+        agent_outputs = result.get("agent_outputs", {})
+        if agent_outputs:
+            try:
+                deploy_url, deploy_source = deploy_build(run_id, agent_outputs)
+                _running_tasks[run_id]["deploy_url"] = deploy_url
+                _running_tasks[run_id]["deploy_source"] = deploy_source
+            except Exception as deploy_err:
+                _running_tasks[run_id]["deploy_url"] = None
+
     except Exception as e:
-        _running_tasks[task_run_id]["status"] = "failed"
-        _running_tasks[task_run_id]["error"] = str(e)
+        _running_tasks[run_id]["status"] = "failed"
+        _running_tasks[run_id]["error"] = str(e)
 
 
 @app.route("/")
@@ -44,8 +127,12 @@ def index():
 
 @app.route("/api/agents")
 def list_agents():
-    agents = orchestrator.get_available_agents()
-    return jsonify(agents)
+    return jsonify(orchestrator.get_available_agents())
+
+
+@app.route("/api/squads")
+def list_squads():
+    return jsonify(list(SQUADS.values()))
 
 
 @app.route("/api/projects", methods=["GET"])
@@ -77,6 +164,7 @@ def run_task():
     project_id = data.get("project_id")
     task_input = data.get("task_input", "").strip()
     task_type = data.get("task_type", "full_product")
+    agent_list = data.get("agent_list", None)   # lista de agentes do squad
 
     if not project_id or not task_input:
         return jsonify({"error": "project_id e task_input são obrigatórios"}), 400
@@ -86,7 +174,7 @@ def run_task():
 
     thread = threading.Thread(
         target=_run_task_background,
-        args=(run_id, project_id, task_input, task_type),
+        args=(run_id, project_id, task_input, task_type, agent_list),
         daemon=True
     )
     thread.start()
@@ -100,20 +188,42 @@ def get_run_status(run_id):
     if not run:
         return jsonify({"error": "Run não encontrado"}), 404
 
-    response = {"status": run["status"]}
+    response = {
+        "status": run["status"],
+        "progress": run["progress"],
+        "elapsed": round(time.time() - run["started_at"], 1)
+    }
 
     if run["status"] in ("completed", "failed") and run["result"]:
         result = run["result"]
         response["task_id"] = result.get("task_id")
-        response["agents"] = list(result.get("agent_outputs", {}).keys())
-        response["phases"] = len(result.get("phases", []))
         response["agent_outputs"] = result.get("agent_outputs", {})
-        response["final_output"] = result.get("final_output", "")
 
     if run["error"]:
         response["error"] = run["error"]
 
+    if run.get("deploy_url"):
+        response["deploy_url"] = run["deploy_url"]
+        response["deploy_source"] = run.get("deploy_source", "")
+
+    response["task_type"] = run.get("task_type", "")
+
     return jsonify(response)
+
+
+@app.route("/api/deploy", methods=["POST"])
+def deploy_outputs():
+    """Gera build estático a partir de agent_outputs e retorna URL."""
+    data = request.json
+    run_id = data.get("run_id", "")
+    agent_outputs = data.get("agent_outputs", {})
+    if not run_id or not agent_outputs:
+        return jsonify({"error": "run_id e agent_outputs são obrigatórios"}), 400
+    try:
+        url, source = deploy_build(run_id, agent_outputs)
+        return jsonify({"deploy_url": url, "source": source})
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
 
 
 @app.route("/api/tasks/<project_id>")
@@ -150,6 +260,44 @@ def get_task_result(task_id):
         "final_output": result.final_output if result else "",
         "summary": result.summary if result else ""
     })
+
+
+@app.route("/api/pixel/start", methods=["POST"])
+def pixel_start():
+    """Dispara animação de um agente no Pixel Office (demo)."""
+    data = request.json or {}
+    agent_name = data.get("agent_name", "").strip()
+    if not agent_name:
+        return jsonify({"error": "agent_name é obrigatório"}), 400
+    try:
+        orchestrator.pixel.agent_started(agent_name)
+        return jsonify({"ok": True, "agent": agent_name})
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+
+@app.route("/api/pixel/finish", methods=["POST"])
+def pixel_finish():
+    """Finaliza animação de um agente no Pixel Office (demo)."""
+    data = request.json or {}
+    agent_name = data.get("agent_name", "").strip()
+    if not agent_name:
+        return jsonify({"error": "agent_name é obrigatório"}), 400
+    try:
+        orchestrator.pixel.agent_finished(agent_name)
+        return jsonify({"ok": True, "agent": agent_name})
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+
+@app.route("/api/pixel/finish-all", methods=["POST"])
+def pixel_finish_all():
+    """Finaliza animações de todos os agentes ativos no Pixel Office."""
+    try:
+        orchestrator.pixel.finish_all()
+        return jsonify({"ok": True})
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
 
 
 if __name__ == "__main__":

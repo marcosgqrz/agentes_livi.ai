@@ -31,13 +31,110 @@
   .prose tr:hover td { background: #1e293b44; }
   .prose hr { border-color: #334155; margin: 1.5rem 0; }
   .prose blockquote { border-left: 3px solid #6366f1; padding-left: 1rem; color: #94a3b8; font-style: italic; }
-  .tab-btn.active { border-bottom-color: #6366f1; color: #6366f1; }
+  .tab-btn { background: #1e293b; border: 1px solid #334155; border-radius: 8px; color: #94a3b8; transition: all 0.15s; }
+  .tab-btn:hover { border-color: #6366f1; color: #e2e8f0; background: #1e293b; }
+  .tab-btn.active { background: #312e81; border-color: #6366f1; color: #c7d2fe; }
   .spin { animation: spin 1s linear infinite; }
   @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
-  .pulse-dot { animation: pulse 2s ease-in-out infinite; }
-  @keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.3; } }
   .fade-in { animation: fadeIn 0.3s ease; }
   @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+  .slide-in { animation: slideIn 0.25s ease; }
+  @keyframes slideIn { from { opacity: 0; transform: translateX(-8px); } to { opacity: 1; transform: translateX(0); } }
+  .progress-line::before { content: ''; position: absolute; left: 15px; top: 32px; bottom: -8px; width: 2px; background: #1e293b; }
+  .progress-line:last-child::before { display: none; }
+  @keyframes shimmer { 0% { background-position: -200% 0; } 100% { background-position: 200% 0; } }
+  .shimmer { background: linear-gradient(90deg, #1e293b 25%, #334155 50%, #1e293b 75%); background-size: 200% 100%; animation: shimmer 1.5s infinite; }
+
+  /* ── Squad cards ── */
+  .squad-card { transition: transform 0.2s, box-shadow 0.2s; cursor: pointer; }
+  .squad-card:hover { transform: translateY(-4px); box-shadow: 0 12px 40px rgba(0,0,0,0.4); }
+  .squad-card.selected { ring: 2px; }
+
+  /* ── Questionnaire ── */
+  .q-section { background: #1e293b; border: 1px solid #334155; border-radius: 14px; padding: 1.5rem; margin-bottom: 1.5rem; }
+  .q-section-header { display: flex; align-items: center; gap: 10px; margin-bottom: 1.25rem; padding-bottom: 0.75rem; border-bottom: 1px solid #334155; }
+  .q-section-icon { font-size: 1.4rem; }
+  .q-section-title { font-size: 0.95rem; font-weight: 700; color: #f1f5f9; }
+  .q-section-subtitle { font-size: 0.75rem; color: #64748b; margin-top: 1px; }
+  .q-field { margin-bottom: 1.25rem; }
+  .q-label { display: block; font-size: 0.8rem; font-weight: 600; color: #94a3b8; margin-bottom: 0.5rem; letter-spacing: 0.03em; }
+  .q-label span.req { color: #6366f1; margin-left: 2px; }
+  .q-input { width: 100%; background: #0f172a; border: 1px solid #334155; border-radius: 8px; padding: 0.6rem 0.9rem; font-size: 0.875rem; color: #f1f5f9; outline: none; transition: border-color 0.2s; }
+  .q-input:focus { border-color: #6366f1; }
+  .q-textarea { width: 100%; background: #0f172a; border: 1px solid #334155; border-radius: 8px; padding: 0.6rem 0.9rem; font-size: 0.875rem; color: #f1f5f9; outline: none; resize: vertical; min-height: 80px; transition: border-color 0.2s; }
+  .q-textarea:focus { border-color: #6366f1; }
+  .q-select { width: 100%; background: #0f172a; border: 1px solid #334155; border-radius: 8px; padding: 0.6rem 0.9rem; font-size: 0.875rem; color: #f1f5f9; outline: none; cursor: pointer; }
+  .q-select:focus { border-color: #6366f1; }
+
+  /* option cards (radio/checkbox visual) */
+  .q-options { display: flex; flex-wrap: wrap; gap: 8px; }
+  .q-option input { display: none; }
+  .q-option-label { display: flex; align-items: center; gap: 6px; padding: 6px 14px; border: 1px solid #334155; border-radius: 8px; font-size: 0.8rem; color: #94a3b8; cursor: pointer; transition: all 0.15s; white-space: nowrap; }
+  .q-option input:checked + .q-option-label { background: rgba(99,102,241,0.2); border-color: #6366f1; color: #c7d2fe; }
+  .q-option-label:hover { border-color: #475569; color: #e2e8f0; }
+
+  /* color palette selector */
+  .q-palettes { display: flex; flex-wrap: wrap; gap: 10px; }
+  .q-palette { cursor: pointer; border-radius: 10px; overflow: hidden; border: 2px solid transparent; transition: all 0.15s; }
+  .q-palette:hover { border-color: #475569; transform: scale(1.04); }
+  .q-palette.active { border-color: #6366f1; box-shadow: 0 0 0 3px rgba(99,102,241,0.3); }
+  .q-palette-swatches { display: flex; height: 36px; width: 100px; }
+  .q-palette-name { font-size: 0.65rem; color: #64748b; text-align: center; padding: 3px 0; background: #0f172a; }
+
+  /* progress dots */
+  .q-step-dot { width: 8px; height: 8px; border-radius: 50%; background: #334155; transition: background 0.2s; }
+  .q-step-dot.done { background: #6366f1; }
+  /* Stitch prompt modal */
+  /* Documento completo */
+  .doc-header { border-bottom: 2px solid #334155; padding-bottom: 1.5rem; margin-bottom: 2rem; }
+  .doc-header-title { font-size: 1.4rem; font-weight: 800; color: #f1f5f9; margin-bottom: 4px; }
+  .doc-header-meta { font-size: 0.75rem; color: #64748b; display: flex; gap: 16px; flex-wrap: wrap; }
+  .doc-section { border: 1px solid #1e293b; border-radius: 12px; overflow: hidden; margin-bottom: 2rem; }
+  .doc-section-header { display: flex; align-items: center; gap: 10px; padding: 0.9rem 1.25rem; background: #0f172a; border-bottom: 1px solid #1e293b; }
+  .doc-section-title { font-size: 0.9rem; font-weight: 700; color: #e2e8f0; }
+  .doc-section-body { padding: 1.25rem 1.5rem; }
+  .tab-btn-doc { background: linear-gradient(135deg,#312e81,#1e1b4b); border-color: #4f46e5 !important; color: #a5b4fc !important; }
+  .tab-btn-doc.active { background: linear-gradient(135deg,#4338ca,#312e81) !important; color: #e0e7ff !important; }
+  /* Stitch prompt modal */
+  .stitch-btn { display: flex; align-items: center; gap: 6px; background: linear-gradient(135deg,#4f46e5,#7c3aed); color:#fff; border:none; border-radius:8px; padding:6px 14px; font-size:0.78rem; font-weight:600; cursor:pointer; transition:opacity 0.15s; white-space:nowrap; }
+  .stitch-btn:hover { opacity:0.88; }
+  .stitch-prompt-box { font-family:'Courier New',monospace; font-size:0.78rem; line-height:1.65; background:#0f172a; border:1px solid #334155; border-radius:10px; padding:1.25rem; color:#e2e8f0; white-space:pre-wrap; overflow-y:auto; max-height:55vh; }
+  .stitch-copy-btn { display:flex; align-items:center; gap:6px; background:#4f46e5; color:#fff; border:none; border-radius:8px; padding:8px 18px; font-size:0.82rem; font-weight:600; cursor:pointer; transition:background 0.15s; }
+  .stitch-copy-btn:hover { background:#4338ca; }
+  .stitch-copy-btn.copied { background:#16a34a; }
+  .agent-deliverable-tag { display:inline-flex; align-items:center; gap:4px; font-size:0.68rem; font-weight:600; padding:2px 8px; border-radius:999px; letter-spacing:0.04em; text-transform:uppercase; }
+  .q-draft-bar { display: flex; align-items: center; gap: 8px; font-size: 0.7rem; color: #4ade80; margin-top: 6px; min-height: 18px; }
+  .q-draft-bar.empty { color: transparent; }
+  .q-draft-clear { background: none; border: none; cursor: pointer; font-size: 0.65rem; color: #64748b; text-decoration: underline; padding: 0; transition: color 0.15s; }
+  .q-draft-clear:hover { color: #cbd5e1; }
+  @keyframes draftSaved { 0%{opacity:0;transform:translateY(4px)} 100%{opacity:1;transform:translateY(0)} }
+  .q-draft-bar.flash { animation: draftSaved 0.3s ease; }
+
+  /* ── Validation ── */
+  .q-field-error .q-input,
+  .q-field-error .q-textarea,
+  .q-field-error .q-select { border-color: #ef4444 !important; box-shadow: 0 0 0 2px rgba(239,68,68,0.15); }
+  .q-field-error .q-label { color: #fca5a5; }
+  .q-err-msg { font-size: 0.7rem; color: #ef4444; margin-top: 3px; display: block; }
+  .q-submit-errors { background: rgba(239,68,68,0.08); border: 1px solid rgba(239,68,68,0.3); border-radius: 10px; padding: 0.8rem 1rem; color: #fca5a5; font-size: 0.8rem; margin-bottom: 1.25rem; line-height: 1.6; }
+  @keyframes shake { 0%,100%{transform:translateX(0)} 20%,60%{transform:translateX(-6px)} 40%,80%{transform:translateX(6px)} }
+  .shake { animation: shake 0.4s ease; }
+
+  /* ── No-project banner ── */
+  .no-project-banner { background: rgba(245,158,11,0.08); border: 1px solid rgba(245,158,11,0.3); border-radius: 12px; padding: 1rem 1.25rem; display: flex; align-items: center; gap: 10px; color: #fbbf24; font-size: 0.85rem; }
+  .squad-card.locked { opacity: 0.55; cursor: not-allowed; pointer-events: none; }
+  .squad-card.locked:hover { transform: none; box-shadow: none; }
+
+  /* ── Active project chip ── */
+  .project-chip { display: inline-flex; align-items: center; gap: 6px; background: rgba(99,102,241,0.15); border: 1px solid rgba(99,102,241,0.35); border-radius: 999px; padding: 3px 10px 3px 8px; font-size: 0.75rem; color: #a5b4fc; }
+  .project-chip .dot { width: 6px; height: 6px; border-radius: 50%; background: #6366f1; }
+
+  /* ── Pixel Office view ── */
+  #view-pixel { background: #0a0a0f; }
+  #pixel-iframe { width: 100%; height: 100%; border: none; display: block; }
+  .pixel-offline { display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100%; gap: 16px; color: #475569; }
+  .pixel-offline .icon { font-size: 3rem; }
+  .pixel-offline a { color: #6366f1; text-decoration: underline; font-size: 0.85rem; }
 </style>
 </head>
 <body class="bg-slate-950 text-slate-100 min-h-screen flex flex-col">
@@ -51,23 +148,28 @@
       <span class="text-slate-500 text-xs hidden sm:block">— Equipe de produto completa com IA</span>
     </div>
     <div class="flex items-center gap-2">
-      <button onclick="showView('agents')" class="text-xs text-slate-400 hover:text-slate-200 px-3 py-1.5 rounded hover:bg-slate-800 transition-colors">Agentes</button>
+      <button onclick="showView('squads')" id="nav-squads" class="text-xs text-slate-400 hover:text-slate-200 px-3 py-1.5 rounded hover:bg-slate-800 transition-colors">🎯 Squads</button>
+      <button onclick="showView('agents')" id="nav-agents" class="text-xs text-slate-400 hover:text-slate-200 px-3 py-1.5 rounded hover:bg-slate-800 transition-colors">Agentes</button>
+      <button onclick="showView('pixel')" id="nav-pixel" class="text-xs text-slate-400 hover:text-slate-200 px-3 py-1.5 rounded hover:bg-slate-800 transition-colors flex items-center gap-1">🕹️ Pixel Office</button>
+      <button onclick="runDemo()" id="btn-demo" class="text-xs text-amber-400 hover:text-amber-300 border border-amber-700/50 hover:border-amber-500 px-3 py-1.5 rounded transition-colors font-medium flex items-center gap-1.5">
+        <span>▶</span> Demo
+      </button>
       <button onclick="openModal('project-modal')" class="text-xs bg-indigo-600 hover:bg-indigo-500 text-white px-3 py-1.5 rounded transition-colors font-medium">+ Novo Projeto</button>
     </div>
   </div>
 </header>
 
-<div class="flex flex-1 max-w-screen-xl mx-auto w-full">
+<div class="flex flex-1 max-w-screen-xl mx-auto w-full overflow-hidden" style="height: calc(100vh - 57px)">
 
   <!-- SIDEBAR -->
   <aside class="w-64 border-r border-slate-800 bg-slate-900/50 flex flex-col shrink-0">
-    <div class="p-4 border-b border-slate-800">
+    <div class="p-4 border-b border-slate-800 flex-1 overflow-y-auto scrollbar-thin">
       <p class="text-xs font-semibold text-slate-500 uppercase tracking-wider mb-3">Projetos</p>
       <div id="projects-list" class="space-y-1">
         <div class="text-xs text-slate-500 py-2">Carregando...</div>
       </div>
     </div>
-    <div class="p-4 mt-auto border-t border-slate-800">
+    <div class="p-4 border-t border-slate-800">
       <div class="text-xs text-slate-600 space-y-1">
         <div>10 agentes disponíveis</div>
         <div>5 planos de execução</div>
@@ -78,137 +180,266 @@
   <!-- MAIN -->
   <main class="flex-1 overflow-hidden flex flex-col">
 
-    <!-- VIEW: WELCOME / AGENTS -->
+    <!-- VIEW: SQUADS -->
+    <div id="view-squads" class="flex-1 overflow-y-auto p-6 scrollbar-thin hidden">
+      <div class="mb-6 flex items-start justify-between gap-4">
+        <div>
+          <h1 class="text-2xl font-bold mb-1">Selecione o Squad</h1>
+          <p class="text-slate-400 text-sm">Escolha o grupo de agentes para sua entrega. As perguntas serão adaptadas ao squad selecionado.</p>
+        </div>
+        <div id="squads-project-chip" class="shrink-0 mt-1 hidden flex items-center gap-2">
+          <span class="project-chip">
+            <span class="dot"></span>
+            <span id="squads-project-name">—</span>
+          </span>
+          <button onclick="showView('project'); if(currentProject) loadTasks(currentProject.id);"
+            class="text-xs text-slate-500 hover:text-slate-300 underline transition-colors">
+            Ver histórico →
+          </button>
+        </div>
+      </div>
+      <!-- Banner: nenhum projeto selecionado -->
+      <div id="squads-no-project" class="no-project-banner mb-6 hidden">
+        <span class="text-lg">⚠️</span>
+        <div><strong>Selecione um projeto</strong> na barra lateral antes de iniciar um squad.</div>
+      </div>
+      <div id="squads-grid" class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6 mb-10"></div>
+    </div>
+
+    <!-- VIEW: QUESTIONNAIRE -->
+    <div id="view-questionnaire" class="flex-1 overflow-y-auto scrollbar-thin hidden">
+      <div class="max-w-3xl mx-auto px-6 py-8">
+        <!-- Header do questionário -->
+        <div class="flex items-center gap-4 mb-8">
+          <button onclick="showView('squads')" class="text-slate-500 hover:text-slate-300 transition-colors text-sm flex items-center gap-1.5">
+            ← Voltar
+          </button>
+          <div class="flex items-center gap-3">
+            <span id="q-squad-icon" class="text-3xl"></span>
+            <div>
+              <h1 id="q-squad-name" class="text-xl font-bold"></h1>
+              <p id="q-squad-desc" class="text-xs text-slate-400"></p>
+            </div>
+          </div>
+          <!-- Progress steps -->
+          <div id="q-progress" class="ml-auto flex items-center gap-2"></div>
+        </div>
+        <!-- Draft indicator -->
+        <div class="q-draft-bar empty" id="q-draft-bar">
+          <span id="q-draft-text"></span>
+          <button class="q-draft-clear hidden" id="q-draft-clear" onclick="clearDraftAndReset()">Limpar rascunho</button>
+        </div>
+
+        <!-- Formulário -->
+        <form id="q-form" onsubmit="return false">
+          <div id="q-sections"></div>
+
+          <!-- Rodapé de ação -->
+          <div class="mt-10 flex items-center justify-between border-t border-slate-800 pt-6">
+            <p class="text-xs text-slate-500">Projeto: <span id="q-project-name" class="text-slate-300 font-medium"></span></p>
+            <button onclick="submitQuestionnaire()"
+              class="bg-indigo-600 hover:bg-indigo-500 text-white font-semibold px-8 py-3 rounded-xl transition-colors flex items-center gap-2 text-sm">
+              🚀 Executar Squad
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- VIEW: AGENTS -->
     <div id="view-agents" class="flex-1 overflow-y-auto p-6 scrollbar-thin hidden">
       <div class="mb-8">
         <h1 class="text-2xl font-bold mb-2">Sua equipe de produto completa</h1>
-        <p class="text-slate-400">10 agentes especializados, cada um com expertise de referência mundial. Selecione um projeto na sidebar para começar.</p>
+        <p class="text-slate-400">10 agentes especializados, cada um com expertise de referência mundial.</p>
       </div>
       <div id="agents-grid" class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4"></div>
     </div>
 
+    <!-- VIEW: PIXEL OFFICE -->
+    <div id="view-pixel" class="flex-1 overflow-hidden flex flex-col hidden">
+      <iframe id="pixel-iframe" src="about:blank" title="Pixel Office" allow="autoplay"></iframe>
+      <div id="pixel-offline" class="pixel-offline hidden">
+        <span class="icon">🕹️</span>
+        <p class="text-slate-400 text-sm font-medium">Pixel Office não está rodando</p>
+        <p class="text-slate-500 text-xs">Inicie o servidor com <code class="bg-slate-900 px-2 py-0.5 rounded text-indigo-400">npm start</code> no repositório pixel-agents-standalone</p>
+        <a href="http://localhost:3456" target="_blank">Abrir em nova aba →</a>
+      </div>
+    </div>
+
     <!-- VIEW: PROJECT -->
     <div id="view-project" class="flex-1 overflow-hidden flex flex-col hidden">
-      <!-- Project Header -->
-      <div class="p-6 border-b border-slate-800 bg-slate-900/30">
-        <div class="flex items-start justify-between mb-4">
-          <div>
-            <h2 id="project-name" class="text-xl font-bold"></h2>
-            <p id="project-desc" class="text-sm text-slate-400 mt-1"></p>
-          </div>
-          <button onclick="showRunForm()" class="bg-indigo-600 hover:bg-indigo-500 text-white text-sm px-4 py-2 rounded-lg font-medium transition-colors">
-            ▶ Nova Tarefa
-          </button>
-        </div>
-      </div>
 
-      <!-- Task Form (hidden by default) -->
-      <div id="run-form" class="p-6 border-b border-slate-800 bg-slate-950 hidden">
-        <h3 class="font-semibold mb-4 text-slate-200">Nova Tarefa</h3>
-        <div class="space-y-4">
+      <!-- Project Header + New Task button -->
+      <div class="p-5 border-b border-slate-800 shrink-0">
+        <div class="flex items-center justify-between">
           <div>
-            <label class="block text-xs font-medium text-slate-400 mb-2">O que você quer criar?</label>
-            <textarea id="task-input" rows="3" placeholder="Ex: Criar landing page para SaaS de automação de marketing, com foco em conversão..."
-              class="w-full bg-slate-900 border border-slate-700 rounded-lg px-4 py-3 text-sm text-slate-100 placeholder-slate-500 focus:outline-none focus:border-indigo-500 resize-none"></textarea>
+            <h2 id="project-name" class="text-lg font-bold"></h2>
+            <p id="project-desc" class="text-xs text-slate-400 mt-0.5"></p>
           </div>
-          <div>
-            <label class="block text-xs font-medium text-slate-400 mb-2">Plano de execução</label>
-            <div class="grid grid-cols-2 md:grid-cols-5 gap-2">
-              <label class="plan-option cursor-pointer">
-                <input type="radio" name="plan" value="full_product" checked class="hidden">
-                <div class="plan-btn border border-slate-700 rounded-lg p-3 hover:border-indigo-500 transition-colors text-center">
-                  <div class="text-lg mb-1">🚀</div>
-                  <div class="text-xs font-medium">Full Product</div>
-                  <div class="text-xs text-slate-500">9 agentes</div>
-                </div>
-              </label>
-              <label class="plan-option cursor-pointer">
-                <input type="radio" name="plan" value="design_only" class="hidden">
-                <div class="plan-btn border border-slate-700 rounded-lg p-3 hover:border-indigo-500 transition-colors text-center">
-                  <div class="text-lg mb-1">🎨</div>
-                  <div class="text-xs font-medium">Design Only</div>
-                  <div class="text-xs text-slate-500">4 agentes</div>
-                </div>
-              </label>
-              <label class="plan-option cursor-pointer">
-                <input type="radio" name="plan" value="dev_only" class="hidden">
-                <div class="plan-btn border border-slate-700 rounded-lg p-3 hover:border-indigo-500 transition-colors text-center">
-                  <div class="text-lg mb-1">💻</div>
-                  <div class="text-xs font-medium">Dev Only</div>
-                  <div class="text-xs text-slate-500">4 agentes</div>
-                </div>
-              </label>
-              <label class="plan-option cursor-pointer">
-                <input type="radio" name="plan" value="mobile_app" class="hidden">
-                <div class="plan-btn border border-slate-700 rounded-lg p-3 hover:border-indigo-500 transition-colors text-center">
-                  <div class="text-lg mb-1">📱</div>
-                  <div class="text-xs font-medium">Mobile App</div>
-                  <div class="text-xs text-slate-500">9 agentes</div>
-                </div>
-              </label>
-              <label class="plan-option cursor-pointer">
-                <input type="radio" name="plan" value="quick_ui" class="hidden">
-                <div class="plan-btn border border-slate-700 rounded-lg p-3 hover:border-indigo-500 transition-colors text-center">
-                  <div class="text-lg mb-1">⚡</div>
-                  <div class="text-xs font-medium">Quick UI</div>
-                  <div class="text-xs text-slate-500">3 agentes</div>
-                </div>
-              </label>
-            </div>
-          </div>
-          <div class="flex gap-3">
-            <button onclick="submitTask()" class="bg-indigo-600 hover:bg-indigo-500 text-white text-sm px-6 py-2 rounded-lg font-medium transition-colors">Executar</button>
-            <button onclick="hideRunForm()" class="text-slate-400 hover:text-slate-200 text-sm px-4 py-2 rounded-lg hover:bg-slate-800 transition-colors">Cancelar</button>
+          <div class="flex items-center gap-2">
+            <button onclick="showView('squads')" id="btn-new-task"
+              class="bg-indigo-600 hover:bg-indigo-500 text-white text-sm px-4 py-2 rounded-lg font-medium transition-colors flex items-center gap-1.5">
+              🎯 Novo Squad
+            </button>
           </div>
         </div>
       </div>
 
-      <!-- Running indicator -->
-      <div id="running-indicator" class="p-4 border-b border-slate-800 bg-indigo-950/50 hidden">
-        <div class="flex items-center gap-3">
-          <svg class="spin w-4 h-4 text-indigo-400" fill="none" viewBox="0 0 24 24">
-            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"></path>
-          </svg>
-          <div>
-            <div class="text-sm font-medium text-indigo-300">Agentes trabalhando...</div>
-            <div id="running-agent" class="text-xs text-indigo-400 pulse-dot">Iniciando execução</div>
-          </div>
-        </div>
-      </div>
+      <!-- Task Form removed: execução agora obrigatoriamente via Squad + Questionário -->
 
-      <!-- Tasks List & Result -->
+      <!-- Content area: task list + result panel -->
       <div class="flex-1 overflow-hidden flex">
-        <!-- Task list -->
-        <div class="w-72 border-r border-slate-800 overflow-y-auto scrollbar-thin">
-          <div class="p-3 border-b border-slate-800">
+
+        <!-- Task list (left) -->
+        <div class="w-72 border-r border-slate-800 flex flex-col shrink-0">
+          <div class="p-3 border-b border-slate-800 shrink-0">
             <p class="text-xs font-semibold text-slate-500 uppercase tracking-wider">Tarefas</p>
           </div>
-          <div id="tasks-list" class="p-2 space-y-1"></div>
+          <div id="tasks-list" class="flex-1 overflow-y-auto scrollbar-thin p-2 space-y-1"></div>
         </div>
 
-        <!-- Result viewer -->
-        <div id="result-panel" class="flex-1 overflow-hidden flex flex-col">
+        <!-- Result area (right) -->
+        <div class="flex-1 overflow-hidden flex flex-col">
+
+          <!-- LIVE PROGRESS PANEL (shown during execution) -->
+          <div id="live-panel" class="flex-1 overflow-hidden flex-col hidden">
+            <div class="p-4 border-b border-slate-800 bg-slate-900/50 shrink-0 flex items-center justify-between">
+              <div class="flex items-center gap-3">
+                <svg class="spin w-4 h-4 text-indigo-400 shrink-0" fill="none" viewBox="0 0 24 24">
+                  <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                  <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"></path>
+                </svg>
+                <div>
+                  <span class="text-sm font-semibold text-indigo-300">Execução em andamento</span>
+                  <span id="live-elapsed" class="text-xs text-slate-500 ml-2"></span>
+                </div>
+              </div>
+              <div id="live-summary" class="text-xs text-slate-500"></div>
+            </div>
+            <div id="live-feed" class="flex-1 overflow-y-auto scrollbar-thin p-5 space-y-3"></div>
+          </div>
+
+          <!-- RESULT VIEWER (shown after completion) -->
+          <div id="result-panel" class="flex-1 overflow-hidden flex-col hidden">
+            <!-- Banner do Entregável -->
+            <div id="deploy-banner" class="hidden shrink-0 px-5 py-3 bg-gradient-to-r from-green-950/60 to-emerald-950/40 border-b border-green-800/50 flex items-center justify-between gap-4">
+              <div class="flex items-center gap-2.5">
+                <span class="text-green-400 text-lg">🚀</span>
+                <div>
+                  <div class="text-sm font-semibold text-green-300">Entregável gerado com sucesso</div>
+                  <div id="deploy-url-text" class="text-xs text-green-500/80 truncate max-w-xs"></div>
+                </div>
+              </div>
+              <a id="deploy-link" href="#" target="_blank"
+                class="shrink-0 flex items-center gap-2 bg-green-600 hover:bg-green-500 text-white text-sm font-semibold px-5 py-2 rounded-lg transition-colors">
+                Abrir Projeto <span>↗</span>
+              </a>
+            </div>
+            <!-- Stitch prompt bar (só Squad de Criação) -->
+            <div id="stitch-bar" class="hidden shrink-0 px-5 py-2.5 bg-gradient-to-r from-indigo-950/60 to-violet-950/40 border-b border-indigo-800/40 flex items-center justify-between gap-4">
+              <div class="flex items-center gap-2.5">
+                <span class="text-lg">🎨</span>
+                <div>
+                  <div class="text-sm font-semibold text-indigo-300">Squad de Criação concluído</div>
+                  <div class="text-xs text-indigo-400/70">Prompt profissional pronto para gerar as telas no Google Stitch</div>
+                </div>
+              </div>
+              <button onclick="showStitchModal()" class="stitch-btn">
+                ✦ Abrir Prompt Stitch
+              </button>
+            </div>
+            <div class="border-b border-slate-800 shrink-0 px-3 py-2">
+              <div id="agent-tabs" class="flex flex-wrap gap-1.5"></div>
+            </div>
+            <div id="agent-output" class="flex-1 overflow-y-auto p-6 scrollbar-thin prose max-w-none"></div>
+          </div>
+
+          <!-- EMPTY STATE -->
           <div id="result-empty" class="flex-1 flex items-center justify-center text-slate-600">
             <div class="text-center">
               <div class="text-5xl mb-4">⚡</div>
               <div class="text-lg font-medium mb-2">Selecione uma tarefa</div>
-              <div class="text-sm">ou crie uma nova para ver os resultados dos agentes</div>
+              <div class="text-sm">ou crie uma nova para ver os resultados</div>
             </div>
           </div>
-          <div id="result-content" class="flex-1 overflow-hidden flex flex-col hidden">
-            <!-- Agent tabs -->
-            <div class="border-b border-slate-800 overflow-x-auto">
-              <div id="agent-tabs" class="flex gap-0 px-2 min-w-max"></div>
-            </div>
-            <!-- Agent output -->
-            <div id="agent-output" class="flex-1 overflow-y-auto p-6 scrollbar-thin prose max-w-none"></div>
-          </div>
+
         </div>
       </div>
     </div>
 
   </main>
+</div>
+
+<!-- Modal: Stitch Prompt -->
+<div id="stitch-modal" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+  <div class="bg-slate-900 border border-slate-700 rounded-2xl w-full max-w-3xl fade-in flex flex-col" style="max-height:90vh">
+    <div class="flex items-center justify-between p-5 border-b border-slate-800 shrink-0">
+      <div class="flex items-center gap-3">
+        <div class="text-2xl">🎨</div>
+        <div>
+          <h3 class="font-bold text-base text-slate-100">Prompt para Google Stitch</h3>
+          <p class="text-xs text-slate-400 mt-0.5">Cole este prompt em <span class="text-indigo-400 font-medium">stitch.withgoogle.com</span> para gerar as telas do projeto</p>
+        </div>
+      </div>
+      <button onclick="closeModal('stitch-modal')" class="text-slate-500 hover:text-slate-300 text-xl leading-none ml-4">×</button>
+    </div>
+    <div class="flex-1 overflow-y-auto p-5">
+      <pre id="stitch-prompt-content" class="stitch-prompt-box"></pre>
+    </div>
+    <div class="p-4 border-t border-slate-800 shrink-0 flex items-center justify-between gap-3">
+      <p class="text-xs text-slate-500">Gerado a partir dos entregáveis do Squad de Criação</p>
+      <button id="stitch-copy-btn" onclick="copyStitchPrompt()" class="stitch-copy-btn">
+        📋 Copiar prompt
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal: Squad Picker -->
+<div id="squad-modal" class="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+  <div class="bg-slate-900 border border-slate-700 rounded-2xl p-6 w-full max-w-2xl fade-in">
+    <div class="flex items-center justify-between mb-6">
+      <div>
+        <h3 class="font-bold text-lg">Escolha um Squad</h3>
+        <p class="text-xs text-slate-400 mt-0.5">Selecione o grupo de agentes para esta entrega</p>
+      </div>
+      <button onclick="closeModal('squad-modal')" class="text-slate-500 hover:text-slate-300 text-xl leading-none">×</button>
+    </div>
+    <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+      <div onclick="pickSquad('criacao')" class="squad-card bg-purple-950/20 border border-purple-700/40 rounded-xl p-4 cursor-pointer hover:border-purple-500 transition-all">
+        <div class="text-2xl mb-2">🎨</div>
+        <div class="font-semibold text-sm mb-1">Squad de Criação</div>
+        <div class="text-xs text-slate-400 mb-3">Marca, UX, UI e microcopy</div>
+        <div class="flex flex-wrap gap-1">
+          <span class="text-xs px-1.5 py-0.5 bg-slate-800 text-slate-400 rounded">🎯 Brand</span>
+          <span class="text-xs px-1.5 py-0.5 bg-slate-800 text-slate-400 rounded">🗺️ UX</span>
+          <span class="text-xs px-1.5 py-0.5 bg-slate-800 text-slate-400 rounded">✨ UI</span>
+          <span class="text-xs px-1.5 py-0.5 bg-slate-800 text-slate-400 rounded">✍️ Writer</span>
+        </div>
+      </div>
+      <div onclick="pickSquad('desenvolvimento')" class="squad-card bg-blue-950/20 border border-blue-700/40 rounded-xl p-4 cursor-pointer hover:border-blue-500 transition-all">
+        <div class="text-2xl mb-2">💻</div>
+        <div class="font-semibold text-sm mb-1">Squad de Desenvolvimento</div>
+        <div class="text-xs text-slate-400 mb-3">Arquitetura, front, back e mobile</div>
+        <div class="flex flex-wrap gap-1">
+          <span class="text-xs px-1.5 py-0.5 bg-slate-800 text-slate-400 rounded">🏗️ Tech Lead</span>
+          <span class="text-xs px-1.5 py-0.5 bg-slate-800 text-slate-400 rounded">⚛️ Front</span>
+          <span class="text-xs px-1.5 py-0.5 bg-slate-800 text-slate-400 rounded">⚙️ Back</span>
+          <span class="text-xs px-1.5 py-0.5 bg-slate-800 text-slate-400 rounded">📱 Mobile</span>
+        </div>
+      </div>
+      <div onclick="pickSquad('delivery')" class="squad-card bg-green-950/20 border border-green-700/40 rounded-xl p-4 cursor-pointer hover:border-green-500 transition-all">
+        <div class="text-2xl mb-2">🚀</div>
+        <div class="font-semibold text-sm mb-1">Squad de Delivery</div>
+        <div class="text-xs text-slate-400 mb-3">QA, infra e lançamento</div>
+        <div class="flex flex-wrap gap-1">
+          <span class="text-xs px-1.5 py-0.5 bg-slate-800 text-slate-400 rounded">🏗️ Tech Lead</span>
+          <span class="text-xs px-1.5 py-0.5 bg-slate-800 text-slate-400 rounded">🧪 QA</span>
+          <span class="text-xs px-1.5 py-0.5 bg-slate-800 text-slate-400 rounded">🚀 DevOps</span>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
 
 <!-- Modal: New Project -->
@@ -217,163 +448,901 @@
     <h3 class="font-bold text-lg mb-4">Novo Projeto</h3>
     <div class="space-y-4">
       <div>
-        <label class="block text-xs font-medium text-slate-400 mb-2">Nome do projeto *</label>
+        <label class="block text-xs font-medium text-slate-400 mb-2">Nome *</label>
         <input id="new-project-name" type="text" placeholder="Ex: Landing Page SaaS"
           class="w-full bg-slate-800 border border-slate-700 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:border-indigo-500">
       </div>
       <div>
         <label class="block text-xs font-medium text-slate-400 mb-2">Descrição (opcional)</label>
-        <textarea id="new-project-desc" rows="2" placeholder="Descreva o produto ou objetivo"
+        <textarea id="new-project-desc" rows="2" placeholder="Descreva o produto"
           class="w-full bg-slate-800 border border-slate-700 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:border-indigo-500 resize-none"></textarea>
       </div>
     </div>
     <div class="flex gap-3 mt-6">
-      <button onclick="createProject()" class="flex-1 bg-indigo-600 hover:bg-indigo-500 text-white py-2.5 rounded-lg font-medium transition-colors">Criar Projeto</button>
+      <button onclick="createProject()" class="flex-1 bg-indigo-600 hover:bg-indigo-500 text-white py-2.5 rounded-lg font-medium transition-colors">Criar</button>
       <button onclick="closeModal('project-modal')" class="px-4 text-slate-400 hover:text-slate-200 hover:bg-slate-800 rounded-lg transition-colors">Cancelar</button>
     </div>
   </div>
 </div>
 
 <script>
+{% raw %}
 const AGENTS_META = {
-  brand_designer: {
-    icon: "🎯", label: "Brand Designer", color: "purple",
-    refs: "Paula Scher · Aaron Draplin · Debbie Millman",
-    desc: "Identidade visual, brandbook, paleta, tipografia e tom de voz"
-  },
-  ux_designer: {
-    icon: "🗺️", label: "UX Designer", color: "blue",
-    refs: "Don Norman · IDEO · Nielsen Norman Group",
-    desc: "Pesquisa, personas, fluxos, wireframes e jornada do usuário"
-  },
-  ui_designer: {
-    icon: "✨", label: "UI Designer", color: "cyan",
-    refs: "Dieter Rams · Jonathan Ive · Airbnb Design",
-    desc: "Design system, componentes, telas de alta fidelidade"
-  },
-  ux_writer: {
-    icon: "✍️", label: "UX Writer", color: "teal",
-    refs: "Torrey Podmajersky · Ann Handley · Shopify UX Writing",
-    desc: "Microcopy, mensagens do sistema, onboarding e emails"
-  },
-  tech_lead: {
-    icon: "🏗️", label: "Tech Lead", color: "orange",
-    refs: "Martin Fowler · Robert C. Martin · Kent Beck",
-    desc: "Arquitetura, stack, APIs, modelagem de dados e segurança"
-  },
-  frontend_dev: {
-    icon: "⚛️", label: "Frontend Dev", color: "sky",
-    refs: "Kent C. Dodds · Addy Osmani · Sara Soueidan",
-    desc: "React/Next.js, TypeScript, Tailwind, acessibilidade e performance"
-  },
-  backend_dev: {
-    icon: "⚙️", label: "Backend Dev", color: "green",
-    refs: "Werner Vogels · Uncle Bob · Brendan Gregg",
-    desc: "APIs REST, autenticação, banco de dados, filas e cache"
-  },
-  mobile_dev: {
-    icon: "📱", label: "Mobile Dev", color: "indigo",
-    refs: "Airbnb Mobile · Instagram Eng · Nubank Mobile",
-    desc: "React Native/Expo, iOS, Android, offline-first e deploy em lojas"
-  },
-  qa_engineer: {
-    icon: "🧪", label: "QA Engineer", color: "yellow",
-    refs: "James Bach · Google Testing · Netflix Chaos Eng.",
-    desc: "Plano de testes, E2E com Playwright, performance com k6"
-  },
-  devops_engineer: {
-    icon: "🚀", label: "DevOps Engineer", color: "red",
-    refs: "Gene Kim · Google SRE · Charity Majors",
-    desc: "CI/CD, Docker, Terraform, AWS e monitoramento"
-  }
+  brand_designer:  { icon:"🎯", label:"Brand Designer",  color:"purple", refs:"Paula Scher · Aaron Draplin · Debbie Millman",        desc:"Identidade visual, brandbook, paleta, tipografia e tom de voz",  deliverable:"Brandbook",       deliverableColor:"#7c3aed" },
+  ux_designer:     { icon:"🗺️", label:"UX Designer",      color:"blue",   refs:"Don Norman · IDEO · Nielsen Norman Group",             desc:"Pesquisa, personas, fluxos, wireframes e jornada do usuário",   deliverable:"Wireframes",      deliverableColor:"#2563eb" },
+  ui_designer:     { icon:"✨", label:"UI Designer",       color:"cyan",   refs:"Dieter Rams · Jonathan Ive · Airbnb Design",          desc:"Design system, componentes, telas de alta fidelidade",          deliverable:"Design System",   deliverableColor:"#0891b2" },
+  ux_writer:       { icon:"✍️", label:"UX Writer",         color:"teal",   refs:"Torrey Podmajersky · Ann Handley · Shopify",          desc:"Microcopy, mensagens do sistema, onboarding e emails",          deliverable:"Microcopy",       deliverableColor:"#0d9488" },
+  tech_lead:       { icon:"🏗️", label:"Tech Lead",         color:"orange", refs:"Martin Fowler · Uncle Bob · Kent Beck",               desc:"Arquitetura, stack, APIs, modelagem de dados e segurança",      deliverable:"Arquitetura",     deliverableColor:"#ea580c" },
+  frontend_dev:    { icon:"⚛️", label:"Frontend Dev",      color:"sky",    refs:"Kent C. Dodds · Addy Osmani · Sara Soueidan",         desc:"React/Next.js, TypeScript, Tailwind, acessibilidade",          deliverable:"Código React",    deliverableColor:"#0284c7" },
+  backend_dev:     { icon:"⚙️", label:"Backend Dev",       color:"green",  refs:"Werner Vogels · Uncle Bob · Brendan Gregg",           desc:"APIs REST, autenticação, banco de dados, filas e cache",        deliverable:"APIs & Banco",    deliverableColor:"#16a34a" },
+  mobile_dev:      { icon:"📱", label:"Mobile Dev",        color:"indigo", refs:"Airbnb Mobile · Instagram Eng · Nubank",              desc:"React Native/Expo, iOS, Android, offline-first",               deliverable:"App Mobile",      deliverableColor:"#4f46e5" },
+  qa_engineer:     { icon:"🧪", label:"QA Engineer",       color:"yellow", refs:"James Bach · Google Testing · Netflix Chaos",         desc:"Plano de testes, E2E com Playwright, performance com k6",      deliverable:"Plano de Testes", deliverableColor:"#ca8a04" },
+  devops_engineer: { icon:"🚀", label:"DevOps Engineer",   color:"red",    refs:"Gene Kim · Google SRE · Charity Majors",              desc:"CI/CD, Docker, Terraform, AWS e monitoramento",                deliverable:"Infra & CI/CD",   deliverableColor:"#dc2626" }
 };
 
-const COLOR_MAP = {
-  purple: "border-purple-800/50 bg-purple-950/30 hover:border-purple-600",
-  blue: "border-blue-800/50 bg-blue-950/30 hover:border-blue-600",
-  cyan: "border-cyan-800/50 bg-cyan-950/30 hover:border-cyan-600",
-  teal: "border-teal-800/50 bg-teal-950/30 hover:border-teal-600",
-  orange: "border-orange-800/50 bg-orange-950/30 hover:border-orange-600",
-  sky: "border-sky-800/50 bg-sky-950/30 hover:border-sky-600",
-  green: "border-green-800/50 bg-green-950/30 hover:border-green-600",
-  indigo: "border-indigo-800/50 bg-indigo-950/30 hover:border-indigo-600",
-  yellow: "border-yellow-800/50 bg-yellow-950/30 hover:border-yellow-600",
-  red: "border-red-800/50 bg-red-950/30 hover:border-red-600"
+const COLOR_BORDER = {
+  purple:"border-purple-800/50 bg-purple-950/30 hover:border-purple-600",
+  blue:"border-blue-800/50 bg-blue-950/30 hover:border-blue-600",
+  cyan:"border-cyan-800/50 bg-cyan-950/30 hover:border-cyan-600",
+  teal:"border-teal-800/50 bg-teal-950/30 hover:border-teal-600",
+  orange:"border-orange-800/50 bg-orange-950/30 hover:border-orange-600",
+  sky:"border-sky-800/50 bg-sky-950/30 hover:border-sky-600",
+  green:"border-green-800/50 bg-green-950/30 hover:border-green-600",
+  indigo:"border-indigo-800/50 bg-indigo-950/30 hover:border-indigo-600",
+  yellow:"border-yellow-800/50 bg-yellow-950/30 hover:border-yellow-600",
+  red:"border-red-800/50 bg-red-950/30 hover:border-red-600"
+};
+
+const STATUS_RUNNING_COLORS = {
+  purple:"bg-purple-950/60 border-purple-700",blue:"bg-blue-950/60 border-blue-700",
+  cyan:"bg-cyan-950/60 border-cyan-700",teal:"bg-teal-950/60 border-teal-700",
+  orange:"bg-orange-950/60 border-orange-700",sky:"bg-sky-950/60 border-sky-700",
+  green:"bg-green-950/60 border-green-700",indigo:"bg-indigo-950/60 border-indigo-700",
+  yellow:"bg-yellow-950/60 border-yellow-700",red:"bg-red-950/60 border-red-700"
 };
 
 let currentProject = null;
 let currentRunId = null;
 let pollInterval = null;
 let currentTaskOutputs = {};
+let elapsedInterval = null;
+let currentTaskType = null;
+let currentView = 'agents';
 
-// ---- INIT ----
 document.addEventListener('DOMContentLoaded', () => {
   loadProjects();
   renderAgentsGrid();
-  showView('agents');
-  setupPlanSelector();
+  renderSquads();
+  showView('squads');
 });
 
-function setupPlanSelector() {
-  document.querySelectorAll('.plan-option').forEach(label => {
-    label.addEventListener('click', () => {
-      document.querySelectorAll('.plan-btn').forEach(btn => {
-        btn.classList.remove('border-indigo-500', 'bg-indigo-950/40');
-        btn.classList.add('border-slate-700');
-      });
-      label.querySelector('.plan-btn').classList.add('border-indigo-500', 'bg-indigo-950/40');
-      label.querySelector('.plan-btn').classList.remove('border-slate-700');
-    });
-  });
-  // Activate first
-  document.querySelector('.plan-option').click();
-}
+// ---- PLAN SELECTOR (kept for compat) ----
+function setupPlanSelector() { /* form removed — execução via Squad + Questionário */ }
 
 // ---- VIEWS ----
 function showView(name) {
-  document.getElementById('view-agents').classList.add('hidden');
-  document.getElementById('view-project').classList.add('hidden');
-  document.getElementById('view-' + name).classList.remove('hidden');
+  currentView = name;
+  ['agents','project','squads','questionnaire','pixel'].forEach(v => {
+    const el = document.getElementById('view-'+v);
+    if (el) el.classList.add('hidden');
+  });
+  const target = document.getElementById('view-'+name);
+  if (target) target.classList.remove('hidden');
+
+  // Carrega iframe do Pixel Office apenas quando a aba é aberta
+  if (name === 'pixel') {
+    const iframe = document.getElementById('pixel-iframe');
+    const offline = document.getElementById('pixel-offline');
+    if (iframe && iframe.src === 'about:blank') {
+      // Testa se o pixel-agents está no ar antes de carregar
+      fetch('http://localhost:3456/', { mode: 'no-cors' })
+        .then(() => {
+          iframe.src = 'http://localhost:3456/';
+          iframe.classList.remove('hidden');
+          offline.classList.add('hidden');
+        })
+        .catch(() => {
+          iframe.classList.add('hidden');
+          offline.classList.remove('hidden');
+        });
+    }
+  }
+
+  // Update nav highlights
+  ['squads','agents','pixel'].forEach(v => {
+    const btn = document.getElementById('nav-'+v);
+    if (!btn) return;
+    if (v === name || (v === 'squads' && name === 'questionnaire')) {
+      btn.classList.add('bg-slate-800','text-slate-100');
+      btn.classList.remove('text-slate-400');
+    } else {
+      btn.classList.remove('bg-slate-800','text-slate-100');
+      btn.classList.add('text-slate-400');
+    }
+  });
+}
+
+// ══════════════════════════════════════════════════════
+// ── SQUADS ────────────────────────────────────────────
+// ══════════════════════════════════════════════════════
+const SQUADS_DEF = {
+  criacao: {
+    id: 'criacao', name: 'Squad de Criação', icon: '🎨',
+    color: 'purple', border: 'border-purple-700/40', bg: 'bg-purple-950/20', glow: 'rgba(168,85,247,0.15)',
+    description: 'Marca, identidade visual, UX e microcopy. Ideal para criar a personalidade e experiência do produto.',
+    agents: ['brand_designer','ux_designer','ui_designer','ux_writer'],
+    labels:  ['🎯 Brand Designer','🗺️ UX Designer','✨ UI Designer','✍️ UX Writer'],
+  },
+  desenvolvimento: {
+    id: 'desenvolvimento', name: 'Squad de Desenvolvimento', icon: '💻',
+    color: 'blue', border: 'border-blue-700/40', bg: 'bg-blue-950/20', glow: 'rgba(59,130,246,0.15)',
+    description: 'Arquitetura, frontend, backend e mobile. Para construir o produto com solidez técnica.',
+    agents: ['tech_lead','frontend_dev','backend_dev','mobile_dev'],
+    labels:  ['🏗️ Tech Lead','⚛️ Frontend Dev','⚙️ Backend Dev','📱 Mobile Dev'],
+  },
+  delivery: {
+    id: 'delivery', name: 'Squad de Delivery', icon: '🚀',
+    color: 'green', border: 'border-green-700/40', bg: 'bg-green-950/20', glow: 'rgba(34,197,94,0.15)',
+    description: 'Qualidade, infraestrutura e lançamento. Para garantir que o produto chegue ao ar com excelência.',
+    agents: ['tech_lead','qa_engineer','devops_engineer'],
+    labels:  ['🏗️ Tech Lead','🧪 QA Engineer','🚀 DevOps Engineer'],
+  },
+  completo: {
+    id: 'completo', name: 'Projeto Completo', icon: '⚡',
+    color: 'amber', border: 'border-amber-600/50', bg: 'bg-amber-950/20', glow: 'rgba(245,158,11,0.18)',
+    description: 'Todos os 10 agentes trabalhando juntos — do branding à infraestrutura. Ideal para lançar um produto do zero.',
+    agents: ['brand_designer','ux_designer','ui_designer','ux_writer','tech_lead','frontend_dev','backend_dev','mobile_dev','qa_engineer','devops_engineer'],
+    labels:  ['🎯 Brand','🗺️ UX','✨ UI','✍️ Writer','🏗️ Tech Lead','⚛️ Front','⚙️ Back','📱 Mobile','🧪 QA','🚀 DevOps'],
+  },
+};
+
+function renderSquads() {
+  const grid = document.getElementById('squads-grid');
+  if (!grid) return;
+  const squads = Object.values(SQUADS_DEF);
+  // Separate "completo" to render it as a full-width card at the bottom
+  const regulars = squads.filter(s => s.id !== 'completo');
+  const completo = squads.find(s => s.id === 'completo');
+
+  const cardHtml = (s, wide = false) => `
+    <div class="squad-card ${s.bg} border ${s.border} rounded-2xl p-6 flex flex-col gap-4 ${wide ? 'xl:col-span-4' : ''}"
+         onclick="openSquadQuestionnaire('${s.id}')"
+         style="box-shadow: 0 4px 24px ${s.glow}">
+      <div class="flex items-start justify-between">
+        <div class="text-4xl">${s.icon}</div>
+        <span class="text-xs font-semibold px-2.5 py-1 rounded-full border ${s.border} text-slate-400">${s.agents.length} agentes</span>
+      </div>
+      <div>
+        <h3 class="text-lg font-bold text-slate-100 mb-1">${s.name}</h3>
+        <p class="text-sm text-slate-400 leading-relaxed">${s.description}</p>
+      </div>
+      <div class="flex flex-wrap gap-2 mt-auto pt-2 border-t border-slate-700/50">
+        ${s.labels.map(l => `<span class="text-xs px-2 py-0.5 bg-slate-800 text-slate-400 rounded-full">${l}</span>`).join('')}
+      </div>
+      <button class="w-full mt-1 py-2.5 rounded-xl text-sm font-semibold ${wide ? 'bg-amber-600 hover:bg-amber-500' : 'bg-indigo-600 hover:bg-indigo-500'} text-white transition-colors">
+        Iniciar Questionário →
+      </button>
+    </div>
+  `;
+
+  grid.innerHTML =
+    regulars.map(s => cardHtml(s)).join('') +
+    (completo ? `<div class="xl:col-span-4">${cardHtml(completo, true)}</div>` : '');
+}
+
+// ══════════════════════════════════════════════════════
+// ── QUESTIONÁRIO ──────────────────────────────────────
+// ══════════════════════════════════════════════════════
+let currentSquadId = null;
+
+const PALETTES = [
+  { name:'Dark/Tech',  colors:['#0F172A','#6366F1','#8B5CF6','#F1F5F9'] },
+  { name:'Vibrant',    colors:['#FF6B6B','#4ECDC4','#45B7D1','#FFA07A'] },
+  { name:'Corporativo',colors:['#003366','#0066CC','#E8F0FE','#F5F5F5'] },
+  { name:'Natural',    colors:['#1B4332','#52B788','#D8F3DC','#F9A825'] },
+  { name:'Luxo',       colors:['#1A1A1A','#C9A84C','#FFFFFF','#6B4226'] },
+  { name:'Pastel',     colors:['#FFB3BA','#FFDFBA','#BAFFC9','#BAE1FF'] },
+  { name:'Neon',       colors:['#0D0D0D','#00FF88','#FF0080','#00C4FF'] },
+  { name:'Minimalista',colors:['#FFFFFF','#000000','#F5F5F5','#888888'] },
+];
+
+const QUESTIONS = {
+  criacao: [
+    {
+      id: 'geral', agent: 'Projeto', icon: '📋',
+      subtitle: 'Informações gerais do produto',
+      fields: [
+        { id:'proj_nome',  label:'Nome do projeto ou empresa', type:'input',  req:true,  ph:'Ex: FlowMark, TechStart...' },
+        { id:'proj_seg',   label:'Segmento de mercado',        type:'select', req:true,
+          opts:['SaaS / Software','E-commerce','Saúde e Bem-estar','Educação','Finanças / Fintech','Entretenimento','RH / Corporativo','Marketplace','Outro'] },
+        { id:'proj_desc',  label:'Descreva o produto em 1-2 frases', type:'textarea', req:true, ph:'O que faz, para quem e qual problema resolve...' },
+        { id:'proj_publico',label:'Público-alvo principal',    type:'textarea', req:true, ph:'Idade, perfil, cargo, comportamento...' },
+      ]
+    },
+    {
+      id: 'brand', agent: 'Brand Designer', icon: '🎯',
+      subtitle: 'Paula Scher · Aaron Draplin · Debbie Millman',
+      fields: [
+        { id:'brand_tom', label:'Tom e personalidade da marca', type:'radio',
+          opts:['🏢 Profissional','⚡ Moderno e Inovador','🌱 Jovem e Dinâmico','💎 Luxo e Premium','🎯 Minimalista','🎉 Divertido e Acessível'] },
+        { id:'brand_cores', label:'Paleta de cores preferida', type:'palette', req:false },
+        { id:'brand_valores', label:'Valores da marca (selecione os que se aplicam)', type:'checkbox',
+          opts:['Confiança','Inovação','Sustentabilidade','Performance','Humanidade','Segurança','Criatividade','Transparência','Exclusividade','Acessibilidade'] },
+        { id:'brand_refs',   label:'Marcas que admira (referências visuais)', type:'textarea', ph:'Ex: Apple, Nubank, Linear, Notion...' },
+        { id:'brand_evitar', label:'O que deve ser evitado na identidade visual?', type:'textarea', ph:'Cores, estilos, sensações que não combinam com a marca...' },
+      ]
+    },
+    {
+      id: 'ux', agent: 'UX Designer', icon: '🗺️',
+      subtitle: 'Don Norman · IDEO · Nielsen Norman Group',
+      fields: [
+        { id:'ux_funcoes',   label:'Principais funcionalidades do produto (liste até 5)', type:'textarea', req:true, ph:'1. Login social\n2. Dashboard de métricas\n3. ...' },
+        { id:'ux_devices',   label:'Dispositivos prioritários', type:'checkbox',
+          opts:['💻 Desktop','📱 Mobile','📟 Tablet'] },
+        { id:'ux_complexidade', label:'Complexidade esperada da interface', type:'radio',
+          opts:['🟢 Simples (1-3 telas)','🟡 Média (4-10 telas)','🔴 Complexa (10+ telas / dashboard)'] },
+        { id:'ux_tech',      label:'Usuários têm familiaridade com tecnologia?', type:'radio',
+          opts:['Sim, são tech-savvy','Não, são iniciantes','Misto (vários perfis)'] },
+        { id:'ux_dores',     label:'Principais dores ou frustrações do usuário hoje', type:'textarea', ph:'O que é difícil, lento ou frustrante na solução atual?' },
+      ]
+    },
+    {
+      id: 'ui', agent: 'UI Designer', icon: '✨',
+      subtitle: 'Dieter Rams · Jonathan Ive · Airbnb Design',
+      fields: [
+        { id:'ui_estilo', label:'Estilo visual desejado', type:'radio',
+          opts:['🖤 Dark / Moderno','☀️ Light / Clean','🎨 Bold e Colorido','🏛️ Corporativo Clássico','🌸 Suave / Orgânico'] },
+        { id:'ui_darkmode', label:'Suporte a dark mode?', type:'radio',
+          opts:['Apenas dark mode','Apenas light mode','Ambos (toggle)'] },
+        { id:'ui_tipo',    label:'Tipografia preferida', type:'radio',
+          opts:['Sans-serif moderna (Inter, DM Sans)','Serif elegante (Playfair, Lora)','Display criativa (Sora, Clash)','Geométrica (Outfit, Nunito)'] },
+        { id:'ui_densidade', label:'Densidade de informação', type:'radio',
+          opts:['Espaçado e minimalista','Equilibrado','Denso e informativo'] },
+        { id:'ui_refs',    label:'Referências visuais (sites, apps, prints)', type:'textarea', ph:'URLs ou descrição de interfaces que você admira...' },
+      ]
+    },
+    {
+      id: 'uxwriter', agent: 'UX Writer', icon: '✍️',
+      subtitle: 'Torrey Podmajersky · Ann Handley · Shopify',
+      fields: [
+        { id:'uw_idioma',  label:'Idioma principal do produto', type:'select',
+          opts:['Português (BR)','Inglês','Espanhol','Bilíngue PT+EN','Multilíngue'] },
+        { id:'uw_tom',     label:'Tom de voz da escrita', type:'radio',
+          opts:['👔 Formal e técnico','😊 Amigável e casual','🤝 Consultivo','🔥 Energético e direto','🧪 Técnico mas acessível'] },
+        { id:'uw_emojis',  label:'Uso de emojis na interface?', type:'radio',
+          opts:['Sim, moderadamente','Não, manter formal','Apenas em celebrações/feedback'] },
+        { id:'uw_termos',  label:'Terminologia específica do setor', type:'textarea', ph:'Termos técnicos, jargões, palavras-chave que os usuários usam...' },
+        { id:'uw_exemplo', label:'Exemplo de mensagem que representa a voz ideal da marca', type:'textarea', ph:'Ex: "Sua automação está pronta. Vamos ao próximo nível?"' },
+      ]
+    },
+  ],
+
+  desenvolvimento: [
+    {
+      id: 'geral', agent: 'Projeto', icon: '📋',
+      subtitle: 'Contexto técnico geral',
+      fields: [
+        { id:'proj_nome',  label:'Nome do projeto', type:'input', req:true, ph:'Ex: API de Pagamentos, App Mobile...' },
+        { id:'proj_tipo',  label:'Tipo de aplicação', type:'radio', req:true,
+          opts:['🌐 Web App / SaaS','📱 Mobile App','🔌 API / Backend','🏪 E-commerce','📊 Dashboard / Analytics','🤖 Plataforma com IA'] },
+        { id:'proj_desc',  label:'Descreva o produto e seus objetivos', type:'textarea', req:true, ph:'Funcionalidades principais, propósito, diferenciais...' },
+        { id:'proj_escala',label:'Escala esperada de usuários', type:'radio',
+          opts:['Até 1.000 usuários','1K a 50K usuários','50K a 500K usuários','500K+ usuários (alta escala)'] },
+      ]
+    },
+    {
+      id: 'techlead', agent: 'Tech Lead', icon: '🏗️',
+      subtitle: 'Martin Fowler · Uncle Bob · Kent Beck',
+      fields: [
+        { id:'tl_stack',   label:'Tecnologias já definidas ou preferências', type:'textarea', ph:'Ex: React, Node.js, PostgreSQL, AWS... ou "sem preferência"' },
+        { id:'tl_integr',  label:'Integrações necessárias', type:'checkbox',
+          opts:['Pagamentos (Stripe/PagSeguro)','Auth (Google/GitHub OAuth)','Email (SendGrid/Resend)','SMS/WhatsApp','Analytics','CRM','ERP','Storage (S3)','IA/LLMs'] },
+        { id:'tl_prazo',   label:'Prazo estimado do projeto', type:'radio',
+          opts:['MVP em 4-6 semanas','3 meses','6 meses','1 ano ou mais','Sem prazo definido'] },
+        { id:'tl_segur',   label:'Requisitos de segurança e compliance', type:'checkbox',
+          opts:['LGPD / GDPR','PCI-DSS (cartões)','HIPAA (saúde)','SOC2','Autenticação MFA','Criptografia end-to-end'] },
+      ]
+    },
+    {
+      id: 'frontend', agent: 'Frontend Dev', icon: '⚛️',
+      subtitle: 'Kent C. Dodds · Addy Osmani · Sara Soueidan',
+      fields: [
+        { id:'fe_framework', label:'Framework frontend', type:'radio',
+          opts:['React / Next.js','Vue / Nuxt','Angular','Svelte / SvelteKit','Sem preferência'] },
+        { id:'fe_ui',        label:'Biblioteca de UI/componentes', type:'radio',
+          opts:['Tailwind CSS (custom)','shadcn/ui + Tailwind','Material UI','Chakra UI','Ant Design','Sem preferência'] },
+        { id:'fe_ssr',       label:'SSR / SEO é importante?', type:'radio',
+          opts:['Sim, SEO é crítico','Não, é app interno/logado','Híbrido (algumas páginas públicas)'] },
+        { id:'fe_acess',     label:'Requisitos de acessibilidade', type:'radio',
+          opts:['WCAG AA (recomendado)','WCAG AAA (alto padrão)','Básico apenas','Não definido'] },
+      ]
+    },
+    {
+      id: 'backend', agent: 'Backend Dev', icon: '⚙️',
+      subtitle: 'Werner Vogels · Uncle Bob · Brendan Gregg',
+      fields: [
+        { id:'be_db',      label:'Banco de dados', type:'radio',
+          opts:['PostgreSQL','MySQL','MongoDB','Supabase (Postgres gerenciado)','Firebase','Redis (cache)','Sem preferência'] },
+        { id:'be_auth',    label:'Estratégia de autenticação', type:'radio',
+          opts:['JWT + Refresh Tokens','OAuth2 (Google/GitHub)','Magic Link (email)','Supabase Auth','Clerk','Sem preferência'] },
+        { id:'be_api',     label:'Estilo de API', type:'radio',
+          opts:['REST','GraphQL','tRPC','gRPC','Sem preferência'] },
+        { id:'be_extras',  label:'Funcionalidades especiais', type:'checkbox',
+          opts:['Sistema de filas (Bull/SQS)','Webhooks','Upload de arquivos','Busca full-text','Notificações em tempo real (WebSocket)','Multi-tenant','Relatórios/Exports'] },
+      ]
+    },
+    {
+      id: 'mobile', agent: 'Mobile Dev', icon: '📱',
+      subtitle: 'Airbnb Mobile · Instagram Eng · Nubank',
+      fields: [
+        { id:'mob_plat',   label:'Plataformas alvo', type:'radio',
+          opts:['iOS apenas','Android apenas','iOS + Android (cross-platform)','Web + Mobile (PWA)'] },
+        { id:'mob_fw',     label:'Framework mobile', type:'radio',
+          opts:['React Native + Expo','Flutter','Kotlin (Android nativo)','Swift (iOS nativo)','Sem preferência'] },
+        { id:'mob_offline',label:'Suporte offline?', type:'radio',
+          opts:['Sim, crítico','Parcial (cache básico)','Não necessário'] },
+        { id:'mob_store',  label:'Publicação nas lojas', type:'radio',
+          opts:['App Store + Google Play','Apenas Google Play','Apenas App Store','Distribuição interna (enterprise)'] },
+      ]
+    },
+  ],
+
+  completo: [
+    {
+      id: 'geral', agent: 'Projeto', icon: '📋',
+      subtitle: 'Visão geral do produto completo',
+      fields: [
+        { id:'proj_nome',    label:'Nome do projeto ou empresa',        type:'input',    req:true, ph:'Ex: FlowMark, TechStart...' },
+        { id:'proj_seg',     label:'Segmento de mercado',               type:'select',   req:true,
+          opts:['SaaS / Software','E-commerce','Saúde e Bem-estar','Educação','Finanças / Fintech','Entretenimento','RH / Corporativo','Marketplace','Outro'] },
+        { id:'proj_tipo',    label:'Tipo de aplicação',                 type:'radio',    req:true,
+          opts:['🌐 Web App / SaaS','📱 Mobile App','🔌 API + Backend','🏪 E-commerce','📊 Dashboard / Analytics','🤖 Plataforma com IA'] },
+        { id:'proj_desc',    label:'Descreva o produto em 2-3 frases',  type:'textarea', req:true, ph:'O que faz, para quem, qual problema resolve e qual o diferencial...' },
+        { id:'proj_publico', label:'Público-alvo principal',            type:'textarea', req:true, ph:'Idade, perfil, cargo, comportamento, dores...' },
+        { id:'proj_escala',  label:'Escala esperada de usuários',       type:'radio',
+          opts:['Até 1.000 usuários','1K a 50K usuários','50K a 500K usuários','500K+ usuários (alta escala)'] },
+      ]
+    },
+    {
+      id: 'marca', agent: 'Marca & Identidade Visual', icon: '🎯',
+      subtitle: 'Brand Designer + UI Designer',
+      fields: [
+        { id:'brand_tom',    label:'Tom e personalidade da marca',      type:'radio',
+          opts:['🏢 Profissional','⚡ Moderno e Inovador','🌱 Jovem e Dinâmico','💎 Luxo e Premium','🎯 Minimalista','🎉 Divertido e Acessível'] },
+        { id:'brand_cores',  label:'Paleta de cores preferida',         type:'palette' },
+        { id:'brand_valores',label:'Valores da marca',                  type:'checkbox',
+          opts:['Confiança','Inovação','Sustentabilidade','Performance','Humanidade','Segurança','Criatividade','Transparência','Exclusividade','Acessibilidade'] },
+        { id:'ui_estilo',    label:'Estilo visual desejado',            type:'radio',
+          opts:['🖤 Dark / Moderno','☀️ Light / Clean','🎨 Bold e Colorido','🏛️ Corporativo Clássico','🌸 Suave / Orgânico'] },
+        { id:'brand_refs',   label:'Marcas e produtos que admira',      type:'textarea', ph:'Ex: Apple, Nubank, Linear, Notion, Figma...' },
+      ]
+    },
+    {
+      id: 'ux', agent: 'Experiência do Usuário', icon: '🗺️',
+      subtitle: 'UX Designer + UX Writer',
+      fields: [
+        { id:'ux_funcoes',   label:'Principais funcionalidades (liste até 5)', type:'textarea', req:true, ph:'1. Login social\n2. Dashboard de métricas\n3. ...' },
+        { id:'ux_devices',   label:'Dispositivos prioritários',         type:'checkbox',
+          opts:['💻 Desktop','📱 Mobile','📟 Tablet'] },
+        { id:'ux_complexidade',label:'Complexidade da interface',       type:'radio',
+          opts:['🟢 Simples (1-3 telas)','🟡 Média (4-10 telas)','🔴 Complexa (10+ telas / dashboard)'] },
+        { id:'uw_idioma',    label:'Idioma principal do produto',       type:'select',
+          opts:['Português (BR)','Inglês','Espanhol','Bilíngue PT+EN','Multilíngue'] },
+        { id:'uw_tom',       label:'Tom de voz da escrita',             type:'radio',
+          opts:['👔 Formal e técnico','😊 Amigável e casual','🤝 Consultivo','🔥 Energético e direto','🧪 Técnico mas acessível'] },
+        { id:'ux_dores',     label:'Principais dores do usuário hoje',  type:'textarea', ph:'O que é difícil, lento ou frustrante na solução atual?' },
+      ]
+    },
+    {
+      id: 'tecnico', agent: 'Arquitetura Técnica', icon: '🏗️',
+      subtitle: 'Tech Lead + Backend Dev',
+      fields: [
+        { id:'tl_stack',     label:'Tecnologias já definidas ou preferências', type:'textarea', req:true, ph:'Ex: React, Node.js, PostgreSQL, AWS... ou "sem preferência"' },
+        { id:'tl_prazo',     label:'Prazo estimado do projeto',         type:'radio',
+          opts:['MVP em 4-6 semanas','3 meses','6 meses','1 ano ou mais','Sem prazo definido'] },
+        { id:'be_db',        label:'Banco de dados',                    type:'radio',
+          opts:['PostgreSQL','MySQL','MongoDB','Supabase (Postgres gerenciado)','Firebase','Sem preferência'] },
+        { id:'be_auth',      label:'Estratégia de autenticação',        type:'radio',
+          opts:['JWT + Refresh Tokens','OAuth2 (Google/GitHub)','Magic Link (email)','Supabase Auth','Sem preferência'] },
+        { id:'tl_integr',    label:'Integrações necessárias',           type:'checkbox',
+          opts:['Pagamentos (Stripe/PagSeguro)','Auth (Google/GitHub OAuth)','Email (SendGrid)','SMS/WhatsApp','Analytics','Storage (S3)','IA/LLMs'] },
+        { id:'tl_segur',     label:'Requisitos de segurança/compliance',type:'checkbox',
+          opts:['LGPD / GDPR','PCI-DSS (cartões)','Autenticação MFA','Criptografia end-to-end','SOC2'] },
+      ]
+    },
+    {
+      id: 'frontend_mobile', agent: 'Frontend & Mobile', icon: '⚛️',
+      subtitle: 'Frontend Dev + Mobile Dev',
+      fields: [
+        { id:'fe_framework', label:'Framework frontend',                type:'radio',
+          opts:['React / Next.js','Vue / Nuxt','Angular','Svelte / SvelteKit','Sem preferência'] },
+        { id:'fe_ssr',       label:'SEO / SSR é importante?',           type:'radio',
+          opts:['Sim, SEO é crítico','Não, é app interno/logado','Híbrido (algumas páginas públicas)'] },
+        { id:'mob_plat',     label:'Plataformas mobile',                type:'radio',
+          opts:['iOS + Android (cross-platform)','iOS apenas','Android apenas','Web + Mobile (PWA)','Não tem mobile'] },
+        { id:'mob_fw',       label:'Framework mobile',                  type:'radio',
+          opts:['React Native + Expo','Flutter','Kotlin / Swift (nativo)','Sem preferência','Não se aplica'] },
+      ]
+    },
+    {
+      id: 'qualidade', agent: 'Qualidade & Deploy', icon: '🧪',
+      subtitle: 'QA Engineer + DevOps Engineer',
+      fields: [
+        { id:'qa_tipos',     label:'Tipos de testes prioritários',      type:'checkbox',
+          opts:['Testes unitários','Testes de integração','Testes E2E','Testes de performance','Testes de segurança','Smoke tests'] },
+        { id:'qa_criticos',  label:'Fluxos críticos que nunca podem falhar', type:'textarea', ph:'Ex: login, checkout, envio de formulário...' },
+        { id:'do_cloud',     label:'Cloud provider',                    type:'radio',
+          opts:['AWS','Google Cloud (GCP)','Microsoft Azure','Vercel + Railway','DigitalOcean','Sem preferência'] },
+        { id:'do_ci',        label:'CI/CD pipeline',                    type:'radio',
+          opts:['GitHub Actions','GitLab CI','CircleCI','Sem CI/CD ainda','Sem preferência'] },
+        { id:'do_sla',       label:'SLA de disponibilidade esperado',   type:'radio',
+          opts:['99% (básico)','99.9% (recomendado)','99.99% (alta disponibilidade)'] },
+      ]
+    },
+  ],
+
+  delivery: [
+    {
+      id: 'geral', agent: 'Projeto', icon: '📋',
+      subtitle: 'Contexto do produto para entrega',
+      fields: [
+        { id:'proj_nome',  label:'Nome do projeto', type:'input', req:true, ph:'Ex: FlowMark v2.0...' },
+        { id:'proj_desc',  label:'Descreva o que será entregue', type:'textarea', req:true, ph:'Funcionalidades, módulos, escopo da release...' },
+        { id:'proj_env',   label:'Ambientes existentes', type:'checkbox',
+          opts:['Development','Staging / Homologação','Production','DR (Disaster Recovery)'] },
+      ]
+    },
+    {
+      id: 'techlead', agent: 'Tech Lead', icon: '🏗️',
+      subtitle: 'Martin Fowler · Uncle Bob · Sam Newman',
+      fields: [
+        { id:'tl_stack',   label:'Stack atual do projeto', type:'textarea', req:true, ph:'Linguagens, frameworks, bancos de dados em uso...' },
+        { id:'tl_riscos',  label:'Principais riscos técnicos identificados', type:'textarea', ph:'Pontos de atenção, débitos técnicos, dependências críticas...' },
+        { id:'tl_rollback',label:'Estratégia de rollback existe?', type:'radio',
+          opts:['Sim, documentada','Parcial','Não, precisa ser criada'] },
+      ]
+    },
+    {
+      id: 'qa', agent: 'QA Engineer', icon: '🧪',
+      subtitle: 'James Bach · Google Testing · Angie Jones',
+      fields: [
+        { id:'qa_tipos',   label:'Tipos de testes prioritários', type:'checkbox',
+          opts:['Testes unitários (Unit)','Testes de integração','Testes E2E (Playwright/Cypress)','Testes de performance (k6)','Testes de segurança','Testes de regressão','Smoke tests','Testes de acessibilidade'] },
+        { id:'qa_cobertura',label:'Cobertura mínima esperada', type:'radio',
+          opts:['60% (básico)','80% (recomendado)','90%+ (crítico)','Sem meta definida'] },
+        { id:'qa_ambientes',label:'Ambientes de teste', type:'checkbox',
+          opts:['Chrome','Firefox','Safari','Mobile iOS','Mobile Android','Tablet'] },
+        { id:'qa_criticos', label:'Fluxos críticos que nunca podem falhar', type:'textarea', ph:'Ex: login, checkout, envio de formulário...' },
+      ]
+    },
+    {
+      id: 'devops', agent: 'DevOps Engineer', icon: '🚀',
+      subtitle: 'Gene Kim · Google SRE · Charity Majors',
+      fields: [
+        { id:'do_cloud',   label:'Cloud provider', type:'radio',
+          opts:['AWS','Google Cloud (GCP)','Microsoft Azure','Vercel + Railway','DigitalOcean','Sem preferência'] },
+        { id:'do_ci',      label:'CI/CD pipeline', type:'radio',
+          opts:['GitHub Actions','GitLab CI','CircleCI','Jenkins','Sem CI/CD ainda'] },
+        { id:'do_container',label:'Containerização', type:'radio',
+          opts:['Docker + Kubernetes','Docker Compose (simples)','Sem container','Sem preferência'] },
+        { id:'do_monitor', label:'Monitoramento e observabilidade', type:'checkbox',
+          opts:['Logs centralizados (Datadog/Loki)','APM / Tracing (Sentry)','Métricas (Grafana/Prometheus)','Alertas (PagerDuty/OpsGenie)','Uptime monitoring','Error tracking'] },
+        { id:'do_sla',     label:'SLA de disponibilidade esperado', type:'radio',
+          opts:['99% (7h de downtime/ano)','99.9% (8.7h/ano)','99.95%','99.99% (52min/ano - alta disponibilidade)'] },
+      ]
+    },
+  ],
+};
+
+// ---- DRAFT AUTO-SAVE ----
+function draftKey(projectId, squadId) {
+  return `orch_draft_${projectId}_${squadId}`;
+}
+
+function saveDraft() {
+  if (!currentProject || !currentSquadId) return;
+  const answers = collectAnswers();
+  const draft = { savedAt: new Date().toISOString(), answers };
+  try {
+    localStorage.setItem(draftKey(currentProject.id, currentSquadId), JSON.stringify(draft));
+    updateDraftBar(draft.savedAt, true);
+  } catch(e) { /* quota exceeded — ignore */ }
+}
+
+function loadDraft(projectId, squadId) {
+  try {
+    const raw = localStorage.getItem(draftKey(projectId, squadId));
+    return raw ? JSON.parse(raw) : null;
+  } catch { return null; }
+}
+
+function clearDraft() {
+  if (!currentProject || !currentSquadId) return;
+  localStorage.removeItem(draftKey(currentProject.id, currentSquadId));
+  updateDraftBar(null);
+}
+
+function clearDraftAndReset() {
+  clearDraft();
+  // Limpa todos os campos do formulário
+  const form = document.getElementById('q-form');
+  if (form) {
+    form.querySelectorAll('input[type="text"], input:not([type]), textarea, select').forEach(el => { el.value = ''; });
+    form.querySelectorAll('input[type="radio"], input[type="checkbox"]').forEach(el => { el.checked = false; });
+    document.querySelectorAll('.q-palette').forEach(p => p.classList.remove('active'));
+    const hidden = document.getElementById('qf-brand_cores');
+    if (hidden) hidden.value = '';
+  }
+}
+
+let _draftTimer = null;
+function scheduleAutoSave() {
+  if (_draftTimer) clearTimeout(_draftTimer);
+  _draftTimer = setTimeout(saveDraft, 1500);
+}
+
+function attachAutoSave() {
+  const form = document.getElementById('q-form');
+  if (!form) return;
+  form.addEventListener('input', scheduleAutoSave);
+  form.addEventListener('change', scheduleAutoSave);
+}
+
+function updateDraftBar(savedAt, flash) {
+  const bar = document.getElementById('q-draft-bar');
+  const txt = document.getElementById('q-draft-text');
+  const btn = document.getElementById('q-draft-clear');
+  if (!bar || !txt || !btn) return;
+  if (!savedAt) {
+    bar.className = 'q-draft-bar empty';
+    txt.textContent = '';
+    btn.classList.add('hidden');
+    return;
+  }
+  const d = new Date(savedAt);
+  const time = d.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
+  txt.textContent = `💾 Rascunho salvo às ${time}`;
+  btn.classList.remove('hidden');
+  bar.className = flash ? 'q-draft-bar flash' : 'q-draft-bar';
+  // Remove classe flash após animação para poder re-triggar
+  if (flash) setTimeout(() => { if (bar) bar.classList.remove('flash'); }, 400);
+}
+
+function restoreDraftAnswers(answers) {
+  const sections = QUESTIONS[currentSquadId] || [];
+  sections.forEach(sec => {
+    sec.fields.forEach(f => {
+      const val = answers[f.id];
+      if (val === undefined || val === null || val === '') return;
+      if (f.type === 'radio') {
+        const radio = document.querySelector(`input[name="qf-${f.id}"][value="${CSS.escape ? CSS.escape(val) : val}"]`);
+        if (!radio) {
+          // fallback: iterate all radios with this name
+          document.querySelectorAll(`input[name="qf-${f.id}"]`).forEach(r => { if (r.value === val) r.checked = true; });
+        } else { radio.checked = true; }
+      } else if (f.type === 'checkbox') {
+        const values = Array.isArray(val) ? val : [val];
+        values.forEach(v => {
+          document.querySelectorAll(`input[name="qf-${f.id}"]`).forEach(r => { if (r.value === v) r.checked = true; });
+        });
+      } else if (f.type === 'palette') {
+        const inp = document.getElementById('qf-brand_cores');
+        if (inp) {
+          inp.value = val;
+          document.querySelectorAll('.q-palette').forEach(p => {
+            p.classList.toggle('active', p.dataset.palette === val);
+          });
+        }
+      } else {
+        const el = document.getElementById('qf-' + f.id);
+        if (el) el.value = val;
+      }
+    });
+  });
+}
+
+function openSquadQuestionnaire(squadId) {
+  if (!currentProject) {
+    const banner = document.getElementById('squads-no-project');
+    if (banner) {
+      banner.classList.remove('hidden');
+      banner.classList.add('shake');
+      setTimeout(() => banner.classList.remove('shake'), 500);
+    }
+    return;
+  }
+  document.getElementById('squads-no-project')?.classList.add('hidden');
+  currentSquadId = squadId;
+  const squad = SQUADS_DEF[squadId];
+  document.getElementById('q-squad-icon').textContent = squad.icon;
+  document.getElementById('q-squad-name').textContent = squad.name;
+  document.getElementById('q-squad-desc').textContent = squad.description;
+  document.getElementById('q-project-name').textContent = currentProject.name;
+
+  // Progress dots
+  const sections = QUESTIONS[squadId] || [];
+  document.getElementById('q-progress').innerHTML = sections.map((_,i) =>
+    `<div class="q-step-dot" id="qdot-${i}"></div>`
+  ).join('');
+
+  renderQuestionnaire(squadId);
+
+  // Restaura rascunho se existir
+  const draft = loadDraft(currentProject.id, squadId);
+  if (draft && draft.answers) {
+    restoreDraftAnswers(draft.answers);
+    updateDraftBar(draft.savedAt, false);
+  } else {
+    updateDraftBar(null);
+  }
+
+  // Ativa auto-save
+  attachAutoSave();
+
+  showView('questionnaire');
+}
+
+function renderQuestionnaire(squadId) {
+  const sections = QUESTIONS[squadId] || [];
+  const container = document.getElementById('q-sections');
+  container.innerHTML = sections.map((sec, si) => `
+    <div class="q-section fade-in" id="qsec-${si}">
+      <div class="q-section-header">
+        <span class="q-section-icon">${sec.icon}</span>
+        <div>
+          <div class="q-section-title">${sec.agent}</div>
+          <div class="q-section-subtitle">${sec.subtitle}</div>
+        </div>
+      </div>
+      ${sec.fields.map(f => renderField(f, si)).join('')}
+    </div>
+  `).join('');
+
+  // Observer para marcar progress dots
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        const idx = parseInt(e.target.id.replace('qsec-',''));
+        document.querySelectorAll('.q-step-dot').forEach((d,i) => {
+          d.classList.toggle('done', i <= idx);
+        });
+      }
+    });
+  }, { threshold: 0.3 });
+  sections.forEach((_,i) => {
+    const el = document.getElementById('qsec-'+i);
+    if (el) observer.observe(el);
+  });
+}
+
+function renderField(f, si) {
+  const labelHtml = `<label class="q-label">${f.label}${f.req ? '<span class="req">*</span>' : ''}</label>`;
+  switch (f.type) {
+    case 'input':
+      return `<div class="q-field">${labelHtml}<input class="q-input" id="qf-${f.id}" placeholder="${f.ph||''}"></div>`;
+    case 'textarea':
+      return `<div class="q-field">${labelHtml}<textarea class="q-textarea" id="qf-${f.id}" placeholder="${f.ph||''}"></textarea></div>`;
+    case 'select':
+      return `<div class="q-field">${labelHtml}<select class="q-select" id="qf-${f.id}"><option value="">Selecione...</option>${(f.opts||[]).map(o=>`<option>${o}</option>`).join('')}</select></div>`;
+    case 'radio':
+      return `<div class="q-field">${labelHtml}<div class="q-options">${(f.opts||[]).map((o,i)=>`
+        <label class="q-option">
+          <input type="radio" name="qf-${f.id}" value="${esc(o)}">
+          <span class="q-option-label">${o}</span>
+        </label>`).join('')}</div></div>`;
+    case 'checkbox':
+      return `<div class="q-field">${labelHtml}<div class="q-options">${(f.opts||[]).map((o,i)=>`
+        <label class="q-option">
+          <input type="checkbox" name="qf-${f.id}" value="${esc(o)}">
+          <span class="q-option-label">${o}</span>
+        </label>`).join('')}</div></div>`;
+    case 'palette':
+      return `<div class="q-field">${labelHtml}
+        <div class="q-palettes">
+          ${PALETTES.map(p=>`
+            <div class="q-palette" data-palette="${esc(p.name)}" onclick="selectPalette(this,'${esc(p.name)}')">
+              <div class="q-palette-swatches">${p.colors.map(c=>`<div style="flex:1;background:${c}"></div>`).join('')}</div>
+              <div class="q-palette-name">${p.name}</div>
+            </div>`).join('')}
+        </div>
+        <input type="hidden" id="qf-brand_cores" value="">
+      </div>`;
+    default:
+      return '';
+  }
+}
+
+function selectPalette(el, name) {
+  document.querySelectorAll('.q-palette').forEach(p => p.classList.remove('active'));
+  el.classList.add('active');
+  const inp = document.getElementById('qf-brand_cores');
+  if (inp) inp.value = name;
+}
+
+function collectAnswers() {
+  const data = {};
+  const sections = QUESTIONS[currentSquadId] || [];
+  sections.forEach(sec => {
+    sec.fields.forEach(f => {
+      if (f.type === 'radio') {
+        const checked = document.querySelector(`input[name="qf-${f.id}"]:checked`);
+        if (checked) data[f.id] = checked.value;
+      } else if (f.type === 'checkbox') {
+        const checked = [...document.querySelectorAll(`input[name="qf-${f.id}"]:checked`)].map(c=>c.value);
+        if (checked.length) data[f.id] = checked;
+      } else {
+        const el = document.getElementById('qf-'+f.id);
+        if (el && el.value.trim()) data[f.id] = el.value.trim();
+      }
+    });
+  });
+  return data;
+}
+
+function buildTaskInput(squadId, answers) {
+  const squad = SQUADS_DEF[squadId];
+  const sections = QUESTIONS[squadId] || [];
+  let prompt = `# Briefing Completo — ${squad.name}\n\n`;
+  prompt += `**Projeto:** ${answers.proj_nome || 'Não informado'}\n`;
+  prompt += `**Squad:** ${squad.name} (${squad.agents.join(', ')})\n\n`;
+  sections.forEach(sec => {
+    prompt += `## ${sec.icon} ${sec.agent}\n\n`;
+    sec.fields.forEach(f => {
+      const val = answers[f.id];
+      if (!val) return;
+      const valStr = Array.isArray(val) ? val.join(', ') : val;
+      prompt += `**${f.label}:** ${valStr}\n\n`;
+    });
+  });
+  prompt += `\n---\n*Execute com máxima excelência, usando as referências de cada especialista como padrão de qualidade.*`;
+  return prompt;
+}
+
+function validateQuestionnaire() {
+  // Clear previous errors
+  document.querySelectorAll('.q-field-error').forEach(el => el.classList.remove('q-field-error'));
+  document.querySelectorAll('.q-err-msg').forEach(el => el.remove());
+  const old = document.getElementById('q-submit-errors');
+  if (old) old.remove();
+
+  const sections = QUESTIONS[currentSquadId] || [];
+  const missing = [];
+
+  sections.forEach(sec => {
+    sec.fields.forEach(f => {
+      if (!f.req) return;
+      let hasValue = false;
+      let fieldEl = null;
+
+      if (f.type === 'radio') {
+        hasValue = !!document.querySelector(`input[name="qf-${f.id}"]:checked`);
+        fieldEl = document.querySelector(`input[name="qf-${f.id}"]`)?.closest('.q-field');
+      } else if (f.type === 'checkbox') {
+        hasValue = document.querySelectorAll(`input[name="qf-${f.id}"]:checked`).length > 0;
+        fieldEl = document.querySelector(`input[name="qf-${f.id}"]`)?.closest('.q-field');
+      } else if (f.type === 'select') {
+        const el = document.getElementById('qf-'+f.id);
+        hasValue = el && el.value && el.value !== '';
+        fieldEl = el?.closest('.q-field');
+      } else {
+        const el = document.getElementById('qf-'+f.id);
+        hasValue = el && el.value.trim().length > 0;
+        fieldEl = el?.closest('.q-field');
+      }
+
+      if (!hasValue) {
+        missing.push(f.label);
+        if (fieldEl) {
+          fieldEl.classList.add('q-field-error');
+          const msg = document.createElement('span');
+          msg.className = 'q-err-msg';
+          msg.textContent = '⚠ Campo obrigatório';
+          fieldEl.appendChild(msg);
+        }
+      }
+    });
+  });
+
+  return missing;
+}
+
+async function submitQuestionnaire() {
+  if (!currentProject) return;
+
+  const missing = validateQuestionnaire();
+  if (missing.length > 0) {
+    const form = document.getElementById('q-form');
+    const footer = form.querySelector('.mt-10');
+    const banner = document.createElement('div');
+    banner.id = 'q-submit-errors';
+    banner.className = 'q-submit-errors';
+    banner.innerHTML = `<strong>⚠ ${missing.length} campo${missing.length > 1 ? 's' : ''} obrigatório${missing.length > 1 ? 's' : ''} não preenchido${missing.length > 1 ? 's' : ''}:</strong><br>${missing.map(l => `· ${l}`).join('<br>')}`;
+    form.insertBefore(banner, footer);
+    document.querySelector('.q-field-error')?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    return;
+  }
+
+  const answers = collectAnswers();
+  const squad = SQUADS_DEF[currentSquadId];
+  const taskInput = buildTaskInput(currentSquadId, answers);
+
+  // Limpa rascunho ao submeter
+  clearDraft();
+
+  // Vai para a view do projeto e inicia a execução
+  selectProject(currentProject.id, currentProject.name, currentProject.desc || '', 'project');
+  showResultPanel('live-panel');
+  document.getElementById('live-feed').innerHTML = '';
+  document.getElementById('live-summary').textContent = '';
+  document.getElementById('live-elapsed').textContent = '0s';
+
+  const res = await fetch('/api/run', {
+    method: 'POST',
+    headers: {'Content-Type':'application/json'},
+    body: JSON.stringify({
+      project_id: currentProject.id,
+      task_input: taskInput,
+      task_type: 'squad_' + currentSquadId,
+      agent_list: squad.agents
+    })
+  });
+  const data = await res.json();
+  currentRunId = data.run_id;
+
+  const startTime = Date.now();
+  if (elapsedInterval) clearInterval(elapsedInterval);
+  elapsedInterval = setInterval(() => {
+    document.getElementById('live-elapsed').textContent = Math.floor((Date.now()-startTime)/1000) + 's';
+  }, 1000);
+
+  startPolling();
+}
+
+function showResultPanel(panel) {
+  ['live-panel','result-panel','result-empty'].forEach(id => {
+    const el = document.getElementById(id);
+    el.classList.add('hidden');
+    el.classList.remove('flex');
+  });
+  const target = document.getElementById(panel);
+  target.classList.remove('hidden');
+  target.classList.add('flex');
 }
 
 // ---- AGENTS GRID ----
 function renderAgentsGrid() {
-  const grid = document.getElementById('agents-grid');
-  grid.innerHTML = Object.entries(AGENTS_META).map(([key, meta]) => `
-    <div class="agent-card border ${COLOR_MAP[meta.color]} rounded-xl p-5 transition-all duration-200 cursor-default">
+  document.getElementById('agents-grid').innerHTML = Object.entries(AGENTS_META).map(([key, m]) => `
+    <div class="agent-card border ${COLOR_BORDER[m.color]} rounded-xl p-5 transition-all duration-200">
       <div class="flex items-start gap-3 mb-3">
-        <span class="text-3xl">${meta.icon}</span>
-        <div class="flex-1">
-          <div class="font-semibold text-slate-100">${meta.label}</div>
-          <div class="text-xs text-slate-500 mt-0.5">${meta.refs}</div>
+        <span class="text-3xl">${m.icon}</span>
+        <div>
+          <div class="font-semibold text-slate-100">${m.label}</div>
+          <div class="text-xs text-slate-500 mt-0.5">${m.refs}</div>
         </div>
       </div>
-      <p class="text-xs text-slate-400 leading-relaxed">${meta.desc}</p>
+      <p class="text-xs text-slate-400 leading-relaxed">${m.desc}</p>
     </div>
   `).join('');
 }
 
 // ---- PROJECTS ----
 async function loadProjects() {
-  const res = await fetch('/api/projects');
-  const projects = await res.json();
+  const projects = await fetch('/api/projects').then(r => r.json());
   const list = document.getElementById('projects-list');
-
   if (!projects.length) {
     list.innerHTML = '<div class="text-xs text-slate-600 py-2">Nenhum projeto. Crie o primeiro!</div>';
     return;
   }
-
   list.innerHTML = projects.map(p => `
-    <button onclick="selectProject('${p.id}','${escHtml(p.name)}','${escHtml(p.description)}')"
-      class="project-btn w-full text-left px-3 py-2 rounded-lg text-sm hover:bg-slate-800 transition-colors group" data-id="${p.id}">
-      <div class="font-medium text-slate-200 truncate">${escHtml(p.name)}</div>
-      ${p.description ? `<div class="text-xs text-slate-500 truncate">${escHtml(p.description)}</div>` : ''}
+    <button onclick="selectProject('${p.id}','${esc(p.name)}','${esc(p.description)}')"
+      class="project-btn w-full text-left px-3 py-2 rounded-lg text-sm hover:bg-slate-800 transition-colors" data-id="${p.id}">
+      <div class="font-medium text-slate-200 truncate">${esc(p.name)}</div>
+      ${p.description ? `<div class="text-xs text-slate-500 truncate">${esc(p.description)}</div>` : ''}
     </button>
   `).join('');
 }
 
-function selectProject(id, name, desc) {
+function selectProject(id, name, desc, goView = 'squads') {
   currentProject = { id, name, desc };
   document.querySelectorAll('.project-btn').forEach(b => {
     b.classList.toggle('bg-slate-800', b.dataset.id === id);
@@ -381,9 +1350,21 @@ function selectProject(id, name, desc) {
   });
   document.getElementById('project-name').textContent = name;
   document.getElementById('project-desc').textContent = desc || '';
-  hideRunForm();
-  showView('project');
-  loadTasks(id);
+
+  // Update project chip in squads view
+  const chip = document.getElementById('squads-project-chip');
+  const chipName = document.getElementById('squads-project-name');
+  if (chip && chipName) { chip.classList.remove('hidden'); chipName.textContent = name; }
+  document.getElementById('squads-no-project')?.classList.add('hidden');
+
+  // Remove locked state from squad cards
+  document.querySelectorAll('.squad-card.locked').forEach(c => c.classList.remove('locked'));
+
+  showView(goView);
+  if (goView === 'project') {
+    showResultPanel('result-empty');
+    loadTasks(id);
+  }
 }
 
 async function createProject() {
@@ -391,8 +1372,7 @@ async function createProject() {
   const desc = document.getElementById('new-project-desc').value.trim();
   if (!name) return;
   const res = await fetch('/api/projects', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
+    method: 'POST', headers: {'Content-Type':'application/json'},
     body: JSON.stringify({ name, description: desc })
   });
   if (res.ok) {
@@ -405,180 +1385,1131 @@ async function createProject() {
 
 // ---- TASKS ----
 async function loadTasks(projectId) {
-  const res = await fetch(`/api/tasks/${projectId}`);
-  const tasks = await res.json();
+  const tasks = await fetch(`/api/tasks/${projectId}`).then(r => r.json());
   const list = document.getElementById('tasks-list');
-
   if (!tasks.length) {
     list.innerHTML = '<div class="text-xs text-slate-600 p-2">Nenhuma tarefa ainda.</div>';
     return;
   }
-
-  const statusIcon = { completed: '✓', running: '⟳', failed: '✗', pending: '○' };
-  const statusColor = { completed: 'text-green-400', running: 'text-indigo-400', failed: 'text-red-400', pending: 'text-slate-500' };
-
+  const sIcon = { completed:'✓', running:'⟳', failed:'✗', pending:'○' };
+  const sColor = { completed:'text-green-400', running:'text-indigo-400', failed:'text-red-400', pending:'text-slate-500' };
   list.innerHTML = tasks.map(t => `
     <button onclick="loadTaskResult('${t.id}')"
       class="task-btn w-full text-left px-3 py-2.5 rounded-lg hover:bg-slate-800 transition-colors" data-id="${t.id}">
       <div class="flex items-center gap-2 mb-1">
-        <span class="text-xs ${statusColor[t.status] || 'text-slate-500'}">${statusIcon[t.status] || '○'}</span>
+        <span class="text-xs ${sColor[t.status]||'text-slate-500'}">${sIcon[t.status]||'○'}</span>
         <span class="text-xs font-medium text-slate-300 uppercase tracking-wide">${t.task_type}</span>
       </div>
-      <div class="text-xs text-slate-400 truncate">${escHtml(t.input_task)}</div>
+      <div class="text-xs text-slate-400 line-clamp-2">${esc(t.input_task)}</div>
     </button>
   `).join('');
 }
 
 async function loadTaskResult(taskId) {
-  document.querySelectorAll('.task-btn').forEach(b => {
-    b.classList.toggle('bg-slate-800', b.dataset.id === taskId);
-  });
-
-  const res = await fetch(`/api/task-result/${taskId}`);
-  const data = await res.json();
-  showResult(data.executions);
+  document.querySelectorAll('.task-btn').forEach(b => b.classList.toggle('bg-slate-800', b.dataset.id === taskId));
+  const data = await fetch(`/api/task-result/${taskId}`).then(r => r.json());
+  if (data.executions && data.executions.length) {
+    showResult(data.executions);
+  }
 }
 
-function showResult(executions) {
-  if (!executions || !executions.length) return;
+// ---- RUN TASK (form removido — mantido só hideRunForm para compatibilidade) ----
+function showRunForm() { showView('squads'); }
+function hideRunForm() { /* form removido */ }
 
-  document.getElementById('result-empty').classList.add('hidden');
-  document.getElementById('result-content').classList.remove('hidden');
+async function submitTask() {
+  // Execução agora é feita exclusivamente via Squad + Questionário
+  showView('squads');
+  return;
+
+  // Mostrar painel de progresso ao vivo
+  showResultPanel('live-panel');
+  document.getElementById('live-feed').innerHTML = '';
+  document.getElementById('live-summary').textContent = '';
+
+  const res = await fetch('/api/run', {
+    method: 'POST', headers: {'Content-Type':'application/json'},
+    body: JSON.stringify({ project_id: currentProject.id, task_input: taskInput, task_type: plan })
+  });
+  const data = await res.json();
+  currentRunId = data.run_id;
+
+  const startTime = Date.now();
+  if (elapsedInterval) clearInterval(elapsedInterval);
+  elapsedInterval = setInterval(() => {
+    const sec = Math.floor((Date.now() - startTime) / 1000);
+    document.getElementById('live-elapsed').textContent = `${sec}s`;
+  }, 1000);
+
+  startPolling();
+}
+
+// ---- LIVE POLLING ----
+function startPolling() {
+  if (pollInterval) clearInterval(pollInterval);
+  const renderedAgents = new Set();
+
+  pollInterval = setInterval(async () => {
+    const data = await fetch(`/api/run/${currentRunId}`).then(r => r.json());
+    renderLiveFeed(data.progress || [], renderedAgents);
+
+    const completed = (data.progress || []).filter(p => p.status === 'completed' || p.status === 'failed').length;
+    const total = (data.progress || []).length;
+    document.getElementById('live-summary').textContent = `${completed}/${total} agentes`;
+
+    if (data.status === 'completed' || data.status === 'failed') {
+      clearInterval(pollInterval);
+      clearInterval(elapsedInterval);
+      document.getElementById('btn-new-task').disabled = false;
+      document.getElementById('btn-new-task').classList.remove('opacity-50','cursor-not-allowed');
+      await loadTasks(currentProject.id);
+
+      if (data.status === 'completed' && data.agent_outputs) {
+        // Breve delay para mostrar o último estado do feed antes de trocar de painel
+        setTimeout(() => {
+          const executions = Object.entries(data.agent_outputs).map(([name, text], i) => {
+            const prog = (data.progress || []).find(p => p.agent === name) || {};
+            return {
+              agent_name: name, output_text: text, status: 'completed',
+              phase_number: prog.phase || i+1,
+              tokens_input: prog.tokens_input || 0,
+              tokens_output: prog.tokens_output || 0,
+              execution_time_ms: prog.execution_time_ms || 0
+            };
+          });
+          showResult(executions, data.deploy_url || null, data.task_type || null);
+        }, 800);
+      }
+    }
+  }, 2000);
+}
+
+function renderLiveFeed(progress, renderedAgents) {
+  const feed = document.getElementById('live-feed');
+
+  progress.forEach(item => {
+    const meta = AGENTS_META[item.agent] || { icon:'🤖', label: item.agent, color:'indigo' };
+    const existingEl = feed.querySelector(`[data-agent="${item.agent}"]`);
+
+    if (!existingEl) {
+      // Criar novo card
+      const card = document.createElement('div');
+      card.dataset.agent = item.agent;
+      card.className = `progress-line relative flex gap-3 slide-in`;
+      card.innerHTML = buildAgentCard(item, meta);
+      feed.appendChild(card);
+    } else {
+      // Atualizar card existente
+      existingEl.innerHTML = buildAgentCard(item, meta);
+    }
+  });
+
+  // Auto-scroll para o fundo
+  feed.scrollTop = feed.scrollHeight;
+}
+
+function buildAgentCard(item, meta) {
+  const isRunning = item.status === 'running';
+  const isCompleted = item.status === 'completed';
+  const isFailed = item.status === 'failed';
+
+  const colorClass = STATUS_RUNNING_COLORS[meta.color] || 'bg-slate-900 border-slate-700';
+  const borderColor = isCompleted ? 'border-green-800/60 bg-green-950/20' : isFailed ? 'border-red-800/60 bg-red-950/20' : colorClass;
+
+  const statusEl = isRunning
+    ? `<span class="flex items-center gap-1.5 text-xs text-indigo-300">
+        <svg class="spin w-3 h-3" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"></path></svg>
+        Processando...
+      </span>`
+    : isCompleted
+    ? `<span class="text-xs text-green-400 flex items-center gap-1">✓ Concluído <span class="text-slate-500">${((item.execution_time_ms||0)/1000).toFixed(1)}s · ${(item.tokens_output||0).toLocaleString()} tokens</span></span>`
+    : `<span class="text-xs text-red-400">✗ Falhou</span>`;
+
+  const preview = item.output_text && isCompleted
+    ? `<div class="mt-2 text-xs text-slate-400 line-clamp-3 leading-relaxed border-t border-slate-700/50 pt-2">${esc(item.output_text.slice(0, 280))}${item.output_text.length > 280 ? '...' : ''}</div>`
+    : isRunning
+    ? `<div class="mt-2 h-2 rounded shimmer w-3/4"></div><div class="mt-1.5 h-2 rounded shimmer w-1/2"></div>`
+    : '';
+
+  return `
+    <div class="w-8 h-8 rounded-lg flex items-center justify-center shrink-0 text-lg ${isCompleted ? 'bg-green-900/40' : isFailed ? 'bg-red-900/40' : 'bg-slate-800'}">${meta.icon}</div>
+    <div class="flex-1 border rounded-xl p-3 ${borderColor} min-w-0">
+      <div class="flex items-center justify-between gap-2 flex-wrap">
+        <div>
+          <span class="text-sm font-semibold text-slate-100">${meta.label}</span>
+          <span class="text-xs text-slate-500 ml-2">Fase ${item.phase}</span>
+        </div>
+        ${statusEl}
+      </div>
+      ${preview}
+    </div>
+  `;
+}
+
+// ---- DEPLOY BANNER ----
+function showDeployBanner(url) {
+  const banner = document.getElementById('deploy-banner');
+  const link = document.getElementById('deploy-link');
+  const urlText = document.getElementById('deploy-url-text');
+  if (!url) { banner.classList.add('hidden'); return; }
+  urlText.textContent = url;
+  link.href = url;
+  banner.classList.remove('hidden');
+  banner.classList.add('flex');
+}
+
+function hideDeployBanner() {
+  const banner = document.getElementById('deploy-banner');
+  banner.classList.add('hidden');
+  banner.classList.remove('flex');
+}
+
+// ---- RESULT VIEWER ----
+function showResult(executions, deployUrl, taskType) {
+  if (!executions || !executions.length) return;
+  showResultPanel('result-panel');
+  if (deployUrl) showDeployBanner(deployUrl);
+  else hideDeployBanner();
+
+  currentTaskType = taskType || null;
+  const stitchBar = document.getElementById('stitch-bar');
+  if (stitchBar) stitchBar.classList.toggle('hidden', currentTaskType !== 'squad_criacao');
 
   currentTaskOutputs = {};
   executions.forEach(e => { currentTaskOutputs[e.agent_name] = e; });
 
-  const tabs = document.getElementById('agent-tabs');
-  tabs.innerHTML = executions.map((e, i) => {
-    const meta = AGENTS_META[e.agent_name] || { icon: '🤖', label: e.agent_name };
-    const statusClass = e.status === 'completed' ? 'text-green-400' : 'text-red-400';
+  const isSquad = currentTaskType && currentTaskType.startsWith('squad_');
+
+  const docTab = isSquad
+    ? `<button onclick="showFullDocument()" class="tab-btn tab-btn-doc flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium whitespace-nowrap" data-agent="__doc__">📄 Documento Completo</button>`
+    : '';
+
+  document.getElementById('agent-tabs').innerHTML = docTab + executions.map(e => {
+    const meta = AGENTS_META[e.agent_name] || { icon:'🤖', label: e.agent_name };
+    const ok = e.status === 'completed';
     return `
       <button onclick="showAgentOutput('${e.agent_name}')"
-        class="tab-btn flex items-center gap-1.5 px-4 py-3 text-xs font-medium text-slate-400 border-b-2 border-transparent hover:text-slate-200 transition-colors whitespace-nowrap"
+        class="tab-btn flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium whitespace-nowrap"
         data-agent="${e.agent_name}">
         <span>${meta.icon}</span>
         <span>${meta.label}</span>
-        <span class="${statusClass} text-xs">${e.status === 'completed' ? '✓' : '✗'}</span>
-      </button>
-    `;
+        <span class="${ok ? 'text-green-400' : 'text-red-400'}">${ok ? '✓' : '✗'}</span>
+      </button>`;
   }).join('');
 
-  // Show first agent
-  if (executions.length) showAgentOutput(executions[0].agent_name);
+  if (isSquad) {
+    showFullDocument();
+  } else {
+    showAgentOutput(executions[0].agent_name);
+  }
 }
 
 function showAgentOutput(agentName) {
-  document.querySelectorAll('.tab-btn').forEach(btn => {
-    btn.classList.toggle('active', btn.dataset.agent === agentName);
-  });
-
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.toggle('active', b.dataset.agent === agentName));
   const exec = currentTaskOutputs[agentName];
-  const meta = AGENTS_META[agentName] || { icon: '🤖', label: agentName, refs: '', desc: '' };
+  const meta = AGENTS_META[agentName] || { icon:'🤖', label: agentName, refs:'' };
   const output = document.getElementById('agent-output');
+  const deliverableTag = meta.deliverable
+    ? `<span class="agent-deliverable-tag" style="background:${meta.deliverableColor}22;color:${meta.deliverableColor};border:1px solid ${meta.deliverableColor}44">📄 ${meta.deliverable}</span>`
+    : '';
 
-  const statsHtml = `
+  output.innerHTML = `
     <div class="flex flex-wrap gap-4 mb-6 p-4 bg-slate-900 rounded-xl border border-slate-800">
-      <div class="flex items-center gap-2">
-        <span class="text-2xl">${meta.icon}</span>
+      <div class="flex items-center gap-3">
+        <span class="text-3xl">${meta.icon}</span>
         <div>
-          <div class="font-semibold text-slate-100">${meta.label}</div>
-          <div class="text-xs text-slate-500">${meta.refs}</div>
+          <div class="flex items-center gap-2 flex-wrap">
+            <span class="font-semibold text-slate-100">${meta.label}</span>
+            ${deliverableTag}
+          </div>
+          <div class="text-xs text-slate-500 mt-0.5">${meta.refs}</div>
         </div>
       </div>
-      <div class="flex gap-4 ml-auto text-xs text-slate-500">
+      <div class="flex gap-4 ml-auto text-xs text-slate-500 items-center flex-wrap">
         <div>Fase <span class="text-slate-300 font-medium">${exec.phase_number}</span></div>
-        <div>Input <span class="text-slate-300 font-medium">${exec.tokens_input?.toLocaleString() || 0}</span> tokens</div>
-        <div>Output <span class="text-slate-300 font-medium">${exec.tokens_output?.toLocaleString() || 0}</span> tokens</div>
-        <div>Tempo <span class="text-slate-300 font-medium">${((exec.execution_time_ms || 0)/1000).toFixed(1)}s</span></div>
+        <div>Input <span class="text-slate-300 font-medium">${(exec.tokens_input||0).toLocaleString()}</span> tokens</div>
+        <div>Output <span class="text-slate-300 font-medium">${(exec.tokens_output||0).toLocaleString()}</span> tokens</div>
+        <div>Tempo <span class="text-slate-300 font-medium">${((exec.execution_time_ms||0)/1000).toFixed(1)}s</span></div>
       </div>
     </div>
+    <div class="prose">${exec.output_text ? marked.parse(exec.output_text) : '<p class="text-slate-500 italic">Sem output nesta execução.</p>'}</div>
   `;
-
-  const bodyHtml = exec.output_text
-    ? marked.parse(exec.output_text)
-    : '<p class="text-slate-500 italic">Este agente não retornou output nesta execução.</p>';
-
-  output.innerHTML = statsHtml + '<div class="prose">' + bodyHtml + '</div>';
   output.scrollTop = 0;
 }
 
-// ---- RUN TASK ----
-function showRunForm() {
-  document.getElementById('run-form').classList.remove('hidden');
-  document.getElementById('task-input').focus();
+// ---- DOCUMENTO COMPLETO ----
+function showFullDocument() {
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.toggle('active', b.dataset.agent === '__doc__'));
+  const output = document.getElementById('agent-output');
+  const squad = SQUADS_DEF[currentTaskType?.replace('squad_','')];
+  const squadName = squad ? squad.name : 'Squad';
+  const projectName = currentProject ? currentProject.name : 'Projeto';
+  const now = new Date();
+  const dateStr = now.toLocaleDateString('pt-BR', { day:'2-digit', month:'long', year:'numeric' });
+  const timeStr = now.toLocaleTimeString('pt-BR', { hour:'2-digit', minute:'2-digit' });
+
+  const sectionsHtml = Object.values(currentTaskOutputs).map(exec => {
+    const meta = AGENTS_META[exec.agent_name] || { icon:'🤖', label: exec.agent_name, refs:'' };
+    const deliverableTag = meta.deliverable
+      ? `<span class="agent-deliverable-tag ml-2" style="background:${meta.deliverableColor}22;color:${meta.deliverableColor};border:1px solid ${meta.deliverableColor}44">📄 ${meta.deliverable}</span>`
+      : '';
+    const statusIcon = exec.status === 'completed' ? '✓' : '✗';
+    const statusColor = exec.status === 'completed' ? '#4ade80' : '#f87171';
+    return `
+      <div class="doc-section">
+        <div class="doc-section-header">
+          <span style="font-size:1.3rem">${meta.icon}</span>
+          <span class="doc-section-title">${meta.label}</span>
+          ${deliverableTag}
+          <span class="ml-auto flex items-center gap-3 text-xs text-slate-500">
+            <span>Fase ${exec.phase_number}</span>
+            <span>${((exec.execution_time_ms||0)/1000).toFixed(1)}s</span>
+            <span style="color:${statusColor}">${statusIcon}</span>
+          </span>
+        </div>
+        <div class="doc-section-body prose">
+          ${exec.output_text ? marked.parse(exec.output_text) : '<p class="text-slate-500 italic">Sem output nesta execução.</p>'}
+        </div>
+      </div>`;
+  }).join('');
+
+  output.innerHTML = `
+    <div class="doc-header">
+      <div class="doc-header-title">📋 ${squadName} — ${projectName}</div>
+      <div class="doc-header-meta">
+        <span>🗓️ ${dateStr} às ${timeStr}</span>
+        <span>👥 ${Object.keys(currentTaskOutputs).length} agentes</span>
+        <span>✅ ${Object.values(currentTaskOutputs).filter(e=>e.status==='completed').length} concluídos</span>
+        <span>⏱️ ${Object.values(currentTaskOutputs).reduce((s,e)=>s+(e.execution_time_ms||0),0)/1000|0}s total</span>
+      </div>
+    </div>
+    ${sectionsHtml}
+  `;
+  output.scrollTop = 0;
 }
 
-function hideRunForm() {
-  document.getElementById('run-form').classList.add('hidden');
-}
+// ---- STITCH PROMPT ----
+function generateStitchPrompt(outputs) {
+  const get = (key) => (outputs[key] && outputs[key].output_text) ? outputs[key].output_text.trim() : '';
+  const brand = get('brand_designer');
+  const ux    = get('ux_designer');
+  const ui    = get('ui_designer');
+  const writer = get('ux_writer');
 
-async function submitTask() {
-  const taskInput = document.getElementById('task-input').value.trim();
-  const plan = document.querySelector('input[name="plan"]:checked')?.value || 'full_product';
-
-  if (!taskInput || !currentProject) return;
-
-  hideRunForm();
-  document.getElementById('task-input').value = '';
-  document.getElementById('running-indicator').classList.remove('hidden');
-
-  const res = await fetch('/api/run', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({
-      project_id: currentProject.id,
-      task_input: taskInput,
-      task_type: plan
-    })
-  });
-
-  const data = await res.json();
-  currentRunId = data.run_id;
-  startPolling();
-}
-
-function startPolling() {
-  if (pollInterval) clearInterval(pollInterval);
-  const agentNames = Object.keys(AGENTS_META);
-  let idx = 0;
-
-  pollInterval = setInterval(async () => {
-    document.getElementById('running-agent').textContent = `${AGENTS_META[agentNames[idx % agentNames.length]].icon} ${AGENTS_META[agentNames[idx % agentNames.length]].label} trabalhando...`;
-    idx++;
-
-    const res = await fetch(`/api/run/${currentRunId}`);
-    const data = await res.json();
-
-    if (data.status === 'completed' || data.status === 'failed') {
-      clearInterval(pollInterval);
-      document.getElementById('running-indicator').classList.add('hidden');
-      await loadTasks(currentProject.id);
-
-      if (data.status === 'completed' && data.agent_outputs) {
-        const executions = Object.entries(data.agent_outputs).map(([name, text], i) => ({
-          agent_name: name,
-          output_text: text,
-          status: 'completed',
-          phase_number: i + 1,
-          tokens_input: 0,
-          tokens_output: 0,
-          execution_time_ms: 0
-        }));
-        showResult(executions);
+  // Extrai blocos relevantes usando marcadores Markdown comuns
+  const extract = (text, keywords) => {
+    if (!text) return '';
+    const lines = text.split('\n');
+    const result = [];
+    let capturing = false;
+    let depth = 0;
+    for (const line of lines) {
+      const heading = line.match(/^(#{1,3})\s+(.+)/);
+      if (heading) {
+        const isTarget = keywords.some(k => heading[2].toLowerCase().includes(k.toLowerCase()));
+        if (isTarget) { capturing = true; depth = heading[1].length; result.push(line); continue; }
+        if (capturing && heading[1].length <= depth) { capturing = false; }
       }
+      if (capturing) result.push(line);
     }
-  }, 3000);
+    return result.join('\n').trim();
+  };
+
+  const palette   = extract(brand, ['paleta','cor','color','colour','hex']);
+  const typo      = extract(brand, ['tipografi','fonte','font','type']);
+  const voice     = extract(brand, ['voz','tom','voice','persona','posicion']);
+  const personas  = extract(ux,    ['persona','usuário','user','público']);
+  const flows     = extract(ux,    ['fluxo','flow','jornada','journey','navegação','naveg']);
+  const screens   = extract(ui,    ['tela','screen','interface','componente','layout']);
+  const tokens    = extract(ui,    ['token','spacing','sombra','shadow','borda','border','sistema','system']);
+  const copy      = extract(writer, ['microcopy','copy','mensagem','message','onboard','cta','erro','error']);
+
+  const fallback = (text, maxLines = 40) => text
+    ? text.split('\n').slice(0, maxLines).join('\n')
+    : '(não disponível)';
+
+  const prompt = `# Prompt para Google Stitch — Squad de Criação
+
+## 🎯 CONTEXTO DO PRODUTO
+${fallback(brand.split('\n').slice(0,15).join('\n'), 15)}
+
+---
+
+## 🎨 IDENTIDADE VISUAL E MARCA
+
+### Paleta de Cores
+${palette || fallback(brand, 30)}
+
+### Tipografia
+${typo || '(ver output completo do Brand Designer)'}
+
+### Tom e Personalidade da Marca
+${voice || '(ver output completo do Brand Designer)'}
+
+---
+
+## 👤 USUÁRIOS E PERSONAS
+${personas || fallback(ux, 30)}
+
+---
+
+## 🗺️ FLUXOS E JORNADAS DO USUÁRIO
+${flows || fallback(ux, 35)}
+
+---
+
+## ✨ ESPECIFICAÇÕES DE INTERFACE (UI)
+
+### Design Tokens e Sistema
+${tokens || fallback(ui, 25)}
+
+### Telas e Componentes
+${screens || fallback(ui, 50)}
+
+---
+
+## ✍️ MICROCOPY E TOM DE VOZ
+${copy || fallback(writer, 30)}
+
+---
+
+## 📐 INSTRUÇÕES PARA O STITCH
+
+Crie um produto digital completo seguindo estritamente todas as especificações acima.
+Priorize:
+1. Fidelidade à identidade visual definida pelo Brand Designer (paleta, tipografia, estilo)
+2. Fluxos de usuário mapeados pelo UX Designer (jornadas, navegação, personas)
+3. Design System e tokens definidos pelo UI Designer (espaçamentos, sombras, componentes)
+4. Microcopy e tom de voz definidos pelo UX Writer (CTAs, mensagens, onboarding)
+
+O resultado final deve ser um produto coeso, profissional e pronto para ser apresentado a stakeholders.`;
+
+  return prompt;
+}
+
+function showStitchModal() {
+  const prompt = generateStitchPrompt(currentTaskOutputs);
+  const content = document.getElementById('stitch-prompt-content');
+  if (content) content.textContent = prompt;
+  const btn = document.getElementById('stitch-copy-btn');
+  if (btn) { btn.textContent = '📋 Copiar prompt'; btn.className = 'stitch-copy-btn'; }
+  openModal('stitch-modal');
+}
+
+function copyStitchPrompt() {
+  const content = document.getElementById('stitch-prompt-content');
+  if (!content) return;
+  navigator.clipboard.writeText(content.textContent).then(() => {
+    const btn = document.getElementById('stitch-copy-btn');
+    if (btn) { btn.textContent = '✓ Copiado!'; btn.className = 'stitch-copy-btn copied'; }
+    setTimeout(() => {
+      const b = document.getElementById('stitch-copy-btn');
+      if (b) { b.textContent = '📋 Copiar prompt'; b.className = 'stitch-copy-btn'; }
+    }, 2500);
+  });
 }
 
 // ---- MODALS ----
 function openModal(id) { document.getElementById(id).classList.remove('hidden'); }
 function closeModal(id) { document.getElementById(id).classList.add('hidden'); }
-document.addEventListener('keydown', e => { if (e.key === 'Escape') { closeModal('project-modal'); } });
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') {
+    closeModal('project-modal');
+    closeModal('squad-modal');
+  }
+});
+
+function showSquadPicker() {
+  openModal('squad-modal');
+}
+
+function pickSquad(squadId) {
+  closeModal('squad-modal');
+  openSquadQuestionnaire(squadId);
+}
 
 // ---- UTILS ----
-function escHtml(str) {
-  return (str || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+function esc(s) {
+  return (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');
 }
+
+// ---- DEMO ----
+const DEMO_SCRIPT = [
+  { agent:'brand_designer', phase:1, delay:800, duration:3200,
+    tokens_in:1840, tokens_out:2210, time_ms:3200,
+    output:`# Identidade Visual — FlowMark
+
+## Conceito de Marca
+FlowMark é uma plataforma de automação de marketing que transforma caos em clareza. A marca comunica **precisão**, **fluidez** e **resultado mensurável**.
+
+## Paleta de Cores
+| Token | Hex | Uso |
+|-------|-----|-----|
+| \`--color-primary\` | \`#6366F1\` | CTAs, links, destaques |
+| \`--color-secondary\` | \`#8B5CF6\` | Gradientes, hover |
+| \`--color-bg\` | \`#0F172A\` | Background principal |
+| \`--color-surface\` | \`#1E293B\` | Cards e painéis |
+| \`--color-text\` | \`#F1F5F9\` | Texto principal |
+
+## Tipografia
+- **Heading**: Inter 700 — autoridade e limpeza
+- **Body**: Inter 400 — legibilidade máxima
+- **Mono**: JetBrains Mono — dados e código
+
+## Tom de Voz
+**Direto, inteligente, sem jargão.** FlowMark fala como um estrategista experiente: confiante, mas acessível. Evita palavras como "revolucionário" ou "disruptivo". Prefere dados a adjetivos.
+
+> *"Automatize o que repete. Foque no que importa."*`
+  },
+  { agent:'ux_designer', phase:2, delay:400, duration:4100,
+    tokens_in:2630, tokens_out:3480, time_ms:4100,
+    output:`# UX Design — FlowMark Landing Page
+
+## Personas Identificadas
+
+### Persona 1: Marina, Head de Marketing (28 anos)
+- **Dor**: gasta 60% do tempo em tarefas manuais repetitivas
+- **Objetivo**: provar ROI de marketing para o board
+- **Comportamento**: toma decisões baseadas em dados, céctica com promessas
+
+### Persona 2: Pedro, Fundador de Startup (34 anos)
+- **Dor**: equipe pequena, precisa escalar sem contratar
+- **Objetivo**: crescer com o mesmo time
+- **Comportamento**: adota tecnologia rápido, valoriza setup simples
+
+## Estrutura da Landing Page
+
+\`\`\`
+Hero Section
+  ├── Headline: problema + solução em 1 linha
+  ├── Subheadline: benefício mensurável
+  ├── CTA primário: "Começar grátis"
+  └── Social proof: "3.200+ times usando"
+
+Problema → Solução (3 cards)
+Demonstração visual (produto em uso)
+Depoimentos (2-3 reais)
+Planos e preços
+FAQ (5 perguntas)
+CTA final
+\`\`\`
+
+## Fluxo Principal
+1. Usuário chega pela busca/ad → Hero
+2. Reconhece o problema → Seção de dores
+3. Vê o produto funcionando → Demo
+4. Confia pela prova social → Depoimentos
+5. Escolhe plano → CTA`
+  },
+  { agent:'ux_writer', phase:2, delay:400, duration:3700,
+    tokens_in:2180, tokens_out:2940, time_ms:3700,
+    output:`# UX Writing — FlowMark
+
+## Headlines (teste A/B sugerido)
+
+| Versão | Headline | Subheadline |
+|--------|----------|-------------|
+| A | "Seu marketing no piloto automático" | "Automatize campanhas, nurture leads e meça resultados — sem precisar de uma agência." |
+| B | "Pare de fazer marketing manualmente" | "FlowMark automatiza o que consome seu tempo. Você foca no que só você pode fazer." |
+
+**Recomendação**: Versão B — mais direto, fala do problema antes da solução.
+
+## CTAs
+
+| Posição | Texto | Tom |
+|---------|-------|-----|
+| Hero primário | **Começar grátis** | Sem fricção, sem cartão |
+| Hero secundário | Ver como funciona | Curiosidade |
+| Após demo | Quero isso para meu time | Apropriação |
+| Pricing | Começar com o Starter | Específico |
+| Final | Sua primeira automação em 5 minutos | Concreto |
+
+## Mensagens de Sistema
+\`\`\`
+Cadastro concluído → "Bem-vindo ao FlowMark. Vamos criar sua primeira automação?"
+Erro de email → "Esse email já tem uma conta. Entrar?"
+Trial expirando → "Seu trial termina em 3 dias. O que você quer manter?"
+\`\`\``
+  },
+  { agent:'ui_designer', phase:3, delay:800, duration:4800,
+    tokens_in:3210, tokens_out:4120, time_ms:4800,
+    output:`# UI Design System — FlowMark
+
+## Design Tokens (CSS)
+\`\`\`css
+:root {
+  --color-primary:    #6366F1;
+  --color-primary-h:  #4F46E5;
+  --color-secondary:  #8B5CF6;
+  --color-bg:         #0F172A;
+  --color-surface:    #1E293B;
+  --color-border:     #334155;
+  --color-text:       #F1F5F9;
+  --color-text-muted: #94A3B8;
+  --color-success:    #10B981;
+  --color-error:      #EF4444;
+
+  --font-sans: 'Inter', system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 16px;
+  --radius-full: 9999px;
+
+  --shadow-glow: 0 0 24px rgba(99,102,241,0.15);
+}
+\`\`\`
+
+## Componente: Button
+\`\`\`
+Primary:   bg #6366F1 → hover #4F46E5 · text white · h-11 · px-6 · radius-md
+Secondary: border #6366F1 · text #6366F1 · transparent bg · same size
+Ghost:     text #94A3B8 → hover text-white · no border
+\`\`\`
+
+## Hero Section — Especificações
+- **Background**: gradient radial de \`#6366F1/10\` centrado no topo
+- **Headline**: Inter 700, 56px desktop / 36px mobile, max-width 680px
+- **Espaçamento**: padding-top 120px desktop, 80px mobile
+- **CTA group**: gap 12px, centralizados no mobile`
+  },
+  { agent:'tech_lead', phase:4, delay:800, duration:5200,
+    tokens_in:2980, tokens_out:4650, time_ms:5200,
+    output:`# Arquitetura Técnica — FlowMark
+
+## Stack Escolhida
+
+| Camada | Tecnologia | Justificativa |
+|--------|------------|---------------|
+| Frontend | Next.js 14 (App Router) | SSR nativo, SEO, Edge Functions |
+| Estilo | Tailwind CSS + shadcn/ui | Velocidade + consistência |
+| Backend | Node.js + Fastify | Performance superior ao Express |
+| ORM | Prisma | Type-safe, migrations automáticas |
+| Banco | PostgreSQL (Supabase) | Robusto, JSONB, Row Level Security |
+| Auth | Supabase Auth | OAuth + magic link prontos |
+| Email | Resend | API moderna, alta entregabilidade |
+| Deploy | Vercel (front) + Railway (api) | Zero config, auto-scale |
+
+## Modelagem de Dados (simplificada)
+\`\`\`sql
+users       (id, email, name, plan, created_at)
+workspaces  (id, user_id, name, settings JSONB)
+automations (id, workspace_id, name, trigger, actions JSONB, active)
+contacts    (id, workspace_id, email, tags TEXT[], metadata JSONB)
+executions  (id, automation_id, contact_id, status, ran_at)
+\`\`\`
+
+## Endpoints Críticos
+\`\`\`
+POST /api/auth/register
+POST /api/auth/login
+GET  /api/automations
+POST /api/automations
+PUT  /api/automations/:id/toggle
+POST /api/automations/:id/run
+GET  /api/analytics/summary
+\`\`\``
+  },
+  { agent:'frontend_dev', phase:5, delay:400, duration:6100,
+    tokens_in:3840, tokens_out:5920, time_ms:6100,
+    output:`# Frontend — FlowMark Landing Page
+
+## Componente Hero
+\`\`\`tsx
+// app/(marketing)/page.tsx
+import { Button } from '@/components/ui/button'
+import { Badge } from '@/components/ui/badge'
+
+export default function HeroSection() {
+  return (
+    <section className="relative min-h-screen flex items-center justify-center px-6 pt-20">
+      {/* Glow background */}
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[400px]
+                      bg-indigo-600/10 rounded-full blur-3xl pointer-events-none" />
+
+      <div className="relative max-w-4xl mx-auto text-center">
+        <Badge variant="outline" className="mb-6 text-indigo-400 border-indigo-800">
+          ✦ Novo: Automações com IA
+        </Badge>
+
+        <h1 className="text-5xl md:text-7xl font-bold tracking-tight mb-6">
+          Pare de fazer{' '}
+          <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 to-violet-400">
+            marketing manualmente
+          </span>
+        </h1>
+
+        <p className="text-xl text-slate-400 max-w-2xl mx-auto mb-10">
+          FlowMark automatiza o que consome seu tempo.
+          Você foca no que só você pode fazer.
+        </p>
+
+        <div className="flex gap-3 justify-center flex-wrap">
+          <Button size="lg" className="bg-indigo-600 hover:bg-indigo-500 h-12 px-8">
+            Começar grátis
+          </Button>
+          <Button size="lg" variant="outline" className="h-12 px-8">
+            Ver como funciona →
+          </Button>
+        </div>
+
+        <p className="mt-5 text-sm text-slate-500">
+          Sem cartão de crédito · Setup em 5 minutos · Cancele quando quiser
+        </p>
+      </div>
+    </section>
+  )
+}
+\`\`\``
+  },
+  { agent:'backend_dev', phase:5, delay:400, duration:5600,
+    tokens_in:3520, tokens_out:5240, time_ms:5600,
+    output:`# Backend — FlowMark API
+
+## Schema Prisma
+\`\`\`prisma
+model User {
+  id          String      @id @default(uuid())
+  email       String      @unique
+  name        String
+  plan        Plan        @default(FREE)
+  workspaces  Workspace[]
+  createdAt   DateTime    @default(now())
+}
+
+model Automation {
+  id          String     @id @default(uuid())
+  workspaceId String
+  name        String
+  trigger     Json
+  actions     Json
+  active      Boolean    @default(true)
+  executions  Execution[]
+  workspace   Workspace  @relation(fields: [workspaceId], references: [id])
+}
+\`\`\`
+
+## Endpoint: Criar Automação
+\`\`\`typescript
+// POST /api/automations
+router.post('/', authenticate, async (req, reply) => {
+  const { name, trigger, actions } = createAutomationSchema.parse(req.body)
+
+  const automation = await prisma.automation.create({
+    data: {
+      workspaceId: req.workspaceId,
+      name,
+      trigger,
+      actions,
+    }
+  })
+
+  return reply.status(201).send(automation)
+})
+\`\`\`
+
+## Rate Limiting
+\`\`\`typescript
+await app.register(rateLimit, {
+  max: 100,
+  timeWindow: '1 minute',
+  keyGenerator: (req) => req.userId ?? req.ip,
+})
+\`\`\``
+  },
+  { agent:'qa_engineer', phase:6, delay:800, duration:4200,
+    tokens_in:2760, tokens_out:3380, time_ms:4200,
+    output:`# Plano de Testes — FlowMark
+
+## Casos de Teste Críticos (P0)
+
+### TC-001: Cadastro novo usuário
+**Passos**: Acessar /register → preencher nome, email, senha → clicar "Criar conta"
+**Esperado**: Redirect para onboarding + email de boas-vindas enviado
+
+### TC-002: Criar automação
+**Passos**: Dashboard → Nova automação → Definir trigger "Novo lead" → Adicionar ação "Enviar email" → Salvar
+**Esperado**: Automação aparece na lista com status "Ativo"
+
+### TC-003: Execução de automação
+**Passos**: Inserir contato que satisfaz o trigger configurado
+**Esperado**: Ação executada em < 5s + registro em executions
+
+## Testes E2E (Playwright)
+\`\`\`typescript
+test('fluxo completo de cadastro', async ({ page }) => {
+  await page.goto('/register')
+  await page.fill('[name="email"]', 'demo@flowmark.io')
+  await page.fill('[name="password"]', 'Senha@123')
+  await page.click('[data-testid="btn-register"]')
+  await expect(page).toHaveURL('/onboarding')
+})
+\`\`\`
+
+## Checklist de Release
+- [x] Testes P0 passando (100%)
+- [x] Cobertura backend > 75%
+- [x] LCP < 2.5s (medido no Vercel)
+- [x] Sem secrets expostos no bundle
+- [x] OWASP top 10 verificado`
+  },
+  { agent:'devops_engineer', phase:7, delay:800, duration:4900,
+    tokens_in:3120, tokens_out:4580, time_ms:4900,
+    output:`# DevOps & Infraestrutura — FlowMark
+
+## Pipeline CI/CD (GitHub Actions)
+\`\`\`yaml
+name: Deploy
+on:
+  push:
+    branches: [main]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: npm ci && npm test -- --coverage
+
+  deploy-frontend:
+    needs: test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: amondnet/vercel-action@v25
+        with:
+          vercel-token: \${{ secrets.VERCEL_TOKEN }}
+          vercel-org-id: \${{ secrets.ORG_ID }}
+          vercel-project-id: \${{ secrets.PROJECT_ID }}
+
+  deploy-backend:
+    needs: test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy to Railway
+        run: railway up --service api
+        env:
+          RAILWAY_TOKEN: \${{ secrets.RAILWAY_TOKEN }}
+\`\`\`
+
+## Dockerfile
+\`\`\`dockerfile
+FROM node:20-alpine AS builder
+WORKDIR /app
+COPY package*.json ./
+RUN npm ci
+COPY . .
+RUN npm run build
+
+FROM node:20-alpine
+WORKDIR /app
+COPY --from=builder /app/dist ./dist
+COPY --from=builder /app/node_modules ./node_modules
+EXPOSE 3000
+CMD ["node", "dist/server.js"]
+\`\`\`
+
+## Monitoramento
+- **Uptime**: Checkly (ping a cada 1 min)
+- **Erros**: Sentry (alertas no Slack)
+- **Performance**: Vercel Analytics + Web Vitals
+- **Logs**: Railway Observability`
+  }
+];
+
+let demoRunning = false;
+
+function runDemo() {
+  if (demoRunning) return;
+  // Se estiver em squads ou questionário, roda o demo do squad
+  if (currentView === 'squads' || currentView === 'questionnaire') {
+    const squadId = currentSquadId || 'criacao';
+    runSquadDemo(squadId);
+  } else {
+    runFullDemo();
+  }
+}
+
+async function runSquadDemo(squadId) {
+  const squad = SQUADS_DEF[squadId];
+  if (!squad) return;
+  // Filtra DEMO_SCRIPT pelos agentes do squad
+  const squadAgents = new Set(squad.agents);
+  const squadScript = DEMO_SCRIPT.filter(s => squadAgents.has(s.agent));
+  if (!squadScript.length) return;
+
+  demoRunning = true;
+  const btn = document.getElementById('btn-demo');
+  btn.textContent = '⏹ Parar Demo';
+  btn.onclick = stopDemo;
+
+  currentProject = { id: 'demo', name: 'FlowMark SaaS', desc: 'Demo de Squad' };
+  document.getElementById('project-name').textContent = `FlowMark — ${squad.name}`;
+  document.getElementById('project-desc').textContent = `🎬 Demo do ${squad.name} — ${squadScript.length} agentes`;
+  hideRunForm();
+  showView('project');
+
+  document.getElementById('tasks-list').innerHTML = `
+    <div class="px-3 py-2.5 rounded-lg bg-slate-800 border border-indigo-700/40">
+      <div class="flex items-center gap-2 mb-1">
+        <span class="text-xs">${squad.icon}</span>
+        <span class="text-xs font-medium text-slate-300 uppercase tracking-wide">${squadId}</span>
+      </div>
+      <div class="text-xs text-slate-400 line-clamp-2">Demo — ${squad.name}</div>
+    </div>`;
+
+  showResultPanel('live-panel');
+  document.getElementById('live-feed').innerHTML = '';
+  document.getElementById('live-summary').textContent = '';
+  document.getElementById('live-elapsed').textContent = '0s';
+
+  const startTime = Date.now();
+  if (elapsedInterval) clearInterval(elapsedInterval);
+  elapsedInterval = setInterval(() => {
+    if (!demoRunning) return;
+    document.getElementById('live-elapsed').textContent = Math.floor((Date.now()-startTime)/1000)+'s';
+  }, 1000);
+
+  let completedCount = 0;
+  const totalAgents = squadScript.length;
+  const feed = document.getElementById('live-feed');
+  const byPhase = {};
+  squadScript.forEach(s => { if (!byPhase[s.phase]) byPhase[s.phase] = []; byPhase[s.phase].push(s); });
+
+  for (const phase of Object.keys(byPhase).sort()) {
+    if (!demoRunning) break;
+    const agents = byPhase[phase];
+    await sleep(agents[0].delay);
+    if (!demoRunning) break;
+
+    agents.forEach(script => {
+      const card = document.createElement('div');
+      card.dataset.agent = script.agent;
+      card.className = 'progress-line relative flex gap-3 slide-in';
+      feed.appendChild(card);
+      const meta = AGENTS_META[script.agent];
+      card.innerHTML = buildAgentCard({ agent:script.agent, phase:script.phase, status:'running', output_text:'', tokens_output:0, execution_time_ms:0 }, meta);
+      feed.scrollTop = feed.scrollHeight;
+      // Dispara animação no Pixel Office
+      fetch('/api/pixel/start', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({agent_name: script.agent}) }).catch(()=>{});
+    });
+
+    await Promise.all(agents.map(script => new Promise(async resolve => {
+      await sleep(script.duration);
+      if (!demoRunning) return resolve();
+      completedCount++;
+      document.getElementById('live-summary').textContent = `${completedCount}/${totalAgents} agentes`;
+      const card = feed.querySelector(`[data-agent="${script.agent}"]`);
+      if (card) {
+        const meta = AGENTS_META[script.agent];
+        card.innerHTML = buildAgentCard({ agent:script.agent, phase:script.phase, status:'completed', output_text:script.output, tokens_output:script.tokens_out, execution_time_ms:script.time_ms }, meta);
+        feed.scrollTop = feed.scrollHeight;
+      }
+      // Finaliza animação no Pixel Office
+      fetch('/api/pixel/finish', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({agent_name: script.agent}) }).catch(()=>{});
+      resolve();
+    })));
+  }
+
+  if (!demoRunning) return;
+  clearInterval(elapsedInterval);
+  await sleep(900);
+  if (!demoRunning) return;
+
+  document.getElementById('tasks-list').innerHTML = `
+    <div onclick="showSquadDemoResult('${squadId}')" class="task-btn px-3 py-2.5 rounded-lg hover:bg-slate-800 transition-colors cursor-pointer bg-slate-800">
+      <div class="flex items-center gap-2 mb-1">
+        <span class="text-xs text-green-400">✓</span>
+        <span class="text-xs font-medium text-slate-300 uppercase tracking-wide">${squadId}</span>
+      </div>
+      <div class="text-xs text-slate-400 line-clamp-2">Demo — ${squad.name}</div>
+    </div>`;
+
+  showSquadDemoResult(squadId);
+  btn.innerHTML = '▶ Demo';
+  btn.onclick = runDemo;
+  demoRunning = false;
+}
+
+function showSquadDemoResult(squadId) {
+  const squad = SQUADS_DEF[squadId];
+  const squadAgents = new Set(squad ? squad.agents : []);
+  const squadScript = DEMO_SCRIPT.filter(s => squadAgents.has(s.agent));
+  const executions = squadScript.map(s => ({
+    agent_name: s.agent, output_text: s.output, status: 'completed',
+    phase_number: s.phase, tokens_input: s.tokens_in,
+    tokens_output: s.tokens_out, execution_time_ms: s.time_ms
+  }));
+  showResult(executions, null, 'squad_' + squadId);
+}
+
+async function runFullDemo() {
+  if (demoRunning) return;
+  demoRunning = true;
+
+  const btn = document.getElementById('btn-demo');
+  btn.textContent = '⏹ Parar Demo';
+  btn.onclick = stopDemo;
+
+  // Configura projeto demo na sidebar e view
+  currentProject = { id: 'demo', name: 'FlowMark SaaS', desc: 'Demo de execução' };
+  document.getElementById('project-name').textContent = 'FlowMark — Plataforma de Automação de Marketing';
+  document.getElementById('project-desc').textContent = '🎬 Simulação do plano Full Product — 9 agentes';
+  hideRunForm();
+  showView('project');
+
+  // Injeta tarefa demo na lista de tarefas
+  document.getElementById('tasks-list').innerHTML = `
+    <div class="px-3 py-2.5 rounded-lg bg-slate-800 border border-indigo-700/40">
+      <div class="flex items-center gap-2 mb-1">
+        <span class="text-xs text-indigo-400">⟳</span>
+        <span class="text-xs font-medium text-slate-300 uppercase tracking-wide">full_product</span>
+      </div>
+      <div class="text-xs text-slate-400 line-clamp-2">Criar landing page para SaaS de automação de marketing</div>
+    </div>`;
+
+  // Mostra painel live
+  showResultPanel('live-panel');
+  document.getElementById('live-feed').innerHTML = '';
+  document.getElementById('live-summary').textContent = '';
+  document.getElementById('live-elapsed').textContent = '0s';
+
+  const startTime = Date.now();
+  if (elapsedInterval) clearInterval(elapsedInterval);
+  elapsedInterval = setInterval(() => {
+    if (!demoRunning) return;
+    document.getElementById('live-elapsed').textContent =
+      Math.floor((Date.now() - startTime) / 1000) + 's';
+  }, 1000);
+
+  // Executa agentes em sequência simulada
+  let completedCount = 0;
+  const totalAgents = DEMO_SCRIPT.length;
+  const feed = document.getElementById('live-feed');
+
+  // Agrupa por fase para simular paralelismo
+  const byPhase = {};
+  DEMO_SCRIPT.forEach(s => {
+    if (!byPhase[s.phase]) byPhase[s.phase] = [];
+    byPhase[s.phase].push(s);
+  });
+
+  for (const phase of Object.keys(byPhase).sort()) {
+    if (!demoRunning) break;
+    const agents = byPhase[phase];
+
+    // Adiciona todos os agentes da fase como "running" simultaneamente
+    await sleep(agents[0].delay);
+    if (!demoRunning) break;
+
+    agents.forEach(script => {
+      const existing = feed.querySelector(`[data-agent="${script.agent}"]`);
+      const card = existing || document.createElement('div');
+      if (!existing) {
+        card.dataset.agent = script.agent;
+        card.className = 'progress-line relative flex gap-3 slide-in';
+        feed.appendChild(card);
+      }
+      const meta = AGENTS_META[script.agent];
+      card.innerHTML = buildAgentCard({ agent: script.agent, phase: script.phase, status: 'running', output_text: '', tokens_output: 0, execution_time_ms: 0 }, meta);
+      feed.scrollTop = feed.scrollHeight;
+      // Dispara animação no Pixel Office
+      fetch('/api/pixel/start', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({agent_name: script.agent}) }).catch(()=>{});
+    });
+
+    // Completa cada agente da fase após sua duração
+    await Promise.all(agents.map(script => new Promise(async resolve => {
+      await sleep(script.duration);
+      if (!demoRunning) return resolve();
+      completedCount++;
+      document.getElementById('live-summary').textContent = `${completedCount}/${totalAgents} agentes`;
+
+      const card = feed.querySelector(`[data-agent="${script.agent}"]`);
+      if (card) {
+        const meta = AGENTS_META[script.agent];
+        card.innerHTML = buildAgentCard({
+          agent: script.agent, phase: script.phase,
+          status: 'completed', output_text: script.output,
+          tokens_output: script.tokens_out,
+          execution_time_ms: script.time_ms
+        }, meta);
+        feed.scrollTop = feed.scrollHeight;
+      }
+      // Finaliza animação no Pixel Office
+      fetch('/api/pixel/finish', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({agent_name: script.agent}) }).catch(()=>{});
+      resolve();
+    })));
+  }
+
+  if (!demoRunning) return;
+
+  // Exibe resultado final
+  clearInterval(elapsedInterval);
+  await sleep(900);
+  if (!demoRunning) return;
+
+  // Atualiza task na sidebar como concluída
+  document.getElementById('tasks-list').innerHTML = `
+    <div onclick="showDemoResult()" class="task-btn px-3 py-2.5 rounded-lg hover:bg-slate-800 transition-colors cursor-pointer bg-slate-800">
+      <div class="flex items-center gap-2 mb-1">
+        <span class="text-xs text-green-400">✓</span>
+        <span class="text-xs font-medium text-slate-300 uppercase tracking-wide">full_product</span>
+      </div>
+      <div class="text-xs text-slate-400 line-clamp-2">Criar landing page para SaaS de automação de marketing</div>
+    </div>`;
+
+  showDemoResult();
+
+  btn.innerHTML = '▶ Demo';
+  btn.onclick = runDemo;
+  demoRunning = false;
+}
+
+async function showDemoResult() {
+  const executions = DEMO_SCRIPT.map(s => ({
+    agent_name: s.agent,
+    output_text: s.output,
+    status: 'completed',
+    phase_number: s.phase,
+    tokens_input: s.tokens_in,
+    tokens_output: s.tokens_out,
+    execution_time_ms: s.time_ms
+  }));
+
+  // Gera build estático com os outputs do demo
+  let deployUrl = null;
+  try {
+    const agentOutputs = {};
+    DEMO_SCRIPT.forEach(s => { agentOutputs[s.agent] = s.output; });
+    const res = await fetch('/api/deploy', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ run_id: 'demo-flowmark', agent_outputs: agentOutputs })
+    });
+    const data = await res.json();
+    deployUrl = data.deploy_url || null;
+  } catch (e) { /* silencioso */ }
+
+  showResult(executions, deployUrl);
+}
+
+function stopDemo() {
+  demoRunning = false;
+  clearInterval(elapsedInterval);
+  clearInterval(pollInterval);
+  const btn = document.getElementById('btn-demo');
+  btn.innerHTML = '▶ Demo';
+  btn.onclick = runDemo;
+  showResultPanel('result-empty');
+  // Para todas as animações no Pixel Office
+  fetch('/api/pixel/finish-all', { method:'POST' }).catch(()=>{});
+}
+
+function sleep(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
+{% endraw %}
 </script>
 </body>
 </html>

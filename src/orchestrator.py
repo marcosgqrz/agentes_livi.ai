@@ -23,6 +23,7 @@ from src.agents.quality.qa_engineer import QAEngineerAgent
 from src.agents.quality.devops_engineer import DevOpsEngineerAgent
 
 from config.settings import settings
+from src.pixel_bridge import PixelAgentsBridge
 
 logger = logging.getLogger(__name__)
 
@@ -32,6 +33,7 @@ class Orchestrator:
 
     def __init__(self):
         self.db = SupabaseClient()
+        self.pixel = PixelAgentsBridge()
 
         # Registro de todos os agentes disponíveis
         self.agents: Dict[str, BaseAgent] = {
@@ -47,11 +49,44 @@ class Orchestrator:
             "devops_engineer": DevOpsEngineerAgent()
         }
 
+    def _build_squad_plan(self, squad_id: str, agent_list: List[str]) -> "ExecutionPlan":
+        """Cria um ExecutionPlan dinâmico para um squad personalizado."""
+        # Agrupa agentes em fases respeitando dependências naturais
+        phase_order = [
+            ["brand_designer"],
+            ["ux_designer", "ux_writer"],
+            ["ui_designer"],
+            ["tech_lead"],
+            ["frontend_dev", "backend_dev", "mobile_dev"],
+            ["qa_engineer"],
+            ["devops_engineer"],
+        ]
+        phases = []
+        phase_num = 1
+        for group in phase_order:
+            agents_in_group = [a for a in group if a in agent_list]
+            if agents_in_group:
+                phases.append(ExecutionPhase(
+                    phase=phase_num,
+                    agents=agents_in_group,
+                    parallel=len(agents_in_group) > 1
+                ))
+                phase_num += 1
+
+        return ExecutionPlan(
+            name=squad_id,
+            description=f"Squad dinâmico: {', '.join(agent_list)}",
+            task_types=[squad_id],
+            phases=phases
+        )
+
     def execute_task(
         self,
         project_id: UUID,
         task_input: str,
-        task_type: str = "full_product"
+        task_type: str = "full_product",
+        progress_callback=None,
+        agent_list: List[str] = None
     ) -> Dict[str, Any]:
         """
         Executa uma tarefa completa com orquestração de agentes.
@@ -60,12 +95,19 @@ class Orchestrator:
             project_id: ID do projeto
             task_input: Descrição da tarefa
             task_type: Tipo da tarefa (determina plano de execução)
+            agent_list: Lista de agentes específicos (squad personalizado)
 
         Returns:
             Dict com resultados completos da execução
         """
-        # 1. Busca plano de execução
-        plan = self.db.get_execution_plan(task_type)
+        # 1. Busca ou constrói plano de execução
+        if agent_list:
+            plan = self._build_squad_plan(task_type, agent_list)
+        else:
+            plan = self.db.get_execution_plan(task_type)
+            if not plan and task_type.startswith("squad_"):
+                # Squad sem agent_list: usa plano default como fallback
+                plan = self.db.get_execution_plan("full_product")
         if not plan:
             raise ValueError(f"Plano de execução não encontrado para: {task_type}")
 
@@ -100,7 +142,8 @@ class Orchestrator:
                     task=task,
                     phase=phase,
                     task_input=task_input,
-                    project_context=project_context
+                    project_context=project_context,
+                    progress_callback=progress_callback
                 )
                 results["phases"].append(phase_result)
                 results["agent_outputs"].update(phase_result["outputs"])
@@ -141,11 +184,11 @@ class Orchestrator:
         task: Task,
         phase: ExecutionPhase,
         task_input: str,
-        project_context: Dict[str, Any]
+        project_context: Dict[str, Any],
+        progress_callback=None
     ) -> Dict[str, Any]:
         """Executa uma fase (múltiplos agentes, potencialmente em paralelo)."""
 
-        # Coleta outputs de fases anteriores como contexto
         previous_outputs = self.db.get_phase_outputs(task.id, phase.phase)
 
         phase_result = {
@@ -155,8 +198,12 @@ class Orchestrator:
             "outputs": {}
         }
 
+        # Notifica início da fase
+        if progress_callback:
+            for agent_name in phase.agents:
+                progress_callback(agent_name, phase.phase, "running", "", 0, 0, 0)
+
         if phase.parallel and len(phase.agents) > 1:
-            # Execução paralela
             with ThreadPoolExecutor(max_workers=settings.max_parallel_agents) as executor:
                 futures = {
                     executor.submit(
@@ -176,11 +223,21 @@ class Orchestrator:
                     try:
                         execution = future.result()
                         phase_result["outputs"][agent_name] = execution.output_text
+                        if progress_callback:
+                            progress_callback(
+                                agent_name, phase.phase,
+                                execution.status,
+                                execution.output_text,
+                                execution.tokens_input,
+                                execution.tokens_output,
+                                execution.execution_time_ms
+                            )
                     except Exception as e:
                         logger.error(f"Erro no agente {agent_name}: {str(e)}")
                         phase_result["outputs"][agent_name] = f"ERRO: {str(e)}"
+                        if progress_callback:
+                            progress_callback(agent_name, phase.phase, "failed", str(e), 0, 0, 0)
         else:
-            # Execução sequencial
             for agent_name in phase.agents:
                 execution = self._execute_agent(
                     agent_name=agent_name,
@@ -191,8 +248,16 @@ class Orchestrator:
                     project_context=project_context
                 )
                 phase_result["outputs"][agent_name] = execution.output_text
-                # Atualiza contexto para próximo agente na mesma fase
                 previous_outputs[agent_name] = execution.output_text
+                if progress_callback:
+                    progress_callback(
+                        agent_name, phase.phase,
+                        execution.status,
+                        execution.output_text,
+                        execution.tokens_input,
+                        execution.tokens_output,
+                        execution.execution_time_ms
+                    )
 
         return phase_result
 
@@ -213,17 +278,24 @@ class Orchestrator:
 
         logger.info(f"Executando agente: {agent_name} (fase {phase.phase})")
 
-        execution = agent.execute(
-            task=task_input,
-            context=context,
-            project_context=project_context,
-            task_id=task.id,
-            phase_number=phase.phase
-        )
+        self.pixel.agent_started(agent_name)
+        try:
+            execution = agent.execute(
+                task=task_input,
+                context=context,
+                project_context=project_context,
+                task_id=task.id,
+                phase_number=phase.phase
+            )
+            if execution.status == "failed":
+                self.pixel.agent_failed(agent_name)
+            else:
+                self.pixel.agent_finished(agent_name)
+        except Exception:
+            self.pixel.agent_failed(agent_name)
+            raise
 
-        # Salva execução no banco
         self.db.save_agent_execution(execution)
-
         return execution
 
     def _consolidate_outputs(self, outputs: Dict[str, str]) -> str:
