@@ -1,120 +1,30 @@
 """
 pixel_bridge.py — Integração com pixel-agents-standalone
 
-Escreve arquivos JSONL sintéticos em ~/.claude/projects/ durante a execução
-dos agentes do orchestrator. O pixel-agents detecta esses arquivos e exibe
-cada agente como um personagem animado no escritório pixel art.
+Em produção, faz chamadas HTTP para a API REST do pixel-agents-standalone
+(variável de ambiente PIXEL_AGENTS_URL). Em desenvolvimento local,
+aponta para http://localhost:3456 por padrão.
 
-Formato JSONL esperado pelo pixel-agents:
-  - tool_use  → personagem "digitando" ou "lendo"
-  - tool_result → ferramenta concluída
-  - system/turn_duration → personagem "aguardando" (idle)
+Endpoints usados:
+  POST /api/agent/start       { agentName }  → cria agente, anima "typing"
+  POST /api/agent/finish      { agentName }  → muda para "waiting"
+  POST /api/agent/finish-all  {}             → fecha todos os agentes
 """
 
+import os
 import json
-import uuid
 import logging
-from pathlib import Path
+import urllib.request
+import urllib.error
 
 logger = logging.getLogger(__name__)
 
-CLAUDE_PROJECTS_DIR = Path.home() / ".claude" / "projects"
-
-# Qual "ferramenta" simular para cada agente (define a animação)
-# "Edit"  → typing (escrever código/doc)
-# "Read"  → reading (leitura/pesquisa)
-# "Bash"  → running (executar)
-_AGENT_TOOL = {
-    "brand_designer":  ("Edit",  "brand-guidelines.md"),
-    "ux_designer":     ("Read",  "ux-research.md"),
-    "ui_designer":     ("Edit",  "design-system.md"),
-    "ux_writer":       ("Edit",  "microcopy.md"),
-    "tech_lead":       ("Read",  "architecture.md"),
-    "frontend_dev":    ("Edit",  "src/App.tsx"),
-    "backend_dev":     ("Edit",  "src/api/routes.py"),
-    "mobile_dev":      ("Edit",  "src/screens/Home.tsx"),
-    "qa_engineer":     ("Bash",  "npm test --coverage"),
-    "devops_engineer": ("Bash",  "docker compose up -d"),
-}
-
-
-class PixelAgentSession:
-    """Sessão JSONL sintética para um único agente."""
-
-    def __init__(self, agent_name: str):
-        self.agent_name = agent_name
-        self.session_id = str(uuid.uuid4())
-        # Dir name sem hífens → projectName = agent_name (última parte do split por "-")
-        self.project_dir = CLAUDE_PROJECTS_DIR / agent_name
-        self.jsonl_path = self.project_dir / f"{self.session_id}.jsonl"
-        self._tool_id = f"toolu_{uuid.uuid4().hex[:16]}"
-        self._active = False
-
-    def start(self) -> None:
-        """Cria o arquivo e escreve o evento tool_use → personagem ativa."""
-        try:
-            self.project_dir.mkdir(parents=True, exist_ok=True)
-
-            tool_name, file_ref = _AGENT_TOOL.get(self.agent_name, ("Edit", "output.md"))
-
-            if tool_name == "Bash":
-                input_block = {"command": file_ref}
-            else:
-                input_block = {"file_path": file_ref}
-
-            line = json.dumps({
-                "type": "assistant",
-                "message": {
-                    "content": [{
-                        "type": "tool_use",
-                        "id": self._tool_id,
-                        "name": tool_name,
-                        "input": input_block
-                    }]
-                }
-            }, ensure_ascii=False)
-
-            self.jsonl_path.write_text(line + "\n", encoding="utf-8")
-            self._active = True
-            logger.debug(f"[PixelBridge] {self.agent_name} → started ({tool_name})")
-        except Exception as e:
-            logger.warning(f"[PixelBridge] Falha ao iniciar sessão de {self.agent_name}: {e}")
-
-    def finish(self) -> None:
-        """Escreve tool_result + turn_duration → personagem vai para waiting/idle."""
-        if not self._active:
-            return
-        try:
-            result_line = json.dumps({
-                "type": "user",
-                "message": {
-                    "content": [{
-                        "type": "tool_result",
-                        "tool_use_id": self._tool_id,
-                        "content": []
-                    }]
-                }
-            }, ensure_ascii=False)
-
-            turn_line = json.dumps({
-                "type": "system",
-                "subtype": "turn_duration",
-                "durationMs": 1000
-            })
-
-            with open(self.jsonl_path, "a", encoding="utf-8") as f:
-                f.write(result_line + "\n")
-                f.write(turn_line + "\n")
-
-            self._active = False
-            logger.debug(f"[PixelBridge] {self.agent_name} → finished (waiting)")
-        except Exception as e:
-            logger.warning(f"[PixelBridge] Falha ao finalizar sessão de {self.agent_name}: {e}")
+PIXEL_AGENTS_URL = os.environ.get("PIXEL_AGENTS_URL", "http://localhost:3456").rstrip("/")
 
 
 class PixelAgentsBridge:
     """
-    Gerencia sessões pixel para todos os agentes do orchestrator.
+    Gerencia animações de agentes no Pixel Office via HTTP.
 
     Uso no orchestrator:
         bridge = PixelAgentsBridge()
@@ -123,44 +33,54 @@ class PixelAgentsBridge:
     """
 
     def __init__(self):
-        self._sessions: dict[str, PixelAgentSession] = {}
-        # Verifica se o pixel-agents está rodando (não bloqueia se não estiver)
+        self._agent_ids: dict[str, int] = {}
         self._enabled = self._check_pixel_agents()
 
     def _check_pixel_agents(self) -> bool:
         try:
-            import urllib.request
-            urllib.request.urlopen("http://localhost:3456/", timeout=1)
-            logger.info("[PixelBridge] pixel-agents detectado em localhost:3456 ✓")
+            urllib.request.urlopen(f"{PIXEL_AGENTS_URL}/", timeout=2)
+            logger.info(f"[PixelBridge] pixel-agents detectado em {PIXEL_AGENTS_URL} ✓")
             return True
         except Exception:
-            logger.info("[PixelBridge] pixel-agents não encontrado — bridge desativada")
+            logger.info(f"[PixelBridge] pixel-agents não encontrado em {PIXEL_AGENTS_URL} — bridge desativada")
             return False
+
+    def _post(self, path: str, data: dict) -> dict | None:
+        try:
+            body = json.dumps(data).encode()
+            req = urllib.request.Request(
+                f"{PIXEL_AGENTS_URL}{path}",
+                data=body,
+                headers={"Content-Type": "application/json"},
+                method="POST",
+            )
+            with urllib.request.urlopen(req, timeout=5) as resp:
+                return json.loads(resp.read())
+        except Exception as e:
+            logger.warning(f"[PixelBridge] HTTP POST {path} falhou: {e}")
+            return None
 
     def agent_started(self, agent_name: str) -> None:
         if not self._enabled:
             return
-        # Encerra sessão anterior se houver (segurança)
-        self._close_session(agent_name)
-        session = PixelAgentSession(agent_name)
-        session.start()
-        self._sessions[agent_name] = session
+        result = self._post("/api/agent/start", {"agentName": agent_name})
+        if result and result.get("ok"):
+            self._agent_ids[agent_name] = result.get("id", 0)
+            logger.debug(f"[PixelBridge] {agent_name} → started (id={self._agent_ids[agent_name]})")
 
     def agent_finished(self, agent_name: str) -> None:
         if not self._enabled:
             return
-        self._close_session(agent_name)
+        self._post("/api/agent/finish", {"agentName": agent_name})
+        self._agent_ids.pop(agent_name, None)
+        logger.debug(f"[PixelBridge] {agent_name} → finished (waiting)")
 
     def agent_failed(self, agent_name: str) -> None:
-        if not self._enabled:
-            return
-        self._close_session(agent_name)
+        self.agent_finished(agent_name)
 
     def finish_all(self) -> None:
-        for name in list(self._sessions.keys()):
-            self._close_session(name)
-
-    def _close_session(self, agent_name: str) -> None:
-        session = self._sessions.pop(agent_name, None)
-        if session:
-            session.finish()
+        if not self._enabled:
+            return
+        self._post("/api/agent/finish-all", {})
+        self._agent_ids.clear()
+        logger.debug("[PixelBridge] finish-all → todos os agentes fechados")

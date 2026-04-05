@@ -1,3 +1,4 @@
+import os
 import sys
 import threading
 import logging
@@ -43,6 +44,8 @@ SQUADS = {
         "agent_labels": ["Tech Lead", "QA Engineer", "DevOps Engineer"],
     },
 }
+
+PIXEL_AGENTS_URL = os.environ.get("PIXEL_AGENTS_URL", "http://localhost:3456")
 
 app = Flask(__name__)
 log = logging.getLogger("werkzeug")
@@ -122,7 +125,7 @@ def _run_task_background(run_id, project_id, task_input, task_type, agent_list=N
 
 @app.route("/")
 def index():
-    return render_template("index.html")
+    return render_template("index.html", pixel_agents_url=PIXEL_AGENTS_URL)
 
 
 @app.route("/api/agents")

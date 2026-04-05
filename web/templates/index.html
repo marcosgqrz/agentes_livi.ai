@@ -6,6 +6,7 @@
 <title>Agent Orchestrator</title>
 <script src="https://cdn.tailwindcss.com"></script>
 <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+<script>const PIXEL_AGENTS_URL = "{{ pixel_agents_url }}";</script>
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
   * { font-family: 'Inter', sans-serif; }
@@ -262,7 +263,7 @@
         <span class="icon">🕹️</span>
         <p class="text-slate-400 text-sm font-medium">Pixel Office não está rodando</p>
         <p class="text-slate-500 text-xs">Inicie o servidor com <code class="bg-slate-900 px-2 py-0.5 rounded text-indigo-400">npm start</code> no repositório pixel-agents-standalone</p>
-        <a href="http://localhost:3456" target="_blank">Abrir em nova aba →</a>
+        <a id="pixel-link" href="#" target="_blank">Abrir em nova aba →</a>
       </div>
     </div>
 
@@ -533,11 +534,13 @@ function showView(name) {
   if (name === 'pixel') {
     const iframe = document.getElementById('pixel-iframe');
     const offline = document.getElementById('pixel-offline');
+    const pixelLink = document.getElementById('pixel-link');
+    if (pixelLink) pixelLink.href = PIXEL_AGENTS_URL;
     if (iframe && iframe.src === 'about:blank') {
       // Testa se o pixel-agents está no ar antes de carregar
-      fetch('http://localhost:3456/', { mode: 'no-cors' })
+      fetch(PIXEL_AGENTS_URL + '/', { mode: 'no-cors' })
         .then(() => {
-          iframe.src = 'http://localhost:3456/';
+          iframe.src = PIXEL_AGENTS_URL + '/';
           iframe.classList.remove('hidden');
           offline.classList.add('hidden');
         })
