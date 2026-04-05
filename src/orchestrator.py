@@ -3,7 +3,7 @@ from typing import Dict, List, Any
 from uuid import UUID
 import logging
 
-from src.database.supabase_client import SupabaseClient
+from src.database.supabase_client import create_db_client
 from src.database.models import (
     Task, TaskStatus, AgentExecution, TaskResult,
     ExecutionPlan, ExecutionPhase, ReviewStatus
@@ -21,6 +21,12 @@ from src.agents.engineering.backend_dev import BackendDevAgent
 from src.agents.engineering.tech_lead import TechLeadAgent
 from src.agents.quality.qa_engineer import QAEngineerAgent
 from src.agents.quality.devops_engineer import DevOpsEngineerAgent
+from src.agents.growth.traffic_manager import TrafficManagerAgent
+from src.agents.growth.social_media_strategist import SocialMediaStrategistAgent
+from src.agents.growth.seo_specialist import SEOSpecialistAgent
+from src.agents.business.sales_representative import SalesRepresentativeAgent
+from src.agents.business.customer_success import CustomerSuccessAgent
+from src.agents.business.bi_insights_agent import BIInsightsAgent
 
 from config.settings import settings
 from src.pixel_bridge import PixelAgentsBridge
@@ -31,8 +37,8 @@ logger = logging.getLogger(__name__)
 class Orchestrator:
     """Orquestrador central que coordena a execução de múltiplos agentes."""
 
-    def __init__(self):
-        self.db = SupabaseClient()
+    def __init__(self, db=None):
+        self.db = db if db is not None else create_db_client()
         self.pixel = PixelAgentsBridge()
 
         # Registro de todos os agentes disponíveis
@@ -46,7 +52,13 @@ class Orchestrator:
             "backend_dev": BackendDevAgent(),
             "tech_lead": TechLeadAgent(),
             "qa_engineer": QAEngineerAgent(),
-            "devops_engineer": DevOpsEngineerAgent()
+            "devops_engineer": DevOpsEngineerAgent(),
+            "traffic_manager": TrafficManagerAgent(),
+            "social_media_strategist": SocialMediaStrategistAgent(),
+            "seo_specialist": SEOSpecialistAgent(),
+            "sales_representative": SalesRepresentativeAgent(),
+            "customer_success": CustomerSuccessAgent(),
+            "bi_insights_agent": BIInsightsAgent()
         }
 
     def _build_squad_plan(self, squad_id: str, agent_list: List[str]) -> "ExecutionPlan":
@@ -60,6 +72,9 @@ class Orchestrator:
             ["frontend_dev", "backend_dev", "mobile_dev"],
             ["qa_engineer"],
             ["devops_engineer"],
+            ["traffic_manager", "social_media_strategist", "seo_specialist"],
+            ["sales_representative", "customer_success"],
+            ["bi_insights_agent"],
         ]
         phases = []
         phase_num = 1
@@ -306,7 +321,9 @@ class Orchestrator:
         order = [
             "brand_designer", "ux_designer", "ux_writer", "ui_designer",
             "tech_lead", "frontend_dev", "backend_dev", "mobile_dev",
-            "qa_engineer", "devops_engineer"
+            "qa_engineer", "devops_engineer",
+            "traffic_manager", "social_media_strategist", "seo_specialist",
+            "sales_representative", "customer_success", "bi_insights_agent"
         ]
 
         for agent_name in order:
@@ -342,7 +359,13 @@ class Orchestrator:
             "backend_dev": "Código Backend",
             "mobile_dev": "Código Mobile",
             "qa_engineer": "Plano de Testes",
-            "devops_engineer": "Configuração de Infraestrutura"
+            "devops_engineer": "Configuração de Infraestrutura",
+            "traffic_manager": "Estratégia de Tráfego Pago",
+            "social_media_strategist": "Estratégia de Conteúdo e Social Media",
+            "seo_specialist": "SEO e Crescimento Orgânico",
+            "sales_representative": "Playbook de Vendas B2B",
+            "customer_success": "Base de Conhecimento e Retenção",
+            "bi_insights_agent": "Dashboard e Relatórios de BI"
         }
 
         for agent_name in outputs.keys():
@@ -369,5 +392,8 @@ class Orchestrator:
             "mobile_app",
             "design_only",
             "dev_only",
-            "quick_ui"
+            "quick_ui",
+            "growth_only",
+            "business_only",
+            "full_go_to_market"
         ]

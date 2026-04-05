@@ -17,6 +17,8 @@ class AgentCategory(str, Enum):
     DESIGN = "design"
     ENGINEERING = "engineering"
     QUALITY = "quality"
+    GROWTH = "growth"
+    BUSINESS = "business"
 
 
 class ReviewStatus(str, Enum):
