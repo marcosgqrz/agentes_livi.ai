@@ -30,5 +30,18 @@ class Settings:
         required = [self.anthropic_api_key, self.supabase_url, self.supabase_key]
         return all(required)
 
+    def has_anthropic(self) -> bool:
+        """Verifica se a chave da Anthropic está presente (necessária para executar agentes)."""
+        return bool(self.anthropic_api_key)
+
+    def has_supabase(self) -> bool:
+        """Verifica se as credenciais do Supabase estão presentes."""
+        return bool(self.supabase_url and self.supabase_key)
+
+    @property
+    def dev_mode(self) -> bool:
+        """True quando o Supabase não está configurado (dados ficam em memória)."""
+        return not self.has_supabase()
+
 
 settings = Settings()

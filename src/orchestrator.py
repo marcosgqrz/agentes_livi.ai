@@ -3,7 +3,7 @@ from typing import Dict, List, Any
 from uuid import UUID
 import logging
 
-from src.database.supabase_client import SupabaseClient
+from src.database.supabase_client import create_db_client
 from src.database.models import (
     Task, TaskStatus, AgentExecution, TaskResult,
     ExecutionPlan, ExecutionPhase, ReviewStatus
@@ -37,8 +37,8 @@ logger = logging.getLogger(__name__)
 class Orchestrator:
     """Orquestrador central que coordena a execução de múltiplos agentes."""
 
-    def __init__(self):
-        self.db = SupabaseClient()
+    def __init__(self, db=None):
+        self.db = db if db is not None else create_db_client()
         self.pixel = PixelAgentsBridge()
 
         # Registro de todos os agentes disponíveis
