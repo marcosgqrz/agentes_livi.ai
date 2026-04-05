@@ -14,20 +14,29 @@ class SocialMediaStrategistAgent(BaseAgent):
         return [
             "calendario_editorial",
             "roteiros_reels",
-            "estrategia_instagram",
-            "estrategia_tiktok",
-            "gestao_engajamento",
-            "influenciadores",
-            "gestao_crise",
-            "conteudo_humanizado"
+            "carrosséis",
+            "stories",
+            "publicacao_automatica",
+            "moderacao_comentarios",
+            "humanizacao_marca",
+            "traducao_tecniques",
+            "daily_scan_tendencias",
+            "content_sync_engenharia",
+            "audit_glossario_proibido",
+            "shadow_approval",
+            "memory_update_vetorial",
+            "relatorio_performance_mensal",
+            "handoff_traffic_manager",
+            "handoff_bi_insights"
         ]
 
     def get_output_schema(self) -> dict:
         return {
-            "estrategia_plataformas": "Objetivo e frequência por canal",
-            "calendario_editorial": "Planejamento mensal de conteúdo",
-            "roteiros_reels": "Scripts prontos para vídeos curtos",
-            "guia_engajamento": "Tom de resposta e comunidades",
-            "perfil_influenciadores": "Critérios e briefing de parceria",
-            "metricas": "KPIs de crescimento orgânico"
+            "briefing_post": "Plataforma, formato, data, categoria e objetivo",
+            "conteudo_completo": "Roteiro/visual + legenda completa + áudio sugerido",
+            "audit_result": "Resultado do Audit & Post com status de publicação",
+            "memory_update": "JSON estruturado para armazenamento vetorial",
+            "relatorio_mensal": "Top posts, formato vencedor e sugestões de ajuste",
+            "handoff_traffic": "Posts com score > 70 para impulsionamento pago",
+            "handoff_bi": "Métricas consolidadas para o BI Insights Agent"
         }
