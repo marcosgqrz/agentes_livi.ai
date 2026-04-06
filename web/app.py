@@ -10,7 +10,7 @@ from flask import Flask, render_template, request, jsonify
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
 from config.settings import settings
-from src.database.supabase_client import SupabaseClient
+from src.database.supabase_client import create_db_client
 from src.orchestrator import Orchestrator
 from src.deployer import deploy_build
 
@@ -43,6 +43,24 @@ SQUADS = {
         "agents": ["tech_lead", "qa_engineer", "devops_engineer"],
         "agent_labels": ["Tech Lead", "QA Engineer", "DevOps Engineer"],
     },
+    "crescimento": {
+        "id": "crescimento",
+        "name": "Squad de Crescimento",
+        "icon": "📈",
+        "description": "Tráfego pago, SEO e social media. Para atrair usuários e construir presença digital.",
+        "color": "orange",
+        "agents": ["traffic_manager", "seo_specialist", "social_media_strategist"],
+        "agent_labels": ["Traffic Manager", "SEO Specialist", "Social Media Strategist"],
+    },
+    "negocios": {
+        "id": "negocios",
+        "name": "Squad de Negócios",
+        "icon": "💼",
+        "description": "Vendas B2B, customer success e inteligência de dados. Para converter e reter clientes.",
+        "color": "yellow",
+        "agents": ["sales_representative", "customer_success", "bi_insights_agent"],
+        "agent_labels": ["Sales Representative", "Customer Success", "BI Insights Agent"],
+    },
 }
 
 PIXEL_AGENTS_URL = os.environ.get("PIXEL_AGENTS_URL", "http://localhost:3456")
@@ -51,8 +69,20 @@ app = Flask(__name__)
 log = logging.getLogger("werkzeug")
 log.setLevel(logging.ERROR)
 
-db = SupabaseClient()
-orchestrator = Orchestrator()
+logging.basicConfig(level=getattr(logging, settings.log_level, logging.INFO))
+logger = logging.getLogger(__name__)
+
+db = create_db_client()
+orchestrator = Orchestrator(db)
+
+if settings.dev_mode:
+    logger.warning("=" * 60)
+    logger.warning("MODO DEV  —  armazenamento em memória ativo.")
+    logger.warning("Configure SUPABASE_URL e SUPABASE_KEY para persistência.")
+    logger.warning("=" * 60)
+
+if not settings.has_anthropic():
+    logger.warning("ANTHROPIC_API_KEY ausente — agentes retornarão erro ao executar.")
 
 # { run_id: { status, progress: [...], result, error } }
 _running_tasks = {}

@@ -172,8 +172,8 @@
     </div>
     <div class="p-4 border-t border-slate-800">
       <div class="text-xs text-slate-600 space-y-1">
-        <div>10 agentes disponíveis</div>
-        <div>5 planos de execução</div>
+        <div>16 agentes disponíveis</div>
+        <div>8 planos de execução</div>
       </div>
     </div>
   </aside>
@@ -251,7 +251,7 @@
     <div id="view-agents" class="flex-1 overflow-y-auto p-6 scrollbar-thin hidden">
       <div class="mb-8">
         <h1 class="text-2xl font-bold mb-2">Sua equipe de produto completa</h1>
-        <p class="text-slate-400">10 agentes especializados, cada um com expertise de referência mundial.</p>
+        <p class="text-slate-400">16 agentes especializados, cada um com expertise de referência mundial.</p>
       </div>
       <div id="agents-grid" class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4"></div>
     </div>
@@ -478,7 +478,13 @@ const AGENTS_META = {
   backend_dev:     { icon:"⚙️", label:"Backend Dev",       color:"green",  refs:"Werner Vogels · Uncle Bob · Brendan Gregg",           desc:"APIs REST, autenticação, banco de dados, filas e cache",        deliverable:"APIs & Banco",    deliverableColor:"#16a34a" },
   mobile_dev:      { icon:"📱", label:"Mobile Dev",        color:"indigo", refs:"Airbnb Mobile · Instagram Eng · Nubank",              desc:"React Native/Expo, iOS, Android, offline-first",               deliverable:"App Mobile",      deliverableColor:"#4f46e5" },
   qa_engineer:     { icon:"🧪", label:"QA Engineer",       color:"yellow", refs:"James Bach · Google Testing · Netflix Chaos",         desc:"Plano de testes, E2E com Playwright, performance com k6",      deliverable:"Plano de Testes", deliverableColor:"#ca8a04" },
-  devops_engineer: { icon:"🚀", label:"DevOps Engineer",   color:"red",    refs:"Gene Kim · Google SRE · Charity Majors",              desc:"CI/CD, Docker, Terraform, AWS e monitoramento",                deliverable:"Infra & CI/CD",   deliverableColor:"#dc2626" }
+  devops_engineer:          { icon:"🚀", label:"DevOps Engineer",          color:"red",    refs:"Gene Kim · Google SRE · Charity Majors",              desc:"CI/CD, Docker, Terraform, AWS e monitoramento",                          deliverable:"Infra & CI/CD",        deliverableColor:"#dc2626" },
+  traffic_manager:          { icon:"📣", label:"Traffic Manager",          color:"rose",   refs:"Neil Patel · Ryan Deiss · Larry Kim",                  desc:"Google Ads, Meta Ads, funil de aquisição, ROAS e CPA",                   deliverable:"Estratégia de Tráfego", deliverableColor:"#e11d48" },
+  seo_specialist:           { icon:"🔍", label:"SEO Specialist",           color:"lime",   refs:"Rand Fishkin · Brian Dean · Ahrefs",                   desc:"Keywords, topic clusters, on-page, link building e SEO técnico",         deliverable:"Plano de SEO",         deliverableColor:"#65a30d" },
+  social_media_strategist:  { icon:"📲", label:"Social Media Strategist",  color:"pink",   refs:"Gary Vaynerchuk · Later · Buffer",                     desc:"Calendário editorial, reels, carrosséis e crescimento orgânico",          deliverable:"Estratégia Social",    deliverableColor:"#db2777" },
+  sales_representative:     { icon:"💼", label:"Sales Representative",     color:"amber",  refs:"Aaron Ross · Jeb Blount · Sandler Training",           desc:"Prospecção B2B, cadências de outreach, script de discovery",             deliverable:"Playbook de Vendas",   deliverableColor:"#d97706" },
+  customer_success:         { icon:"🤝", label:"Customer Success",         color:"emerald",refs:"Lincoln Murphy · Gainsight · HubSpot",                 desc:"Onboarding, retenção proativa, NPS e base de conhecimento",              deliverable:"Plano de CS",          deliverableColor:"#059669" },
+  bi_insights_agent:        { icon:"📊", label:"BI Insights Agent",        color:"violet", refs:"Ben Horowitz · Reforge · Looker",                      desc:"North Star Metric, dashboards, cohorts, churn e relatórios executivos",  deliverable:"Dashboard BI",         deliverableColor:"#7c3aed" }
 };
 
 const COLOR_BORDER = {
@@ -491,7 +497,13 @@ const COLOR_BORDER = {
   green:"border-green-800/50 bg-green-950/30 hover:border-green-600",
   indigo:"border-indigo-800/50 bg-indigo-950/30 hover:border-indigo-600",
   yellow:"border-yellow-800/50 bg-yellow-950/30 hover:border-yellow-600",
-  red:"border-red-800/50 bg-red-950/30 hover:border-red-600"
+  red:"border-red-800/50 bg-red-950/30 hover:border-red-600",
+  rose:"border-rose-800/50 bg-rose-950/30 hover:border-rose-600",
+  lime:"border-lime-800/50 bg-lime-950/30 hover:border-lime-600",
+  pink:"border-pink-800/50 bg-pink-950/30 hover:border-pink-600",
+  amber:"border-amber-800/50 bg-amber-950/30 hover:border-amber-600",
+  emerald:"border-emerald-800/50 bg-emerald-950/30 hover:border-emerald-600",
+  violet:"border-violet-800/50 bg-violet-950/30 hover:border-violet-600"
 };
 
 const STATUS_RUNNING_COLORS = {
@@ -499,7 +511,10 @@ const STATUS_RUNNING_COLORS = {
   cyan:"bg-cyan-950/60 border-cyan-700",teal:"bg-teal-950/60 border-teal-700",
   orange:"bg-orange-950/60 border-orange-700",sky:"bg-sky-950/60 border-sky-700",
   green:"bg-green-950/60 border-green-700",indigo:"bg-indigo-950/60 border-indigo-700",
-  yellow:"bg-yellow-950/60 border-yellow-700",red:"bg-red-950/60 border-red-700"
+  yellow:"bg-yellow-950/60 border-yellow-700",red:"bg-red-950/60 border-red-700",
+  rose:"bg-rose-950/60 border-rose-700",lime:"bg-lime-950/60 border-lime-700",
+  pink:"bg-pink-950/60 border-pink-700",amber:"bg-amber-950/60 border-amber-700",
+  emerald:"bg-emerald-950/60 border-emerald-700",violet:"bg-violet-950/60 border-violet-700"
 };
 
 let currentProject = null;
@@ -590,12 +605,26 @@ const SQUADS_DEF = {
     agents: ['tech_lead','qa_engineer','devops_engineer'],
     labels:  ['🏗️ Tech Lead','🧪 QA Engineer','🚀 DevOps Engineer'],
   },
+  crescimento: {
+    id: 'crescimento', name: 'Squad de Crescimento', icon: '📈',
+    color: 'orange', border: 'border-orange-700/40', bg: 'bg-orange-950/20', glow: 'rgba(249,115,22,0.15)',
+    description: 'Tráfego pago, SEO e social media. Para atrair usuários e construir presença digital.',
+    agents: ['traffic_manager','seo_specialist','social_media_strategist'],
+    labels:  ['📣 Traffic Manager','🔍 SEO Specialist','📲 Social Media'],
+  },
+  negocios: {
+    id: 'negocios', name: 'Squad de Negócios', icon: '💼',
+    color: 'yellow', border: 'border-yellow-700/40', bg: 'bg-yellow-950/20', glow: 'rgba(234,179,8,0.15)',
+    description: 'Vendas B2B, customer success e inteligência de dados. Para converter e reter clientes.',
+    agents: ['sales_representative','customer_success','bi_insights_agent'],
+    labels:  ['💼 Sales Representative','🤝 Customer Success','📊 BI Insights'],
+  },
   completo: {
-    id: 'completo', name: 'Projeto Completo', icon: '⚡',
+    id: 'completo', name: 'Go-to-Market Completo', icon: '⚡',
     color: 'amber', border: 'border-amber-600/50', bg: 'bg-amber-950/20', glow: 'rgba(245,158,11,0.18)',
-    description: 'Todos os 10 agentes trabalhando juntos — do branding à infraestrutura. Ideal para lançar um produto do zero.',
-    agents: ['brand_designer','ux_designer','ui_designer','ux_writer','tech_lead','frontend_dev','backend_dev','mobile_dev','qa_engineer','devops_engineer'],
-    labels:  ['🎯 Brand','🗺️ UX','✨ UI','✍️ Writer','🏗️ Tech Lead','⚛️ Front','⚙️ Back','📱 Mobile','🧪 QA','🚀 DevOps'],
+    description: 'Todos os 16 agentes — do branding à infraestrutura, crescimento e negócios. Ideal para lançar um produto do zero.',
+    agents: ['brand_designer','ux_designer','ui_designer','ux_writer','tech_lead','frontend_dev','backend_dev','mobile_dev','qa_engineer','devops_engineer','traffic_manager','seo_specialist','social_media_strategist','sales_representative','customer_success','bi_insights_agent'],
+    labels:  ['🎯 Brand','🗺️ UX','✨ UI','✍️ Writer','🏗️ Tech Lead','⚛️ Front','⚙️ Back','📱 Mobile','🧪 QA','🚀 DevOps','📣 Traffic','🔍 SEO','📲 Social','💼 Sales','🤝 CS','📊 BI'],
   },
 };
 
