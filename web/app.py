@@ -152,7 +152,12 @@ def _run_task_background(run_id, project_id, task_input, task_type, agent_list=N
 
 @app.route("/")
 def index():
-    return render_template("index.html")
+    from flask import make_response
+    resp = make_response(render_template("index.html"))
+    resp.headers["Cache-Control"] = "no-store, no-cache, must-revalidate, max-age=0"
+    resp.headers["Pragma"] = "no-cache"
+    resp.headers["Expires"] = "0"
+    return resp
 
 
 @app.route("/api/agents")
