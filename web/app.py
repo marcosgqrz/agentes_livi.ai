@@ -336,8 +336,10 @@ def pixel_finish_all():
 
 
 if __name__ == "__main__":
+    import os
+    port = int(os.environ.get("PORT", 5000))
     print("=" * 50)
     print("  Agent Orchestrator — Interface Web")
-    print("  Acesse: http://localhost:5000")
+    print(f"  Acesse: http://localhost:{port}")
     print("=" * 50)
-    app.run(debug=False, port=5000, threaded=True)
+    app.run(debug=False, port=port, threaded=True)
