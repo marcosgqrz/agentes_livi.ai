@@ -530,6 +530,13 @@ document.addEventListener('DOMContentLoaded', () => {
   renderAgentsGrid();
   renderSquads();
   showView('squads');
+  // Pré-carrega o Pixel Office em background para WebSocket já estar conectado
+  setTimeout(() => {
+    const iframe = document.getElementById('pixel-iframe');
+    if (iframe && iframe.src === 'about:blank') {
+      iframe.src = PIXEL_AGENTS_URL + '/';
+    }
+  }, 1500);
 });
 
 // ---- PLAN SELECTOR (kept for compat) ----
@@ -2276,11 +2283,15 @@ async function runSquadDemo(squadId) {
   btn.textContent = '⏹ Parar Demo';
   btn.onclick = stopDemo;
 
+  // Abre o Pixel Office para ver os personagens animados
+  showView('pixel');
+  await sleep(800);
+  if (!demoRunning) return;
+
   currentProject = { id: 'demo', name: 'FlowMark SaaS', desc: 'Demo de Squad' };
   document.getElementById('project-name').textContent = `FlowMark — ${squad.name}`;
   document.getElementById('project-desc').textContent = `🎬 Demo do ${squad.name} — ${squadScript.length} agentes`;
   hideRunForm();
-  showView('project');
 
   document.getElementById('tasks-list').innerHTML = `
     <div class="px-3 py-2.5 rounded-lg bg-slate-800 border border-indigo-700/40">
@@ -2383,6 +2394,11 @@ async function runFullDemo() {
   const btn = document.getElementById('btn-demo');
   btn.textContent = '⏹ Parar Demo';
   btn.onclick = stopDemo;
+
+  // Abre o Pixel Office para ver os personagens animados
+  showView('pixel');
+  await sleep(800);
+  if (!demoRunning) return;
 
   // Configura projeto demo na sidebar e view
   currentProject = { id: 'demo', name: 'FlowMark SaaS', desc: 'Demo de execução' };
