@@ -2285,7 +2285,7 @@ async function runSquadDemo(squadId) {
 
   // Abre o Pixel Office para ver os personagens animados
   showView('pixel');
-  await sleep(800);
+  await sleep(2000); // aguarda iframe carregar e WebSocket conectar
   if (!demoRunning) return;
 
   currentProject = { id: 'demo', name: 'FlowMark SaaS', desc: 'Demo de Squad' };
@@ -2369,6 +2369,8 @@ async function runSquadDemo(squadId) {
       <div class="text-xs text-slate-400 line-clamp-2">Demo — ${squad.name}</div>
     </div>`;
 
+  // Transição para view de projeto para mostrar resultados
+  showView('project');
   showSquadDemoResult(squadId);
   btn.innerHTML = '▶ Demo';
   btn.onclick = runDemo;
@@ -2397,15 +2399,15 @@ async function runFullDemo() {
 
   // Abre o Pixel Office para ver os personagens animados
   showView('pixel');
-  await sleep(800);
+  await sleep(2000); // aguarda iframe carregar e WebSocket conectar
   if (!demoRunning) return;
 
-  // Configura projeto demo na sidebar e view
+  // Configura projeto demo (na sidebar, não muda de view — pixel fica visível)
   currentProject = { id: 'demo', name: 'FlowMark SaaS', desc: 'Demo de execução' };
   document.getElementById('project-name').textContent = 'FlowMark — Plataforma de Automação de Marketing';
   document.getElementById('project-desc').textContent = '🎬 Simulação do plano Full Product — 9 agentes';
   hideRunForm();
-  showView('project');
+  // NÃO muda para view 'project' — mantém pixel office visível para ver personagens
 
   // Injeta tarefa demo na lista de tarefas
   document.getElementById('tasks-list').innerHTML = `
@@ -2507,6 +2509,8 @@ async function runFullDemo() {
       <div class="text-xs text-slate-400 line-clamp-2">Criar landing page para SaaS de automação de marketing</div>
     </div>`;
 
+  // Transição para a view de projeto para mostrar resultados
+  showView('project');
   showDemoResult();
 
   btn.innerHTML = '▶ Demo';
