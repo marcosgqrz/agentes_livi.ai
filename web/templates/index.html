@@ -130,6 +130,44 @@
   .project-chip { display: inline-flex; align-items: center; gap: 6px; background: rgba(99,102,241,0.15); border: 1px solid rgba(99,102,241,0.35); border-radius: 999px; padding: 3px 10px 3px 8px; font-size: 0.75rem; color: #a5b4fc; }
   .project-chip .dot { width: 6px; height: 6px; border-radius: 50%; background: #6366f1; }
 
+  /* ── Logo upload ── */
+  .logo-drop-zone { border: 2px dashed #334155; border-radius: 12px; background: #0f172a; transition: border-color 0.2s, background 0.2s; cursor: pointer; }
+  .logo-drop-zone:hover, .logo-drop-zone.drag-over { border-color: #6366f1; background: rgba(99,102,241,0.07); }
+  .logo-drop-zone.has-logo { border-style: solid; border-color: #4f46e5; background: rgba(79,70,229,0.08); }
+  .logo-preview-img { width: 64px; height: 64px; object-fit: contain; border-radius: 8px; background: #1e293b; padding: 4px; }
+  .logo-avatar { width: 28px; height: 28px; object-fit: contain; border-radius: 6px; background: #1e293b; padding: 2px; flex-shrink: 0; }
+  .logo-placeholder { width: 28px; height: 28px; border-radius: 6px; background: #1e293b; display: flex; align-items: center; justify-content: center; font-size: 11px; color: #475569; flex-shrink: 0; }
+
+  /* ── Document Analyzer (Go-to-Market) ── */
+  .doc-upload-zone { border: 2px dashed #334155; border-radius: 14px; background: #0f172a; transition: border-color 0.2s, background 0.2s; }
+  .doc-upload-zone.drag-over { border-color: #6366f1; background: rgba(99,102,241,0.07); }
+  .doc-upload-zone.has-file { border-color: #4f46e5; background: rgba(79,70,229,0.08); border-style: solid; }
+  .doc-tab-btn { background: #1e293b; border: 1px solid #334155; border-radius: 8px; color: #64748b; font-size: 0.78rem; font-weight: 600; padding: 6px 14px; cursor: pointer; transition: all 0.15s; }
+  .doc-tab-btn.active { background: rgba(99,102,241,0.2); border-color: #6366f1; color: #c7d2fe; }
+  .doc-fill-bar { display: flex; height: 6px; border-radius: 999px; overflow: hidden; background: #1e293b; }
+  .doc-fill-bar-inner { background: linear-gradient(90deg,#6366f1,#8b5cf6); border-radius: 999px; transition: width 0.4s ease; }
+  .q-field-pending .q-input, .q-field-pending .q-textarea, .q-field-pending select { border-color: #f59e0b !important; box-shadow: 0 0 0 2px rgba(245,158,11,0.15); }
+  .q-field-pending .q-label { color: #fcd34d; }
+  .q-field-filled .q-input, .q-field-filled .q-textarea, .q-field-filled select { border-color: #10b981 !important; box-shadow: 0 0 0 2px rgba(16,185,129,0.12); }
+  .q-field-filled .q-label { color: #6ee7b7; }
+  .pending-badge { display: inline-flex; align-items: center; gap: 4px; font-size: 0.65rem; font-weight: 700; padding: 2px 7px; border-radius: 999px; background: rgba(245,158,11,0.15); border: 1px solid rgba(245,158,11,0.4); color: #fcd34d; text-transform: uppercase; letter-spacing: 0.05em; }
+  .filled-badge { display: inline-flex; align-items: center; gap: 4px; font-size: 0.65rem; font-weight: 700; padding: 2px 7px; border-radius: 999px; background: rgba(16,185,129,0.12); border: 1px solid rgba(16,185,129,0.35); color: #6ee7b7; text-transform: uppercase; letter-spacing: 0.05em; }
+
+  /* ── Agent Run view ── */
+  #view-agent-run { background: #0f172a; }
+  .ar-question-card { background: #1e293b; border: 1px solid #334155; border-radius: 12px; padding: 1.25rem; }
+  .ar-label { display: block; font-size: 0.78rem; font-weight: 600; color: #94a3b8; margin-bottom: 0.5rem; letter-spacing: 0.02em; }
+  .ar-label .req { color: #6366f1; margin-left: 2px; }
+  .ar-input { width: 100%; background: #0f172a; border: 1px solid #334155; border-radius: 8px; padding: 0.55rem 0.85rem; font-size: 0.85rem; color: #f1f5f9; outline: none; transition: border-color 0.2s; }
+  .ar-input:focus { border-color: #6366f1; }
+  .ar-textarea { width: 100%; background: #0f172a; border: 1px solid #334155; border-radius: 8px; padding: 0.55rem 0.85rem; font-size: 0.85rem; color: #f1f5f9; outline: none; resize: vertical; min-height: 72px; transition: border-color 0.2s; }
+  .ar-textarea:focus { border-color: #6366f1; }
+  .ar-result-area { background: #0a0a14; border: 1px solid #1e293b; border-radius: 12px; padding: 1.5rem; }
+  .ar-dev-prompt-box { font-family: 'JetBrains Mono', monospace; font-size: 0.75rem; line-height: 1.7; background: #060912; border: 1px solid #1e293b; border-radius: 10px; padding: 1.25rem; color: #a5b4fc; white-space: pre-wrap; overflow-y: auto; max-height: 300px; }
+  .ar-copy-btn { display: flex; align-items: center; gap: 6px; background: linear-gradient(135deg,#4f46e5,#7c3aed); color: #fff; border: none; border-radius: 8px; padding: 8px 18px; font-size: 0.8rem; font-weight: 600; cursor: pointer; transition: opacity 0.15s; white-space: nowrap; }
+  .ar-copy-btn:hover { opacity: 0.88; }
+  .ar-copy-btn.copied { background: linear-gradient(135deg,#059669,#047857); }
+
   /* ── Pixel Office view ── */
   #view-pixel { background: #0a0a0f; }
   #pixel-iframe { width: 100%; height: 100%; border: none; display: block; }
@@ -152,6 +190,7 @@
       <button onclick="showView('squads')" id="nav-squads" class="text-xs text-slate-400 hover:text-slate-200 px-3 py-1.5 rounded hover:bg-slate-800 transition-colors">🎯 Squads</button>
       <button onclick="showView('agents')" id="nav-agents" class="text-xs text-slate-400 hover:text-slate-200 px-3 py-1.5 rounded hover:bg-slate-800 transition-colors">Agentes</button>
       <button onclick="showView('pixel')" id="nav-pixel" class="text-xs text-slate-400 hover:text-slate-200 px-3 py-1.5 rounded hover:bg-slate-800 transition-colors flex items-center gap-1">🕹️ Pixel Office</button>
+      <button onclick="showView('params')" id="nav-params" class="text-xs text-slate-400 hover:text-slate-200 px-3 py-1.5 rounded hover:bg-slate-800 transition-colors flex items-center gap-1">⚙️ Agentes</button>
       <button onclick="runDemo()" id="btn-demo" class="text-xs text-amber-400 hover:text-amber-300 border border-amber-700/50 hover:border-amber-500 px-3 py-1.5 rounded transition-colors font-medium flex items-center gap-1.5">
         <span>▶</span> Demo
       </button>
@@ -225,6 +264,81 @@
           <!-- Progress steps -->
           <div id="q-progress" class="ml-auto flex items-center gap-2"></div>
         </div>
+        <!-- ── ANALISADOR DE DOCUMENTO (apenas Go-to-Market Completo) ── -->
+        <div id="doc-analyzer" class="hidden mb-8">
+          <div class="border border-indigo-800/40 rounded-2xl bg-indigo-950/20 p-5">
+
+            <!-- Cabeçalho -->
+            <div class="flex items-center gap-3 mb-4">
+              <span class="text-2xl">📄</span>
+              <div>
+                <h3 class="font-bold text-slate-100 text-sm">Preenchimento Automático com Documento</h3>
+                <p class="text-xs text-slate-400 mt-0.5">Faça upload de um briefing, proposta ou documento do projeto — a IA irá analisar e preencher as perguntas automaticamente.</p>
+              </div>
+            </div>
+
+            <!-- Tabs: Arquivo / Colar texto -->
+            <div class="flex gap-2 mb-4">
+              <button onclick="docSetTab('file')" id="doc-tab-file" class="doc-tab-btn active">📎 Arquivo (PDF / Word)</button>
+              <button onclick="docSetTab('text')" id="doc-tab-text" class="doc-tab-btn">📝 Colar Texto</button>
+            </div>
+
+            <!-- Tab: Upload de arquivo -->
+            <div id="doc-panel-file">
+              <div id="doc-drop-zone" class="doc-upload-zone p-6 text-center cursor-pointer"
+                   onclick="document.getElementById('doc-file-input').click()"
+                   ondragover="docDragOver(event)" ondragleave="docDragLeave(event)" ondrop="docDrop(event)">
+                <input type="file" id="doc-file-input" class="hidden" accept=".pdf,.docx,.doc,.txt" onchange="docFileSelected(event)">
+                <div id="doc-drop-placeholder">
+                  <div class="text-3xl mb-2">📂</div>
+                  <p class="text-sm text-slate-400 font-medium">Arraste um arquivo ou clique para selecionar</p>
+                  <p class="text-xs text-slate-600 mt-1">PDF, Word (.docx) ou TXT — máx. 10 MB</p>
+                </div>
+                <div id="doc-drop-selected" class="hidden">
+                  <div class="text-3xl mb-2">✅</div>
+                  <p id="doc-file-name" class="text-sm text-indigo-300 font-semibold"></p>
+                  <p id="doc-file-size" class="text-xs text-slate-500 mt-1"></p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Tab: Colar texto -->
+            <div id="doc-panel-text" class="hidden">
+              <textarea id="doc-paste-area"
+                class="w-full bg-slate-950 border border-slate-700 focus:border-indigo-500 rounded-xl p-4 text-sm text-slate-300 resize-none outline-none scrollbar-thin"
+                rows="7"
+                placeholder="Cole aqui o conteúdo do documento — briefing, proposta, pitch deck transcrito, resumo do produto…"></textarea>
+            </div>
+
+            <!-- Botão analisar + resultado -->
+            <div class="mt-4 flex items-center gap-3 flex-wrap">
+              <button onclick="docAnalyze()" id="doc-analyze-btn"
+                class="flex items-center gap-2 bg-indigo-600 hover:bg-indigo-500 text-white font-semibold px-5 py-2.5 rounded-xl transition-colors text-sm">
+                <span id="doc-analyze-icon">🔍</span>
+                <span id="doc-analyze-label">Analisar e Preencher</span>
+              </button>
+              <span id="doc-analyze-status" class="text-xs text-slate-500 hidden"></span>
+            </div>
+
+            <!-- Resultado da análise -->
+            <div id="doc-result" class="hidden mt-4">
+              <div class="flex items-center gap-3 mb-2">
+                <div class="flex-1">
+                  <div class="flex items-center justify-between mb-1">
+                    <span id="doc-result-label" class="text-xs font-semibold text-slate-300"></span>
+                    <span id="doc-result-pct" class="text-xs text-slate-500"></span>
+                  </div>
+                  <div class="doc-fill-bar">
+                    <div id="doc-fill-bar-inner" class="doc-fill-bar-inner" style="width:0%"></div>
+                  </div>
+                </div>
+              </div>
+              <div id="doc-missing-alert" class="hidden mt-3 bg-amber-950/30 border border-amber-800/40 rounded-xl p-3 text-xs text-amber-300 leading-relaxed"></div>
+            </div>
+
+          </div>
+        </div>
+
         <!-- Draft indicator -->
         <div class="q-draft-bar empty" id="q-draft-bar">
           <span id="q-draft-text"></span>
@@ -256,6 +370,74 @@
       <div id="agents-grid" class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4"></div>
     </div>
 
+    <!-- VIEW: AGENT RUN (execução individual de um agente) -->
+    <div id="view-agent-run" class="flex-1 overflow-y-auto scrollbar-thin hidden">
+      <div class="max-w-3xl mx-auto px-6 py-8">
+
+        <!-- Header -->
+        <div class="flex items-center gap-4 mb-8">
+          <button onclick="showView('agents')" class="text-slate-500 hover:text-slate-300 transition-colors text-sm flex items-center gap-1.5">← Voltar</button>
+          <div class="flex items-center gap-3 flex-1">
+            <span id="ar-icon" class="text-3xl"></span>
+            <div>
+              <h1 id="ar-label" class="text-xl font-bold"></h1>
+              <p id="ar-refs" class="text-xs text-slate-500 mt-0.5"></p>
+            </div>
+          </div>
+          <div id="ar-deliverable-tag" class="agent-deliverable-tag hidden"></div>
+        </div>
+
+        <!-- Formulário de perguntas -->
+        <div id="ar-form" class="space-y-4 mb-6"></div>
+
+        <!-- Botão executar -->
+        <div class="flex items-center gap-3 mb-10">
+          <button onclick="arExecute()" id="ar-run-btn"
+            class="flex items-center gap-2 bg-indigo-600 hover:bg-indigo-500 text-white font-semibold px-6 py-2.5 rounded-xl transition-colors text-sm">
+            <span id="ar-run-icon">▶</span>
+            <span id="ar-run-label">Executar Agente</span>
+          </button>
+          <span id="ar-run-status" class="text-xs text-slate-500 hidden"></span>
+        </div>
+
+        <!-- ── Área de resultado ── -->
+        <div id="ar-result-section" class="hidden">
+          <div class="flex items-center gap-2 mb-4">
+            <div class="h-px flex-1 bg-slate-800"></div>
+            <span class="text-xs text-slate-500 font-medium uppercase tracking-wider">Resultado</span>
+            <div class="h-px flex-1 bg-slate-800"></div>
+          </div>
+
+          <!-- Métricas rápidas -->
+          <div id="ar-metrics" class="flex gap-4 mb-4 text-xs text-slate-500"></div>
+
+          <!-- Output do agente (markdown) -->
+          <div class="ar-result-area mb-8">
+            <div id="ar-output" class="prose"></div>
+          </div>
+
+          <!-- ── Prompt para IA de desenvolvimento ── -->
+          <div class="border border-indigo-900/50 rounded-2xl bg-indigo-950/20 p-5">
+            <div class="flex items-center justify-between mb-4 gap-4">
+              <div>
+                <h3 class="font-bold text-slate-100 text-sm">🚀 Prompt para IA de Desenvolvimento</h3>
+                <p class="text-xs text-slate-500 mt-0.5">Pronto para colar no Claude Code, Cursor ou Copilot</p>
+              </div>
+              <button id="ar-copy-btn" onclick="arCopyPrompt()" class="ar-copy-btn shrink-0">
+                <span id="ar-copy-icon">📋</span>
+                <span id="ar-copy-label">Copiar Prompt</span>
+              </button>
+            </div>
+            <div id="ar-dev-prompt" class="ar-dev-prompt-box"></div>
+          </div>
+        </div>
+
+        <!-- Estado de erro -->
+        <div id="ar-error-section" class="hidden bg-red-950/30 border border-red-900/50 rounded-xl p-5 text-red-400 text-sm"></div>
+
+      </div>
+    </div>
+
     <!-- VIEW: PIXEL OFFICE -->
     <div id="view-pixel" class="flex-1 overflow-hidden flex flex-col hidden">
       <iframe id="pixel-iframe" src="about:blank" title="Pixel Office" allow="autoplay"></iframe>
@@ -267,15 +449,99 @@
       </div>
     </div>
 
+    <!-- VIEW: PARAMETRIZAÇÃO -->
+    <div id="view-params" class="flex-1 overflow-hidden flex hidden">
+
+      <!-- Sidebar de agentes -->
+      <div class="w-64 border-r border-slate-800 bg-slate-900/50 flex flex-col shrink-0">
+        <div class="p-4 border-b border-slate-800 shrink-0">
+          <h2 class="text-sm font-bold text-slate-200">⚙️ Parametrização</h2>
+          <p class="text-xs text-slate-500 mt-0.5">Edite o system prompt de cada agente</p>
+        </div>
+        <!-- filtro por categoria -->
+        <div class="p-3 border-b border-slate-800 shrink-0">
+          <div class="flex flex-wrap gap-1" id="params-cat-filter">
+            <button onclick="paramsFilterCat('')"     data-cat="" class="params-cat-btn active text-xs px-2 py-1 rounded border border-slate-700 text-slate-400 hover:text-slate-200 transition-colors">Todos</button>
+            <button onclick="paramsFilterCat('design')"      data-cat="design"      class="params-cat-btn text-xs px-2 py-1 rounded border border-slate-700 text-slate-400 hover:text-slate-200 transition-colors">🎨 Design</button>
+            <button onclick="paramsFilterCat('engineering')" data-cat="engineering" class="params-cat-btn text-xs px-2 py-1 rounded border border-slate-700 text-slate-400 hover:text-slate-200 transition-colors">💻 Eng</button>
+            <button onclick="paramsFilterCat('quality')"     data-cat="quality"     class="params-cat-btn text-xs px-2 py-1 rounded border border-slate-700 text-slate-400 hover:text-slate-200 transition-colors">🧪 QA</button>
+            <button onclick="paramsFilterCat('growth')"      data-cat="growth"      class="params-cat-btn text-xs px-2 py-1 rounded border border-slate-700 text-slate-400 hover:text-slate-200 transition-colors">📈 Growth</button>
+            <button onclick="paramsFilterCat('business')"    data-cat="business"    class="params-cat-btn text-xs px-2 py-1 rounded border border-slate-700 text-slate-400 hover:text-slate-200 transition-colors">💼 Biz</button>
+          </div>
+        </div>
+        <div id="params-agent-list" class="flex-1 overflow-y-auto scrollbar-thin p-2 space-y-0.5"></div>
+      </div>
+
+      <!-- Editor principal -->
+      <div class="flex-1 overflow-hidden flex flex-col">
+
+        <!-- Estado vazio -->
+        <div id="params-empty" class="flex-1 flex flex-col items-center justify-center text-slate-500 gap-3">
+          <span class="text-4xl">🤖</span>
+          <p class="text-sm font-medium">Selecione um agente para editar</p>
+          <p class="text-xs text-slate-600">Os system prompts determinam a persona e as instruções de cada especialista</p>
+        </div>
+
+        <!-- Editor ativo -->
+        <div id="params-editor" class="flex-1 overflow-hidden flex-col hidden">
+
+          <!-- Header do editor -->
+          <div class="p-4 border-b border-slate-800 shrink-0 flex items-center justify-between gap-4">
+            <div class="flex items-center gap-3">
+              <span id="params-agent-icon" class="text-2xl"></span>
+              <div>
+                <h3 id="params-agent-label" class="font-bold text-slate-100"></h3>
+                <p id="params-agent-cat" class="text-xs text-slate-500 capitalize"></p>
+              </div>
+            </div>
+            <div class="flex items-center gap-2 shrink-0">
+              <span id="params-char-count" class="text-xs text-slate-500"></span>
+              <button onclick="paramsResetPrompt()" id="params-reset-btn"
+                class="text-xs text-slate-500 hover:text-amber-400 border border-slate-700 hover:border-amber-600 px-2.5 py-1.5 rounded transition-colors flex items-center gap-1">
+                ↩ Restaurar
+              </button>
+              <button onclick="paramsSave()"
+                class="text-xs bg-indigo-600 hover:bg-indigo-500 text-white px-4 py-1.5 rounded transition-colors font-medium flex items-center gap-1.5">
+                💾 Salvar
+              </button>
+            </div>
+          </div>
+
+          <!-- Barra de estado do save -->
+          <div id="params-save-bar" class="hidden px-4 py-2 text-xs font-medium shrink-0"></div>
+
+          <!-- Textarea do prompt -->
+          <div class="flex-1 overflow-hidden p-4">
+            <textarea id="params-prompt-textarea"
+              oninput="paramsOnInput()"
+              class="w-full h-full bg-slate-950 border border-slate-700 focus:border-indigo-500 rounded-lg p-4 text-sm text-slate-200 font-mono resize-none outline-none scrollbar-thin"
+              placeholder="Digite o system prompt do agente aqui…"></textarea>
+          </div>
+
+          <!-- Dica -->
+          <div class="px-4 py-3 border-t border-slate-800 shrink-0 text-xs text-slate-600 flex items-center gap-2">
+            <span>💡</span>
+            <span>Alterações entram em vigor imediatamente na próxima execução. O arquivo <code class="text-indigo-400">.md</code> correspondente é atualizado no disco.</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
     <!-- VIEW: PROJECT -->
     <div id="view-project" class="flex-1 overflow-hidden flex flex-col hidden">
 
       <!-- Project Header + New Task button -->
       <div class="p-5 border-b border-slate-800 shrink-0">
         <div class="flex items-center justify-between">
-          <div>
-            <h2 id="project-name" class="text-lg font-bold"></h2>
-            <p id="project-desc" class="text-xs text-slate-400 mt-0.5"></p>
+          <div class="flex items-center gap-3">
+            <div id="project-logo" class="shrink-0">
+              <div class="logo-placeholder" style="width:36px;height:36px;font-size:14px;"></div>
+            </div>
+            <div>
+              <h2 id="project-name" class="text-lg font-bold"></h2>
+              <p id="project-desc" class="text-xs text-slate-400 mt-0.5"></p>
+            </div>
           </div>
           <div class="flex items-center gap-2">
             <button onclick="showView('squads')" id="btn-new-task"
@@ -446,21 +712,56 @@
 <!-- Modal: New Project -->
 <div id="project-modal" class="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
   <div class="bg-slate-900 border border-slate-700 rounded-2xl p-6 w-full max-w-md fade-in">
-    <h3 class="font-bold text-lg mb-4">Novo Projeto</h3>
+    <h3 class="font-bold text-lg mb-5">Novo Projeto</h3>
     <div class="space-y-4">
+
+      <!-- Logo -->
+      <div>
+        <label class="block text-xs font-medium text-slate-400 mb-2">Logo do Projeto <span class="text-slate-600">(opcional · JPG ou PNG)</span></label>
+        <div id="logo-drop-zone" class="logo-drop-zone p-4 flex items-center gap-4"
+             onclick="document.getElementById('logo-file-input').click()"
+             ondragover="logoDragOver(event)" ondragleave="logoDragLeave(event)" ondrop="logoDrop(event)">
+          <input type="file" id="logo-file-input" class="hidden" accept="image/jpeg,image/png,image/webp" onchange="logoFileSelected(event)">
+
+          <!-- Placeholder (sem logo) -->
+          <div id="logo-placeholder-state" class="flex items-center gap-3 w-full">
+            <div class="w-14 h-14 rounded-xl bg-slate-800 border border-slate-700 flex items-center justify-center text-2xl shrink-0">🖼️</div>
+            <div>
+              <p class="text-sm text-slate-400 font-medium">Arraste a logo ou clique para selecionar</p>
+              <p class="text-xs text-slate-600 mt-0.5">JPG, PNG ou WebP — máx. 2 MB</p>
+            </div>
+          </div>
+
+          <!-- Preview (com logo) -->
+          <div id="logo-preview-state" class="hidden flex items-center gap-4 w-full">
+            <img id="logo-preview-img" class="logo-preview-img" src="" alt="preview">
+            <div class="flex-1 min-w-0">
+              <p id="logo-preview-name" class="text-sm text-indigo-300 font-semibold truncate"></p>
+              <p id="logo-preview-size" class="text-xs text-slate-500 mt-0.5"></p>
+              <button onclick="logoRemove(event)" class="mt-1.5 text-xs text-slate-500 hover:text-red-400 transition-colors">✕ Remover</button>
+            </div>
+          </div>
+        </div>
+        <div id="logo-error" class="hidden mt-1.5 text-xs text-red-400"></div>
+      </div>
+
+      <!-- Nome -->
       <div>
         <label class="block text-xs font-medium text-slate-400 mb-2">Nome *</label>
         <input id="new-project-name" type="text" placeholder="Ex: Landing Page SaaS"
           class="w-full bg-slate-800 border border-slate-700 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:border-indigo-500">
       </div>
+
+      <!-- Descrição -->
       <div>
         <label class="block text-xs font-medium text-slate-400 mb-2">Descrição (opcional)</label>
         <textarea id="new-project-desc" rows="2" placeholder="Descreva o produto"
           class="w-full bg-slate-800 border border-slate-700 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:border-indigo-500 resize-none"></textarea>
       </div>
+
     </div>
     <div class="flex gap-3 mt-6">
-      <button onclick="createProject()" class="flex-1 bg-indigo-600 hover:bg-indigo-500 text-white py-2.5 rounded-lg font-medium transition-colors">Criar</button>
+      <button onclick="createProject()" class="flex-1 bg-indigo-600 hover:bg-indigo-500 text-white py-2.5 rounded-lg font-medium transition-colors">Criar Projeto</button>
       <button onclick="closeModal('project-modal')" class="px-4 text-slate-400 hover:text-slate-200 hover:bg-slate-800 rounded-lg transition-colors">Cancelar</button>
     </div>
   </div>
@@ -545,7 +846,7 @@ function setupPlanSelector() { /* form removed — execução via Squad + Questi
 // ---- VIEWS ----
 function showView(name) {
   currentView = name;
-  ['agents','project','squads','questionnaire','pixel'].forEach(v => {
+  ['agents','project','squads','questionnaire','pixel','params','agent-run'].forEach(v => {
     const el = document.getElementById('view-'+v);
     if (el) el.classList.add('hidden');
   });
@@ -573,8 +874,13 @@ function showView(name) {
     }
   }
 
+  // Carrega agentes da tela de parametrização quando aberta
+  if (name === 'params') {
+    loadParamsAgents();
+  }
+
   // Update nav highlights
-  ['squads','agents','pixel'].forEach(v => {
+  ['squads','agents','pixel','params'].forEach(v => {
     const btn = document.getElementById('nav-'+v);
     if (!btn) return;
     if (v === name || (v === 'squads' && name === 'questionnaire')) {
@@ -1106,6 +1412,15 @@ function openSquadQuestionnaire(squadId) {
 
   renderQuestionnaire(squadId);
 
+  // Mostra/oculta o analisador de documento — apenas para Go-to-Market Completo
+  const docAnalyzer = document.getElementById('doc-analyzer');
+  if (squadId === 'completo') {
+    docAnalyzer.classList.remove('hidden');
+    docReset(); // garante estado limpo ao abrir
+  } else {
+    docAnalyzer.classList.add('hidden');
+  }
+
   // Restaura rascunho se existir
   const draft = loadDraft(currentProject.id, squadId);
   if (draft && draft.answers) {
@@ -1351,15 +1666,21 @@ function showResultPanel(panel) {
 // ---- AGENTS GRID ----
 function renderAgentsGrid() {
   document.getElementById('agents-grid').innerHTML = Object.entries(AGENTS_META).map(([key, m]) => `
-    <div class="agent-card border ${COLOR_BORDER[m.color]} rounded-xl p-5 transition-all duration-200">
+    <div class="agent-card border ${COLOR_BORDER[m.color]} rounded-xl p-5 transition-all duration-200 cursor-pointer"
+         onclick="openAgentRun('${key}')">
       <div class="flex items-start gap-3 mb-3">
         <span class="text-3xl">${m.icon}</span>
-        <div>
+        <div class="flex-1 min-w-0">
           <div class="font-semibold text-slate-100">${m.label}</div>
           <div class="text-xs text-slate-500 mt-0.5">${m.refs}</div>
         </div>
+        <span class="text-xs text-slate-600 hover:text-slate-400 transition-colors mt-0.5">→</span>
       </div>
-      <p class="text-xs text-slate-400 leading-relaxed">${m.desc}</p>
+      <p class="text-xs text-slate-400 leading-relaxed mb-3">${m.desc}</p>
+      <div class="flex items-center justify-between">
+        <span class="text-[10px] font-semibold px-2 py-0.5 rounded-full border border-slate-700 text-slate-500 uppercase tracking-wide">${m.deliverable}</span>
+        <span class="text-xs text-indigo-500 font-medium">Executar →</span>
+      </div>
     </div>
   `).join('');
 }
@@ -1372,17 +1693,36 @@ async function loadProjects() {
     list.innerHTML = '<div class="text-xs text-slate-600 py-2">Nenhum projeto. Crie o primeiro!</div>';
     return;
   }
-  list.innerHTML = projects.map(p => `
-    <button onclick="selectProject('${p.id}','${esc(p.name)}','${esc(p.description)}')"
+  list.innerHTML = projects.map(p => {
+    const logoHtml = p.logo
+      ? `<img src="${p.logo}" class="logo-avatar" alt="logo">`
+      : `<div class="logo-placeholder">${esc(p.name).charAt(0).toUpperCase()}</div>`;
+    return `
+    <button onclick="selectProject('${p.id}','${esc(p.name)}','${esc(p.description)}','squads','${esc(p.logo||'')}')"
       class="project-btn w-full text-left px-3 py-2 rounded-lg text-sm hover:bg-slate-800 transition-colors" data-id="${p.id}">
-      <div class="font-medium text-slate-200 truncate">${esc(p.name)}</div>
-      ${p.description ? `<div class="text-xs text-slate-500 truncate">${esc(p.description)}</div>` : ''}
-    </button>
-  `).join('');
+      <div class="flex items-center gap-2">
+        ${logoHtml}
+        <div class="flex-1 min-w-0">
+          <div class="font-medium text-slate-200 truncate">${esc(p.name)}</div>
+          ${p.description ? `<div class="text-xs text-slate-500 truncate">${esc(p.description)}</div>` : ''}
+        </div>
+      </div>
+    </button>`;
+  }).join('');
 }
 
-function selectProject(id, name, desc, goView = 'squads') {
-  currentProject = { id, name, desc };
+function selectProject(id, name, desc, goView = 'squads', logo = '') {
+  currentProject = { id, name, desc, logo };
+
+  // Atualiza logo no header do projeto
+  const logoEl = document.getElementById('project-logo');
+  if (logoEl) {
+    if (logo) {
+      logoEl.innerHTML = `<img src="${logo}" class="logo-avatar" alt="logo" style="width:32px;height:32px;">`;
+    } else {
+      logoEl.innerHTML = `<div class="logo-placeholder" style="width:32px;height:32px;font-size:14px;">${name.charAt(0).toUpperCase()}</div>`;
+    }
+  }
   document.querySelectorAll('.project-btn').forEach(b => {
     b.classList.toggle('bg-slate-800', b.dataset.id === id);
     b.classList.toggle('text-indigo-400', b.dataset.id === id);
@@ -1406,18 +1746,84 @@ function selectProject(id, name, desc, goView = 'squads') {
   }
 }
 
+// ── LOGO UPLOAD ──────────────────────────────────────────────────────────────
+let _logoBase64 = null;  // "data:image/png;base64,..."
+
+function logoDragOver(e) {
+  e.preventDefault();
+  document.getElementById('logo-drop-zone').classList.add('drag-over');
+}
+function logoDragLeave() {
+  document.getElementById('logo-drop-zone').classList.remove('drag-over');
+}
+function logoDrop(e) {
+  e.preventDefault();
+  document.getElementById('logo-drop-zone').classList.remove('drag-over');
+  const file = e.dataTransfer?.files?.[0];
+  if (file) logoProcess(file);
+}
+function logoFileSelected(e) {
+  const file = e.target.files?.[0];
+  if (file) logoProcess(file);
+}
+function logoProcess(file) {
+  const errEl = document.getElementById('logo-error');
+  errEl.classList.add('hidden');
+
+  if (!['image/jpeg','image/png','image/webp'].includes(file.type)) {
+    errEl.textContent = 'Formato inválido. Use JPG, PNG ou WebP.';
+    errEl.classList.remove('hidden');
+    return;
+  }
+  if (file.size > 2 * 1024 * 1024) {
+    errEl.textContent = 'Arquivo muito grande. Máximo 2 MB.';
+    errEl.classList.remove('hidden');
+    return;
+  }
+
+  const reader = new FileReader();
+  reader.onload = (ev) => {
+    _logoBase64 = ev.target.result;  // data URL
+    document.getElementById('logo-preview-img').src = _logoBase64;
+    document.getElementById('logo-preview-name').textContent = file.name;
+    document.getElementById('logo-preview-size').textContent = (file.size / 1024).toFixed(1) + ' KB';
+    document.getElementById('logo-placeholder-state').classList.add('hidden');
+    document.getElementById('logo-preview-state').classList.remove('hidden');
+    document.getElementById('logo-drop-zone').classList.add('has-logo');
+  };
+  reader.readAsDataURL(file);
+}
+function logoRemove(e) {
+  e.stopPropagation();
+  _logoBase64 = null;
+  document.getElementById('logo-preview-state').classList.add('hidden');
+  document.getElementById('logo-placeholder-state').classList.remove('hidden');
+  document.getElementById('logo-drop-zone').classList.remove('has-logo');
+  document.getElementById('logo-file-input').value = '';
+}
+function logoReset() {
+  _logoBase64 = null;
+  document.getElementById('logo-preview-state').classList.add('hidden');
+  document.getElementById('logo-placeholder-state').classList.remove('hidden');
+  document.getElementById('logo-drop-zone').classList.remove('has-logo','drag-over');
+  document.getElementById('logo-error').classList.add('hidden');
+  document.getElementById('logo-file-input').value = '';
+}
+// ─────────────────────────────────────────────────────────────────────────────
+
 async function createProject() {
   const name = document.getElementById('new-project-name').value.trim();
   const desc = document.getElementById('new-project-desc').value.trim();
   if (!name) return;
   const res = await fetch('/api/projects', {
     method: 'POST', headers: {'Content-Type':'application/json'},
-    body: JSON.stringify({ name, description: desc })
+    body: JSON.stringify({ name, description: desc, logo: _logoBase64 || null })
   });
   if (res.ok) {
     closeModal('project-modal');
     document.getElementById('new-project-name').value = '';
     document.getElementById('new-project-desc').value = '';
+    logoReset();
     await loadProjects();
   }
 }
@@ -2561,6 +2967,750 @@ function stopDemo() {
 function sleep(ms) {
   return new Promise(resolve => setTimeout(resolve, ms));
 }
+
+// ── PARAMETRIZAÇÃO DE AGENTES ─────────────────────────────────────────────────
+
+// ── ANALISADOR DE DOCUMENTO (Go-to-Market Completo) ──────────────────────────
+
+let docCurrentTab = 'file';
+let docSelectedFile = null;
+
+function docReset() {
+  docSelectedFile = null;
+  docCurrentTab = 'file';
+  docSetTab('file');
+  const ph = document.getElementById('doc-drop-placeholder');
+  const sel = document.getElementById('doc-drop-selected');
+  const zone = document.getElementById('doc-drop-zone');
+  if (ph) ph.classList.remove('hidden');
+  if (sel) sel.classList.add('hidden');
+  if (zone) zone.classList.remove('has-file');
+  const ta = document.getElementById('doc-paste-area');
+  if (ta) ta.value = '';
+  document.getElementById('doc-result')?.classList.add('hidden');
+  document.getElementById('doc-missing-alert')?.classList.add('hidden');
+  document.getElementById('doc-analyze-status')?.classList.add('hidden');
+  const btn = document.getElementById('doc-analyze-btn');
+  if (btn) { btn.disabled = false; }
+  document.getElementById('doc-analyze-icon').textContent = '🔍';
+  document.getElementById('doc-analyze-label').textContent = 'Analisar e Preencher';
+  const fileInput = document.getElementById('doc-file-input');
+  if (fileInput) fileInput.value = '';
+}
+
+function docSetTab(tab) {
+  docCurrentTab = tab;
+  document.getElementById('doc-tab-file').classList.toggle('active', tab === 'file');
+  document.getElementById('doc-tab-text').classList.toggle('active', tab === 'text');
+  document.getElementById('doc-panel-file').classList.toggle('hidden', tab !== 'file');
+  document.getElementById('doc-panel-text').classList.toggle('hidden', tab !== 'text');
+}
+
+function docDragOver(e) {
+  e.preventDefault();
+  document.getElementById('doc-drop-zone').classList.add('drag-over');
+}
+function docDragLeave(e) {
+  document.getElementById('doc-drop-zone').classList.remove('drag-over');
+}
+function docDrop(e) {
+  e.preventDefault();
+  document.getElementById('doc-drop-zone').classList.remove('drag-over');
+  const file = e.dataTransfer?.files?.[0];
+  if (file) docSetFile(file);
+}
+function docFileSelected(e) {
+  const file = e.target.files?.[0];
+  if (file) docSetFile(file);
+}
+function docSetFile(file) {
+  docSelectedFile = file;
+  document.getElementById('doc-drop-placeholder').classList.add('hidden');
+  const sel = document.getElementById('doc-drop-selected');
+  sel.classList.remove('hidden');
+  document.getElementById('doc-file-name').textContent = file.name;
+  document.getElementById('doc-file-size').textContent = (file.size / 1024).toFixed(1) + ' KB';
+  document.getElementById('doc-drop-zone').classList.add('has-file');
+}
+
+async function docAnalyze() {
+  const btn = document.getElementById('doc-analyze-btn');
+  const statusEl = document.getElementById('doc-analyze-status');
+
+  // Valida entrada
+  if (docCurrentTab === 'file' && !docSelectedFile) {
+    statusEl.textContent = '⚠️ Selecione um arquivo primeiro.';
+    statusEl.classList.remove('hidden');
+    return;
+  }
+  if (docCurrentTab === 'text' && !document.getElementById('doc-paste-area').value.trim()) {
+    statusEl.textContent = '⚠️ Cole o texto do documento primeiro.';
+    statusEl.classList.remove('hidden');
+    return;
+  }
+
+  // UI: loading
+  btn.disabled = true;
+  document.getElementById('doc-analyze-icon').innerHTML = '<svg class="spin w-4 h-4" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z"></path></svg>';
+  document.getElementById('doc-analyze-label').textContent = 'Analisando…';
+  statusEl.textContent = 'A IA está lendo o documento e mapeando as respostas…';
+  statusEl.classList.remove('hidden');
+  document.getElementById('doc-result')?.classList.add('hidden');
+  document.getElementById('doc-missing-alert')?.classList.add('hidden');
+
+  try {
+    const formData = new FormData();
+    if (docCurrentTab === 'file') {
+      formData.append('file', docSelectedFile);
+    } else {
+      formData.append('text', document.getElementById('doc-paste-area').value.trim());
+    }
+
+    const res = await fetch('/api/analyze-document', { method: 'POST', body: formData });
+    const data = await res.json();
+
+    if (!res.ok || data.error) {
+      statusEl.textContent = '❌ ' + (data.error || 'Erro desconhecido');
+      return;
+    }
+
+    // Preenche os campos
+    docApplyFilled(data.filled, data.missing);
+
+    // Mostra resultado
+    const pct = Math.round((data.found / data.total) * 100);
+    document.getElementById('doc-fill-bar-inner').style.width = pct + '%';
+    document.getElementById('doc-result-label').textContent =
+      `✅ ${data.found} de ${data.total} campos preenchidos automaticamente`;
+    document.getElementById('doc-result-pct').textContent = pct + '%';
+    document.getElementById('doc-result').classList.remove('hidden');
+
+    if (data.missing.length > 0) {
+      const missingEl = document.getElementById('doc-missing-alert');
+      missingEl.innerHTML = `<strong>⚠️ ${data.missing.length} campo(s) precisam ser preenchidos manualmente:</strong><br><br>`
+        + data.missing.map(fid => {
+            const label = docGetFieldLabel(fid);
+            return `• <span class="font-medium">${label}</span>`;
+          }).join('<br>');
+      missingEl.classList.remove('hidden');
+    }
+
+    statusEl.classList.add('hidden');
+    // Scroll suave para o formulário
+    setTimeout(() => {
+      document.getElementById('q-form')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }, 400);
+
+  } catch(e) {
+    statusEl.textContent = '❌ Falha na conexão com o servidor.';
+  } finally {
+    btn.disabled = false;
+    document.getElementById('doc-analyze-icon').textContent = '🔍';
+    document.getElementById('doc-analyze-label').textContent = 'Analisar Novamente';
+  }
+}
+
+function docGetFieldLabel(fieldId) {
+  // Busca o label do campo no QUESTIONS['completo']
+  const sections = QUESTIONS['completo'] || [];
+  for (const sec of sections) {
+    for (const f of sec.fields) {
+      if (f.id === fieldId) return f.label;
+    }
+  }
+  return fieldId;
+}
+
+function docApplyFilled(filled, missing) {
+  const sections = QUESTIONS['completo'] || [];
+
+  // Remove marcações anteriores
+  document.querySelectorAll('.q-field').forEach(el => {
+    el.classList.remove('q-field-pending','q-field-filled');
+    const badge = el.querySelector('.doc-badge');
+    if (badge) badge.remove();
+  });
+
+  // Aplica cada valor preenchido
+  for (const [fieldId, value] of Object.entries(filled)) {
+    docSetFieldValue(fieldId, value);
+    docMarkField(fieldId, 'filled');
+  }
+
+  // Marca campos pendentes (req que não foram preenchidos)
+  for (const sec of sections) {
+    for (const f of sec.fields) {
+      if (missing.includes(f.id)) {
+        docMarkField(f.id, 'pending');
+      }
+    }
+  }
+
+  // Dispara auto-save do rascunho
+  saveDraftNow && saveDraftNow();
+}
+
+function docSetFieldValue(fieldId, value) {
+  const el = document.getElementById('qf-' + fieldId);
+  if (!el) {
+    // Pode ser radio ou checkbox
+    const radios = document.querySelectorAll(`input[name="qf-${fieldId}"]`);
+    if (radios.length && radios[0].type === 'radio') {
+      // Tenta match exato ou parcial
+      let matched = false;
+      radios.forEach(r => {
+        if (r.value === value || r.value.toLowerCase().includes(value.toLowerCase()) || value.toLowerCase().includes(r.value.toLowerCase())) {
+          r.checked = true;
+          matched = true;
+        }
+      });
+      return;
+    }
+    if (radios.length && radios[0].type === 'checkbox') {
+      const vals = Array.isArray(value) ? value : value.split(',').map(v => v.trim());
+      radios.forEach(r => {
+        const isMatch = vals.some(v => r.value === v || r.value.toLowerCase().includes(v.toLowerCase()) || v.toLowerCase().includes(r.value.toLowerCase()));
+        r.checked = isMatch;
+      });
+      return;
+    }
+    return;
+  }
+  if (el.tagName === 'SELECT') {
+    // Tenta match
+    for (const opt of el.options) {
+      if (opt.value === value || opt.text.toLowerCase().includes(value.toLowerCase())) {
+        el.value = opt.value;
+        break;
+      }
+    }
+    return;
+  }
+  el.value = value;
+}
+
+function docMarkField(fieldId, state) {
+  // Encontra o wrapper .q-field do campo
+  let el = document.getElementById('qf-' + fieldId);
+  if (!el) {
+    const r = document.querySelector(`input[name="qf-${fieldId}"]`);
+    if (r) el = r;
+  }
+  if (!el) return;
+
+  const wrapper = el.closest('.q-field');
+  if (!wrapper) return;
+
+  wrapper.classList.remove('q-field-pending','q-field-filled');
+  const existing = wrapper.querySelector('.doc-badge');
+  if (existing) existing.remove();
+
+  if (state === 'filled') {
+    wrapper.classList.add('q-field-filled');
+    const label = wrapper.querySelector('.q-label');
+    if (label) {
+      const badge = document.createElement('span');
+      badge.className = 'filled-badge doc-badge ml-2';
+      badge.textContent = '✓ preenchido';
+      label.appendChild(badge);
+    }
+  } else if (state === 'pending') {
+    wrapper.classList.add('q-field-pending');
+    const label = wrapper.querySelector('.q-label');
+    if (label) {
+      const badge = document.createElement('span');
+      badge.className = 'pending-badge doc-badge ml-2';
+      badge.textContent = '⚠ pendente';
+      label.appendChild(badge);
+    }
+  }
+}
+
+// ── EXECUÇÃO INDIVIDUAL DE AGENTE ────────────────────────────────────────────
+
+const AGENT_QUESTIONS = {
+  brand_designer: [
+    { id:"produto",    label:"Nome do produto ou empresa",           req:true,  type:"input",    placeholder:"Ex: Fleetflow, NovaSaas…" },
+    { id:"setor",      label:"Setor / nicho de mercado",             req:true,  type:"input",    placeholder:"Ex: Logística, Saúde, Educação…" },
+    { id:"publico",    label:"Público-alvo principal",               req:true,  type:"textarea", placeholder:"Quem são seus clientes? Idade, perfil, dores…" },
+    { id:"valores",    label:"Valores e personalidade da marca",     req:false, type:"textarea", placeholder:"Ex: confiança, modernidade, descontração…" },
+    { id:"referencias",label:"Referências visuais ou concorrentes",  req:false, type:"textarea", placeholder:"Marcas que admira ou que quer se diferenciar…" },
+    { id:"tom",        label:"Tom de comunicação",                   req:false, type:"input",    placeholder:"Ex: profissional e acolhedor, técnico e direto…" },
+  ],
+  ux_designer: [
+    { id:"produto",    label:"Descrição do produto",                 req:true,  type:"textarea", placeholder:"O que o produto faz? Qual problema resolve?" },
+    { id:"publico",    label:"Público-alvo",                         req:true,  type:"textarea", placeholder:"Perfil dos usuários, contexto de uso…" },
+    { id:"plataforma", label:"Plataforma",                           req:true,  type:"input",    placeholder:"Web, mobile, desktop, ambos…" },
+    { id:"funcoes",    label:"Principais funcionalidades",           req:true,  type:"textarea", placeholder:"Liste as funcionalidades mais importantes…" },
+    { id:"dores",      label:"Dores e frustrações do usuário",       req:false, type:"textarea", placeholder:"Quais problemas o usuário enfrenta hoje?" },
+    { id:"fluxo",      label:"Fluxo principal que deseja mapear",    req:false, type:"input",    placeholder:"Ex: cadastro, checkout, onboarding…" },
+  ],
+  ui_designer: [
+    { id:"produto",    label:"Nome e tipo do produto",               req:true,  type:"input",    placeholder:"Ex: dashboard SaaS, app mobile de delivery…" },
+    { id:"estilo",     label:"Estilo visual preferido",              req:true,  type:"input",    placeholder:"Ex: minimalista, dark mode, colorido, corporativo…" },
+    { id:"cores",      label:"Paleta de cores (se houver)",          req:false, type:"input",    placeholder:"Ex: #6366f1, azul/branco, tons de verde…" },
+    { id:"referencias",label:"Referências de design",                req:false, type:"textarea", placeholder:"Apps ou sites que servem de inspiração…" },
+    { id:"componentes",label:"Componentes ou telas necessárias",     req:true,  type:"textarea", placeholder:"Ex: header, tabelas, cards, formulários, modais…" },
+    { id:"designsystem",label:"Já existe design system ou brandbook?",req:false, type:"textarea", placeholder:"Cole aqui diretrizes existentes (opcional)…" },
+  ],
+  ux_writer: [
+    { id:"produto",    label:"Nome e descrição do produto",          req:true,  type:"input",    placeholder:"Ex: Fleetflow — gestão de frotas…" },
+    { id:"tom",        label:"Tom de voz da marca",                  req:true,  type:"input",    placeholder:"Ex: amigável, técnico, inspirador…" },
+    { id:"tipo",       label:"Tipo de textos necessários",           req:true,  type:"textarea", placeholder:"Ex: onboarding, mensagens de erro, emails, tooltips…" },
+    { id:"publico",    label:"Público-alvo",                         req:true,  type:"input",    placeholder:"Quem vai ler esses textos?" },
+    { id:"contexto",   label:"Contexto ou telas específicas",        req:false, type:"textarea", placeholder:"Descreva as telas ou momentos onde o texto aparece…" },
+  ],
+  tech_lead: [
+    { id:"produto",    label:"Descrição do produto",                 req:true,  type:"textarea", placeholder:"O que o sistema precisa fazer?" },
+    { id:"escala",     label:"Escala esperada",                      req:true,  type:"input",    placeholder:"Ex: 1.000 usuários, 100k req/dia, MVP inicial…" },
+    { id:"stack",      label:"Stack existente ou preferida",         req:false, type:"input",    placeholder:"Ex: React + Node, Next.js + Supabase, Flutter…" },
+    { id:"seguranca",  label:"Requisitos de segurança ou compliance", req:false, type:"textarea", placeholder:"Ex: LGPD, autenticação multi-fator, criptografia…" },
+    { id:"prazo",      label:"Prazo e tamanho do time",              req:false, type:"input",    placeholder:"Ex: 3 meses, 2 devs + 1 designer…" },
+    { id:"integracao", label:"Integrações externas necessárias",     req:false, type:"textarea", placeholder:"Ex: pagamentos, ERP, APIs de terceiros…" },
+  ],
+  frontend_dev: [
+    { id:"produto",    label:"Descrição do produto/sistema",         req:true,  type:"textarea", placeholder:"O que precisa ser construído?" },
+    { id:"stack",      label:"Stack preferida",                      req:true,  type:"input",    placeholder:"Ex: React, Next.js, Vue, Angular…" },
+    { id:"telas",      label:"Telas/páginas necessárias",            req:true,  type:"textarea", placeholder:"Liste as principais telas do sistema…" },
+    { id:"design",     label:"Design system ou referência visual",   req:false, type:"textarea", placeholder:"Cole guidelines de UI ou mencione referências…" },
+    { id:"pwa",        label:"Precisa ser PWA ou offline?",          req:false, type:"input",    placeholder:"Sim / Não / Parcialmente" },
+    { id:"performance",label:"Requisitos de performance",            req:false, type:"input",    placeholder:"Ex: LCP < 2s, bundle < 200kb…" },
+  ],
+  backend_dev: [
+    { id:"produto",    label:"Descrição do sistema",                 req:true,  type:"textarea", placeholder:"O que o backend precisa fazer?" },
+    { id:"api",        label:"Tipo de API",                          req:true,  type:"input",    placeholder:"REST, GraphQL, gRPC, WebSocket…" },
+    { id:"banco",      label:"Banco de dados",                       req:true,  type:"input",    placeholder:"PostgreSQL, MongoDB, Supabase, MySQL…" },
+    { id:"auth",       label:"Necessidades de autenticação",         req:true,  type:"input",    placeholder:"JWT, OAuth, SSO, API Keys…" },
+    { id:"volume",     label:"Volume de dados esperado",             req:false, type:"input",    placeholder:"Ex: 10k usuários, 1M registros, picos de acesso…" },
+    { id:"integracao", label:"Integrações externas",                 req:false, type:"textarea", placeholder:"Ex: Stripe, Twilio, AWS S3, webhooks…" },
+  ],
+  mobile_dev: [
+    { id:"produto",    label:"Descrição do app",                     req:true,  type:"textarea", placeholder:"O que o app precisa fazer?" },
+    { id:"plataforma", label:"Plataformas alvo",                     req:true,  type:"input",    placeholder:"iOS, Android, ambos (React Native/Expo)…" },
+    { id:"telas",      label:"Telas principais",                     req:true,  type:"textarea", placeholder:"Liste as telas e funcionalidades principais…" },
+    { id:"offline",    label:"Funciona offline?",                    req:false, type:"input",    placeholder:"Sim / Não / Parcialmente" },
+    { id:"hardware",   label:"Recursos de hardware necessários",     req:false, type:"input",    placeholder:"Câmera, GPS, notificações push, biometria…" },
+    { id:"api",        label:"Backend/API existente?",               req:false, type:"textarea", placeholder:"Descreva a API disponível ou cole exemplos…" },
+  ],
+  qa_engineer: [
+    { id:"produto",    label:"Descrição do produto",                 req:true,  type:"textarea", placeholder:"O que será testado?" },
+    { id:"criticas",   label:"Funcionalidades críticas",             req:true,  type:"textarea", placeholder:"O que não pode falhar de jeito nenhum?" },
+    { id:"ambientes",  label:"Ambientes de teste",                   req:false, type:"input",    placeholder:"Ex: staging, produção, dispositivos iOS/Android…" },
+    { id:"metricas",   label:"Métricas de qualidade esperadas",      req:false, type:"input",    placeholder:"Ex: cobertura > 80%, tempo de resposta < 500ms…" },
+    { id:"stack",      label:"Stack do produto",                     req:false, type:"input",    placeholder:"Ex: React + Node + PostgreSQL…" },
+  ],
+  devops_engineer: [
+    { id:"produto",    label:"Descrição do produto/sistema",         req:true,  type:"textarea", placeholder:"O que precisa ser deployado e operado?" },
+    { id:"cloud",      label:"Cloud provider",                       req:true,  type:"input",    placeholder:"AWS, GCP, Azure, Railway, Render, Vercel…" },
+    { id:"escala",     label:"Escala esperada",                      req:true,  type:"input",    placeholder:"Ex: 1k req/min, 99.9% uptime, multi-região…" },
+    { id:"cicd",       label:"CI/CD atual",                          req:false, type:"input",    placeholder:"GitHub Actions, GitLab CI, Jenkins, nenhum…" },
+    { id:"monitoramento", label:"Requisitos de monitoramento",       req:false, type:"textarea", placeholder:"Ex: alertas de downtime, dashboards, tracing…" },
+  ],
+  traffic_manager: [
+    { id:"produto",    label:"Produto ou serviço a promover",        req:true,  type:"input",    placeholder:"O que será anunciado?" },
+    { id:"objetivo",   label:"Objetivo da campanha",                 req:true,  type:"input",    placeholder:"Leads, vendas, awareness, app installs…" },
+    { id:"orcamento",  label:"Orçamento mensal",                     req:true,  type:"input",    placeholder:"Ex: R$ 3.000/mês, $500/mês…" },
+    { id:"plataformas",label:"Plataformas",                          req:true,  type:"input",    placeholder:"Google Ads, Meta Ads, TikTok Ads, LinkedIn…" },
+    { id:"publico",    label:"Público-alvo",                         req:true,  type:"textarea", placeholder:"Idade, interesses, cargo, localização…" },
+    { id:"meta",       label:"CPA ou ROAS alvo",                     req:false, type:"input",    placeholder:"Ex: CPA < R$50, ROAS > 4x…" },
+  ],
+  seo_specialist: [
+    { id:"dominio",    label:"URL / domínio do site",                req:true,  type:"input",    placeholder:"Ex: https://fleetflow.com.br" },
+    { id:"nicho",      label:"Nicho de atuação",                     req:true,  type:"input",    placeholder:"Ex: logística, saúde, educação online…" },
+    { id:"keywords",   label:"Palavras-chave principais",            req:true,  type:"textarea", placeholder:"Termos que quer ranquear no Google…" },
+    { id:"concorrentes",label:"Concorrentes",                        req:false, type:"input",    placeholder:"Domínios dos principais concorrentes…" },
+    { id:"conteudo",   label:"Tipo de conteúdo produzido",           req:false, type:"input",    placeholder:"Blog, landing pages, e-commerce, SaaS…" },
+  ],
+  social_media_strategist: [
+    { id:"marca",      label:"Nome e nicho da marca",                req:true,  type:"input",    placeholder:"Ex: Fleetflow — gestão de frotas…" },
+    { id:"plataformas",label:"Plataformas foco",                     req:true,  type:"input",    placeholder:"Instagram, LinkedIn, TikTok, X, YouTube…" },
+    { id:"publico",    label:"Público-alvo",                         req:true,  type:"textarea", placeholder:"Quem a marca quer alcançar?" },
+    { id:"frequencia", label:"Frequência de posts",                  req:false, type:"input",    placeholder:"Ex: 3x/semana, diário, 2x/semana…" },
+    { id:"estilo",     label:"Estilo de conteúdo",                   req:false, type:"input",    placeholder:"Educativo, inspiracional, humorístico, técnico…" },
+  ],
+  sales_representative: [
+    { id:"produto",    label:"Produto ou serviço",                   req:true,  type:"textarea", placeholder:"O que será vendido? Qual o diferencial?" },
+    { id:"ticket",     label:"Ticket médio",                         req:true,  type:"input",    placeholder:"Ex: R$ 500/mês, R$ 20.000 contrato anual…" },
+    { id:"icp",        label:"Perfil do cliente ideal (ICP)",        req:true,  type:"textarea", placeholder:"Cargo, tamanho de empresa, setor, dores…" },
+    { id:"canal",      label:"Canal de vendas",                      req:true,  type:"input",    placeholder:"Outbound, inbound, PLG, indicações…" },
+    { id:"objecoes",   label:"Principais objeções do cliente",       req:false, type:"textarea", placeholder:"Ex: preço, tempo de implementação, confiança…" },
+  ],
+  customer_success: [
+    { id:"produto",    label:"Produto e proposta de valor",          req:true,  type:"textarea", placeholder:"O que o cliente contratou? Qual o resultado esperado?" },
+    { id:"churn",      label:"Churn atual ou pain points",           req:false, type:"textarea", placeholder:"Por que clientes cancelam? Pontos de frustração…" },
+    { id:"jornada",    label:"Momentos críticos da jornada",         req:true,  type:"textarea", placeholder:"Onboarding, ativação, renovação, expansão…" },
+    { id:"metricas",   label:"Métricas de sucesso do cliente",       req:false, type:"input",    placeholder:"NPS, CSAT, health score, adoção de features…" },
+  ],
+  bi_insights_agent: [
+    { id:"negocio",    label:"Descrição do negócio",                 req:true,  type:"textarea", placeholder:"O que a empresa faz, modelo de receita…" },
+    { id:"dados",      label:"Fontes de dados disponíveis",          req:true,  type:"textarea", placeholder:"Ex: Supabase, Google Analytics, CRM, planilhas…" },
+    { id:"metricas",   label:"Métricas mais importantes",            req:true,  type:"textarea", placeholder:"Ex: MRR, CAC, LTV, churn, conversão…" },
+    { id:"decisoes",   label:"Decisões que precisam ser tomadas",    req:false, type:"textarea", placeholder:"Que dúvidas estratégicas o dashboard precisa responder?" },
+    { id:"publico",    label:"Quem vai usar os dashboards",          req:false, type:"input",    placeholder:"Ex: CEO, time de vendas, produto, investidores…" },
+  ],
+};
+
+// Dev prompt templates (gerado após execução)
+function buildDevPrompt(agentKey, agentLabel, answers, output) {
+  const context = Object.entries(answers)
+    .filter(([,v]) => v && v.trim())
+    .map(([k,v]) => `- **${k}**: ${v}`)
+    .join('\n');
+
+  return `# Instrução para IA de Desenvolvimento — ${agentLabel}
+
+## Contexto do Projeto
+${context}
+
+## Entregável do ${agentLabel}
+${output}
+
+## Sua Tarefa
+Com base no entregável acima gerado pelo ${agentLabel}, implemente o que foi especificado.
+
+Siga rigorosamente as diretrizes, nomenclaturas, estruturas e decisões documentadas.
+Crie todos os arquivos necessários, com código completo e funcional.
+Adicione comentários onde necessário para facilitar manutenção.
+Se houver ambiguidade, use o contexto do projeto para tomar a melhor decisão técnica.`;
+}
+
+let arCurrentAgent = null;
+let arCurrentOutput = '';
+let arCurrentAnswers = {};
+
+function openAgentRun(agentKey) {
+  const meta = AGENTS_META[agentKey];
+  if (!meta) return;
+
+  arCurrentAgent = agentKey;
+  arCurrentOutput = '';
+  arCurrentAnswers = {};
+
+  // Header
+  document.getElementById('ar-icon').textContent = meta.icon;
+  document.getElementById('ar-label').textContent = meta.label;
+  document.getElementById('ar-refs').textContent = meta.refs;
+
+  // Deliverable tag
+  const dtag = document.getElementById('ar-deliverable-tag');
+  dtag.textContent = meta.deliverable;
+  dtag.className = `agent-deliverable-tag text-white`;
+  dtag.style.background = meta.deliverableColor;
+  dtag.classList.remove('hidden');
+
+  // Reseta estado
+  document.getElementById('ar-result-section').classList.add('hidden');
+  document.getElementById('ar-error-section').classList.add('hidden');
+  document.getElementById('ar-run-btn').disabled = false;
+  document.getElementById('ar-run-icon').textContent = '▶';
+  document.getElementById('ar-run-label').textContent = 'Executar Agente';
+  document.getElementById('ar-run-status').classList.add('hidden');
+
+  // Renderiza perguntas
+  const questions = AGENT_QUESTIONS[agentKey] || [];
+  const form = document.getElementById('ar-form');
+  form.innerHTML = questions.map(q => `
+    <div class="ar-question-card">
+      <label class="ar-label" for="ar-q-${q.id}">
+        ${q.label}${q.req ? '<span class="req"> *</span>' : ''}
+      </label>
+      ${q.type === 'textarea'
+        ? `<textarea id="ar-q-${q.id}" class="ar-textarea" placeholder="${q.placeholder}" rows="3"></textarea>`
+        : `<input  id="ar-q-${q.id}" class="ar-input"    placeholder="${q.placeholder}" type="text">`
+      }
+    </div>
+  `).join('');
+
+  showView('agent-run');
+}
+
+async function arExecute() {
+  if (!arCurrentAgent) return;
+
+  const questions = AGENT_QUESTIONS[arCurrentAgent] || [];
+  const answers = {};
+  let hasRequired = true;
+
+  questions.forEach(q => {
+    const el = document.getElementById(`ar-q-${q.id}`);
+    const val = el ? el.value.trim() : '';
+    if (q.req && !val) { hasRequired = false; el.style.borderColor = '#ef4444'; }
+    else { if (el) el.style.borderColor = ''; }
+    answers[q.label] = val;
+  });
+
+  if (!hasRequired) return;
+  arCurrentAnswers = answers;
+
+  // UI: loading
+  const btn = document.getElementById('ar-run-btn');
+  btn.disabled = true;
+  document.getElementById('ar-run-icon').innerHTML = '<svg class="spin w-4 h-4" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z"></path></svg>';
+  document.getElementById('ar-run-label').textContent = 'Executando…';
+  document.getElementById('ar-result-section').classList.add('hidden');
+  document.getElementById('ar-error-section').classList.add('hidden');
+  const statusEl = document.getElementById('ar-run-status');
+  statusEl.classList.remove('hidden');
+  statusEl.textContent = 'Aguarde — isso pode levar alguns instantes…';
+
+  try {
+    const res = await fetch('/api/agent/run', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ agent_name: arCurrentAgent, answers })
+    });
+    const data = await res.json();
+
+    if (!res.ok || data.error) {
+      arShowError(data.error || 'Erro desconhecido');
+      return;
+    }
+
+    arCurrentOutput = data.output || '';
+    arRenderResult(data);
+
+  } catch(e) {
+    arShowError('Falha na conexão com o servidor.');
+  } finally {
+    btn.disabled = false;
+    document.getElementById('ar-run-icon').textContent = '▶';
+    document.getElementById('ar-run-label').textContent = 'Executar Novamente';
+    statusEl.classList.add('hidden');
+  }
+}
+
+function arRenderResult(data) {
+  // Métricas
+  const meta = AGENTS_META[arCurrentAgent];
+  document.getElementById('ar-metrics').innerHTML = `
+    <span>⏱ ${(data.time_ms/1000).toFixed(1)}s</span>
+    <span>📥 ${data.tokens_input?.toLocaleString() || '—'} tokens in</span>
+    <span>📤 ${data.tokens_output?.toLocaleString() || '—'} tokens out</span>
+    ${meta ? `<span>📦 ${meta.deliverable}</span>` : ''}
+  `;
+
+  // Output em markdown
+  document.getElementById('ar-output').innerHTML = marked.parse(arCurrentOutput || '');
+
+  // Dev prompt
+  const devPrompt = buildDevPrompt(
+    arCurrentAgent,
+    meta?.label || arCurrentAgent,
+    arCurrentAnswers,
+    arCurrentOutput
+  );
+  document.getElementById('ar-dev-prompt').textContent = devPrompt;
+
+  // Mostra seção
+  document.getElementById('ar-result-section').classList.remove('hidden');
+  document.getElementById('ar-result-section').scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+function arShowError(msg) {
+  const el = document.getElementById('ar-error-section');
+  el.textContent = '❌ ' + msg;
+  el.classList.remove('hidden');
+}
+
+function arCopyPrompt() {
+  const text = document.getElementById('ar-dev-prompt').textContent;
+  if (!text) return;
+
+  navigator.clipboard.writeText(text).then(() => {
+    const btn   = document.getElementById('ar-copy-btn');
+    const icon  = document.getElementById('ar-copy-icon');
+    const label = document.getElementById('ar-copy-label');
+
+    btn.classList.add('copied');
+    icon.textContent  = '✅';
+    label.textContent = 'Prompt Copiado!';
+
+    setTimeout(() => {
+      btn.classList.remove('copied');
+      icon.textContent  = '📋';
+      label.textContent = 'Copiar Prompt';
+    }, 1000);
+  }).catch(() => {
+    // fallback para browsers sem clipboard API
+    const ta = document.createElement('textarea');
+    ta.value = text;
+    ta.style.position = 'fixed';
+    ta.style.opacity = '0';
+    document.body.appendChild(ta);
+    ta.select();
+    document.execCommand('copy');
+    document.body.removeChild(ta);
+
+    const label = document.getElementById('ar-copy-label');
+    const icon  = document.getElementById('ar-copy-icon');
+    const btn   = document.getElementById('ar-copy-btn');
+    btn.classList.add('copied');
+    icon.textContent  = '✅';
+    label.textContent = 'Prompt Copiado!';
+    setTimeout(() => {
+      btn.classList.remove('copied');
+      icon.textContent  = '📋';
+      label.textContent = 'Copiar Prompt';
+    }, 1000);
+  });
+}
+
+// ── FIM EXECUÇÃO INDIVIDUAL ───────────────────────────────────────────────────
+
+let paramsAgents = [];           // lista completa vinda da API
+let paramsCurrentAgent = null;   // agente selecionado
+let paramsOriginalPrompt = '';   // prompt original (para detectar mudanças / restaurar)
+let paramsCatActive = '';        // categoria filtrada
+
+async function loadParamsAgents() {
+  if (paramsAgents.length > 0) return; // já carregado
+  try {
+    const res = await fetch('/api/params/agents');
+    paramsAgents = await res.json();
+    renderParamsAgentList();
+  } catch (e) {
+    console.error('Erro ao carregar agentes params:', e);
+  }
+}
+
+function renderParamsAgentList() {
+  const list = document.getElementById('params-agent-list');
+  if (!list) return;
+  const filtered = paramsCatActive
+    ? paramsAgents.filter(a => a.category === paramsCatActive)
+    : paramsAgents;
+
+  list.innerHTML = filtered.map(a => `
+    <button onclick="paramsSelectAgent('${a.id}')"
+      id="params-item-${a.id}"
+      class="params-agent-item w-full text-left px-3 py-2 rounded-lg text-xs flex items-center gap-2 transition-colors hover:bg-slate-800 ${paramsCurrentAgent === a.id ? 'bg-slate-800 text-slate-100' : 'text-slate-400'}">
+      <span class="text-base">${a.icon}</span>
+      <div class="flex-1 min-w-0">
+        <div class="font-medium truncate">${a.label}</div>
+        <div class="text-slate-600 capitalize text-[10px]">${a.category} · ${(a.prompt_chars/1000).toFixed(1)}k chars</div>
+      </div>
+    </button>
+  `).join('');
+}
+
+async function paramsSelectAgent(agentId) {
+  // Verifica mudanças não salvas
+  if (paramsCurrentAgent && paramsCurrentAgent !== agentId) {
+    const ta = document.getElementById('params-prompt-textarea');
+    if (ta && ta.value !== paramsOriginalPrompt) {
+      if (!confirm('Você tem alterações não salvas. Deseja descartar?')) return;
+    }
+  }
+
+  paramsCurrentAgent = agentId;
+  renderParamsAgentList();
+
+  // Mostra loading
+  document.getElementById('params-empty').classList.add('hidden');
+  const editor = document.getElementById('params-editor');
+  editor.classList.remove('hidden');
+  editor.classList.add('flex');
+  document.getElementById('params-prompt-textarea').value = 'Carregando…';
+  document.getElementById('params-prompt-textarea').disabled = true;
+  hideSaveBar();
+
+  try {
+    const res = await fetch(`/api/params/agents/${agentId}`);
+    const data = await res.json();
+
+    document.getElementById('params-agent-icon').textContent = data.icon;
+    document.getElementById('params-agent-label').textContent = data.label;
+    document.getElementById('params-agent-cat').textContent = data.category;
+
+    const ta = document.getElementById('params-prompt-textarea');
+    ta.value = data.prompt;
+    ta.disabled = false;
+    paramsOriginalPrompt = data.prompt;
+    updateCharCount(data.prompt.length);
+  } catch(e) {
+    document.getElementById('params-prompt-textarea').value = 'Erro ao carregar prompt.';
+  }
+}
+
+function paramsFilterCat(cat) {
+  paramsCatActive = cat;
+  document.querySelectorAll('.params-cat-btn').forEach(btn => {
+    btn.classList.toggle('active', btn.dataset.cat === cat);
+    if (btn.dataset.cat === cat) {
+      btn.classList.add('bg-slate-700','text-slate-100');
+      btn.classList.remove('text-slate-400');
+    } else {
+      btn.classList.remove('bg-slate-700','text-slate-100');
+      btn.classList.add('text-slate-400');
+    }
+  });
+  renderParamsAgentList();
+}
+
+function paramsOnInput() {
+  const ta = document.getElementById('params-prompt-textarea');
+  updateCharCount(ta.value.length);
+  hideSaveBar();
+}
+
+function updateCharCount(len) {
+  const el = document.getElementById('params-char-count');
+  if (el) el.textContent = `${(len/1000).toFixed(1)}k chars`;
+}
+
+async function paramsSave() {
+  if (!paramsCurrentAgent) return;
+  const ta = document.getElementById('params-prompt-textarea');
+  const prompt = ta.value.trim();
+  if (!prompt) { showSaveBar('error', '⚠️ Prompt não pode ser vazio'); return; }
+
+  showSaveBar('saving', '⏳ Salvando…');
+  try {
+    const res = await fetch(`/api/params/agents/${paramsCurrentAgent}`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ prompt })
+    });
+    const data = await res.json();
+    if (res.ok) {
+      paramsOriginalPrompt = prompt;
+      // Atualiza contagem na lista
+      const agent = paramsAgents.find(a => a.id === paramsCurrentAgent);
+      if (agent) agent.prompt_chars = data.chars;
+      renderParamsAgentList();
+      showSaveBar('ok', '✅ Salvo com sucesso!');
+      setTimeout(hideSaveBar, 2500);
+    } else {
+      showSaveBar('error', `❌ Erro: ${data.error}`);
+    }
+  } catch(e) {
+    showSaveBar('error', '❌ Falha na conexão');
+  }
+}
+
+function paramsResetPrompt() {
+  if (!paramsCurrentAgent) return;
+  if (!confirm('Restaurar o prompt original? As alterações não salvas serão perdidas.')) return;
+  const ta = document.getElementById('params-prompt-textarea');
+  ta.value = paramsOriginalPrompt;
+  updateCharCount(paramsOriginalPrompt.length);
+  hideSaveBar();
+}
+
+function showSaveBar(type, msg) {
+  const bar = document.getElementById('params-save-bar');
+  bar.classList.remove('hidden');
+  bar.className = 'px-4 py-2 text-xs font-medium shrink-0 ';
+  if (type === 'ok')     bar.className += 'bg-emerald-950 text-emerald-400 border-b border-emerald-900';
+  if (type === 'error')  bar.className += 'bg-red-950 text-red-400 border-b border-red-900';
+  if (type === 'saving') bar.className += 'bg-slate-900 text-slate-400 border-b border-slate-800';
+  bar.textContent = msg;
+}
+function hideSaveBar() {
+  const bar = document.getElementById('params-save-bar');
+  if (bar) bar.classList.add('hidden');
+}
+
 {% endraw %}
 </script>
 </body>
