@@ -16,8 +16,8 @@ RUN pip install --no-cache-dir --upgrade pip && \
 # Copia o código
 COPY . .
 
-# Garante que o diretório de builds estáticos existe
-RUN mkdir -p web/static/builds
+# Garante que os diretórios estáticos existem
+RUN mkdir -p web/static/builds web/static/logos
 
 EXPOSE 8080
 
